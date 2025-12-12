@@ -1,7 +1,6 @@
 /* =====================================================
    CHECKLIST OPERACIONAL RPAS
-   Fase 1 – Preparação para o Voo
-   Validação + Registro
+   Fases 1 e 2 – Validação + Registro
    ===================================================== */
 
 const checklistSession = {
@@ -19,6 +18,10 @@ const checklistSession = {
   },
   phases: {
     phase1: {
+      completed: false,
+      completedAt: null
+    },
+    phase2: {
       completed: false,
       completedAt: null
     }
@@ -43,11 +46,11 @@ function startChecklist() {
 /* ===== DOM READY ===== */
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* Botão iniciar */
+  /* Splash */
   document.getElementById("startBtn")
     .addEventListener("click", startChecklist);
 
-  /* Formulário identificação da missão */
+  /* Identificação da missão */
   document.getElementById("missionForm")
     .addEventListener("submit", (e) => {
       e.preventDefault();
@@ -78,10 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .every(cb => cb.checked);
 
       if (!allChecked) {
-        alert(
-          "Todos os itens da Fase 1 devem ser concluídos\n" +
-          "antes de avançar."
-        );
+        alert("Todos os itens da Fase 1 devem ser concluídos.");
         return;
       }
 
@@ -93,12 +93,39 @@ document.addEventListener("DOMContentLoaded", () => {
         JSON.stringify(checklistSession)
       );
 
-      alert(
-        "Fase 1 – Preparação para o Voo concluída.\n\n" +
-        "Próxima etapa: Pré-Voo (no local da missão)."
+      showScreen("phase2");
+    });
+
+  /* ===== FASE 2 – PRÉ-VOO ===== */
+  document.getElementById("phase2Form")
+    .addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const checkboxes = document
+        .querySelectorAll("#phase2Form input[type='checkbox']");
+
+      const allChecked = Array.from(checkboxes)
+        .every(cb => cb.checked);
+
+      if (!allChecked) {
+        alert("Todos os itens da Fase 2 (Pré-Voo) devem ser concluídos.");
+        return;
+      }
+
+      checklistSession.phases.phase2.completed = true;
+      checklistSession.phases.phase2.completedAt = new Date().toISOString();
+
+      localStorage.setItem(
+        "checklistRPAS_session",
+        JSON.stringify(checklistSession)
       );
 
-      // Próxima tela (Fase 2) será implementada no próximo passo
+      alert(
+        "Fase 2 – Pré-Voo concluída.\n\n" +
+        "Próxima etapa: Voo da Aeronave."
+      );
+
+      // A Fase 3 será implementada no próximo passo
     });
 
 });
