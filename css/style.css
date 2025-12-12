@@ -27,6 +27,10 @@ body {
   z-index: 1000;
 }
 
+.demo-header {
+  border-bottom: 2px solid #b71c1c;
+}
+
 .header-left {
   display: flex;
   align-items: center;
@@ -54,9 +58,21 @@ body {
   text-decoration: underline;
 }
 
+/* ================= DEMO BANNER ================= */
+.demo-banner {
+  margin-top: 62px;
+  background-color: #b71c1c;
+  color: #ffffff;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px;
+  letter-spacing: 0.6px;
+}
+
 /* ================= CONTAINER ================= */
 .app-container {
-  padding-top: 88px;
+  padding-top: 40px;
   padding-left: 28px;
   padding-right: 28px;
 }
@@ -93,13 +109,6 @@ body {
 h1 {
   font-size: 30px;
   margin-bottom: 14px;
-  letter-spacing: 0.5px;
-}
-
-h2 {
-  font-size: 25px;
-  margin-bottom: 12px;
-  letter-spacing: 0.4px;
 }
 
 .subtitle {
@@ -110,14 +119,8 @@ h2 {
 
 .warning {
   font-size: 15px;
-  color: #fbbc04;
+  color: #ffcc80;
   margin-bottom: 34px;
-}
-
-/* ================= FORM BASE ================= */
-form {
-  display: flex;
-  flex-direction: column;
 }
 
 /* ================= CHECKLIST ================= */
@@ -136,34 +139,10 @@ form {
   line-height: 1.55;
   padding: 16px 0;
   border-bottom: 1px solid #1f2430;
-  cursor: pointer;
 }
 
 .checklist label:last-child {
   border-bottom: none;
-}
-
-.checklist input[type="checkbox"] {
-  width: 22px;
-  height: 22px;
-  margin-top: 3px;
-  accent-color: #1a73e8;
-}
-
-/* ================= INPUTS ================= */
-input,
-select {
-  padding: 15px;
-  font-size: 16px;
-  border-radius: 6px;
-  border: none;
-  margin-bottom: 18px;
-  background-color: #1b2130;
-  color: #ffffff;
-}
-
-input::placeholder {
-  color: #9aa0ac;
 }
 
 /* ================= BOTÕES ================= */
@@ -177,32 +156,4 @@ button {
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  letter-spacing: 0.3px;
-}
-
-button:hover {
-  background-color: #1558b0;
-}
-
-/* ================= RESPONSIVO ================= */
-@media (max-width: 768px) {
-  .screen {
-    max-width: 100%;
-  }
-
-  .checklist {
-    padding: 22px;
-  }
-
-  .checklist label {
-    font-size: 16px;
-  }
-
-  h1 {
-    font-size: 26px;
-  }
-
-  h2 {
-    font-size: 22px;
-  }
 }
