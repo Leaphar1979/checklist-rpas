@@ -1,13 +1,7 @@
 /* =====================================================
    CHECKLIST OPERACIONAL RPAS
-   Lógica inicial – PCSC / SAER / COARP
+   Controle de fluxo + Identificação da Missão
    ===================================================== */
-
-/**
- * Estrutura base do checklist
- * A numeração oficial dos itens será preservada internamente
- * (não exibida na UI por padrão)
- */
 
 const checklistSession = {
   metadata: {
@@ -15,41 +9,63 @@ const checklistSession = {
     institution: "PCSC / SAER / NOARP",
     doctrine: "COARP",
     version: "v1.0",
-    startTime: null
+    startTime: null,
+    pilot: "",
+    observer: "",
+    unit: "",
+    rpas: "",
+    missionType: ""
   },
   phases: []
 };
 
-/**
- * Função: iniciar checklist
- * Registra data/hora e avança para próxima fase
- */
+/* ===== FUNÇÃO UTILITÁRIA: TROCA DE TELAS ===== */
+function showScreen(screenId) {
+  document.querySelectorAll(".screen").forEach(screen => {
+    screen.classList.remove("active");
+  });
+  document.getElementById(screenId).classList.add("active");
+}
+
+/* ===== INICIAR CHECKLIST ===== */
 function startChecklist() {
   checklistSession.metadata.startTime = new Date().toISOString();
 
-  // Salva início da sessão (cadeia de custódia digital)
   localStorage.setItem(
     "checklistRPAS_session",
     JSON.stringify(checklistSession)
   );
 
-  // Feedback inicial
-  alert(
-    "Checklist iniciado.\n" +
-    "Data e hora registradas.\n\n" +
-    "Próxima etapa: Identificação da Missão."
-  );
-
-  // Aqui, no próximo passo, faremos a troca real de tela
+  showScreen("mission");
 }
 
-/**
- * Vincula o botão da tela inicial
- */
+/* ===== DOM READY ===== */
 document.addEventListener("DOMContentLoaded", () => {
-  const startButton = document.getElementById("startBtn");
 
-  if (startButton) {
-    startButton.addEventListener("click", startChecklist);
-  }
+  const startBtn = document.getElementById("startBtn");
+  const missionForm = document.getElementById("missionForm");
+
+  startBtn.addEventListener("click", startChecklist);
+
+  missionForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    checklistSession.metadata.pilot = pilot.value;
+    checklistSession.metadata.observer = observer.value;
+    checklistSession.metadata.unit = unit.value;
+    checklistSession.metadata.rpas = rpas.value;
+    checklistSession.metadata.missionType = missionType.value;
+
+    localStorage.setItem(
+      "checklistRPAS_session",
+      JSON.stringify(checklistSession)
+    );
+
+    alert(
+      "Identificação da missão registrada.\n\n" +
+      "Próxima etapa: Preparação para o Voo."
+    );
+
+    // Próxima tela será criada no próximo passo
+  });
 });
