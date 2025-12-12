@@ -8,109 +8,153 @@
 
   <link rel="stylesheet" href="css/style.css" />
 
-  <!-- Biblioteca PDF -->
+  <!-- jsPDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
 <body>
 
-  <!-- TELA 1 — SPLASH -->
-  <section id="splash" class="screen active">
-    <div class="logos">
-      <span class="logo-placeholder">PCSC</span>
-      <span class="logo-placeholder">SAER</span>
-      <span class="logo-placeholder">COARP</span>
-    </div>
+<!-- ================= SPLASH ================= -->
+<section id="splash" class="screen active">
+  <div class="logos">
+    <span class="logo-placeholder">PCSC</span>
+    <span class="logo-placeholder">SAER</span>
+    <span class="logo-placeholder">COARP</span>
+  </div>
 
-    <h1>Checklist Operacional RPAS</h1>
-    <p class="subtitle">COARP · NOARP · SAER · PCSC</p>
+  <h1>Checklist Operacional RPAS</h1>
+  <p class="subtitle">COARP · NOARP · SAER · PCSC</p>
 
-    <p class="warning">
-      Este aplicativo não autoriza voo.<br>
-      A decisão e a responsabilidade são do Piloto em Comando.
-    </p>
+  <p class="warning">
+    Este aplicativo não autoriza voo.<br>
+    A decisão e a responsabilidade são do Piloto em Comando.
+  </p>
 
-    <button id="startBtn">Iniciar Checklist</button>
-  </section>
+  <button id="startBtn">Iniciar Checklist</button>
+</section>
 
-  <!-- TELAS INTERMEDIÁRIAS (inalteradas) -->
-  <!-- (todas as fases já existentes permanecem exatamente como estão) -->
+<!-- ================= MISSÃO ================= -->
+<section id="mission" class="screen">
+  <h2>Identificação da Missão</h2>
 
-  <!-- TELA FINAL — PDF -->
-  <section id="pdfScreen" class="screen">
-    <h2>Checklist Concluído</h2>
-    <p class="subtitle">Documento operacional gerado para registro</p>
+  <form id="missionForm">
+    <label>Piloto Remoto</label>
+    <input type="text" id="pilot" required />
 
-    <button id="generatePdfBtn">
-      Gerar PDF Institucional
-    </button>
-  </section>
+    <label>Observador</label>
+    <input type="text" id="observer" />
 
-  <script src="js/app.js"></script>
+    <label>Unidade</label>
+    <input type="text" id="unit" required />
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
+    <label>RPAS</label>
+    <input type="text" id="rpas" required />
 
-      const { jsPDF } = window.jspdf;
+    <label>Tipo de Missão</label>
+    <select id="missionType" required>
+      <option value="">Selecione</option>
+      <option>Investigação</option>
+      <option>Operação</option>
+      <option>Treinamento</option>
+      <option>Outro</option>
+    </select>
 
-      const btn = document.getElementById("generatePdfBtn");
-      if (!btn) return;
+    <button type="submit">Avançar</button>
+  </form>
+</section>
 
-      btn.addEventListener("click", () => {
+<!-- ================= FASE 1 ================= -->
+<section id="phase1" class="screen">
+  <h2>Fase 1 – Preparação para o Voo</h2>
+  <p class="subtitle">Antes do início da missão</p>
 
-        const data = JSON.parse(
-          localStorage.getItem("checklistRPAS_session")
-        );
+  <form id="phase1Form" class="checklist">
+    <label><input type="checkbox" /> Itens de conforto providenciados</label>
+    <label><input type="checkbox" /> Integridade física da aeronave</label>
+    <label><input type="checkbox" /> Baterias verificadas/carregadas</label>
+    <label><input type="checkbox" /> Cartão microSD inserido</label>
+    <label><input type="checkbox" /> Altura de RTH configurada</label>
+    <label><input type="checkbox" /> Mínimo de 12 satélites confirmados</label>
+    <button type="submit">Concluir Fase 1</button>
+  </form>
+</section>
 
-        const pdf = new jsPDF();
+<!-- ================= FASE 2 ================= -->
+<section id="phase2" class="screen">
+  <h2>Fase 2 – Pré-Voo</h2>
+  <p class="subtitle">No local da missão</p>
 
-        pdf.setFontSize(14);
-        pdf.text("CHECKLIST OPERACIONAL RPAS", 20, 20);
+  <form id="phase2Form" class="checklist">
+    <label><input type="checkbox" /> Condições climáticas verificadas</label>
+    <label><input type="checkbox" /> Trajetória planejada</label>
+    <label><input type="checkbox" /> Obstáculos identificados</label>
+    <label><input type="checkbox" /> Carga das baterias confirmada</label>
+    <label><input type="checkbox" /> Gimbal liberado</label>
+    <label><input type="checkbox" /> HOMEPOINT confirmado</label>
+    <label><input type="checkbox" /> Equipe avisada</label>
+    <label><input type="checkbox" /> Observador pronto</label>
+    <button type="submit">Concluir Pré-Voo</button>
+  </form>
+</section>
 
-        pdf.setFontSize(10);
-        pdf.text(`Instituição: ${data.metadata.institution}`, 20, 30);
-        pdf.text(`Doutrina: ${data.metadata.doctrine}`, 20, 36);
+<!-- ================= FASE 3 ================= -->
+<section id="phase3" class="screen">
+  <h2>Fase 3 – Voo da Aeronave</h2>
+  <p class="subtitle">Durante a missão</p>
 
-        pdf.text(`Piloto: ${data.metadata.pilot}`, 20, 46);
-        pdf.text(`Observador: ${data.metadata.observer}`, 20, 52);
-        pdf.text(`Unidade: ${data.metadata.unit}`, 20, 58);
-        pdf.text(`RPAS: ${data.metadata.rpas}`, 20, 64);
-        pdf.text(`Missão: ${data.metadata.missionType}`, 20, 70);
+  <form id="phase3Form" class="checklist">
+    <label><input type="checkbox" /> Obstáculos verificados</label>
+    <label><input type="checkbox" /> Comandos testados</label>
+    <label><input type="checkbox" /> Vigilância de aeronaves tripuladas</label>
+    <label><input type="checkbox" /> Condições climáticas monitoradas</label>
+    <label><input type="checkbox" /> Atenção ao consumo de bateria</label>
+    <label><input type="checkbox" /> Retorno e pouso seguro</label>
+    <button type="submit">Concluir Voo</button>
+  </form>
+</section>
 
-        pdf.text(`Início: ${data.metadata.startTime}`, 20, 82);
-        pdf.text(`Término: ${data.metadata.endTime}`, 20, 88);
+<!-- ================= FASE 4 ================= -->
+<section id="phase4" class="screen">
+  <h2>Fase 4 – Pós-Voo Imediato</h2>
+  <p class="subtitle">Após o pouso</p>
 
-        let y = 100;
-        pdf.text("Fases Concluídas:", 20, y);
+  <form id="phase4Form" class="checklist">
+    <label><input type="checkbox" /> Trava e tampa do gimbal</label>
+    <label><input type="checkbox" /> Integridade da aeronave</label>
+    <label><input type="checkbox" /> Hélices retiradas</label>
+    <label><input type="checkbox" /> Equipamento guardado</label>
+    <label><input type="checkbox" /> Check de abandono</label>
+    <button type="submit">Concluir Pós-Voo</button>
+  </form>
+</section>
 
-        Object.entries(data.phases).forEach(([key, phase]) => {
-          y += 8;
-          pdf.text(
-            `${key.toUpperCase()} – ${phase.completed ? "OK" : "NÃO CONCLUÍDA"} (${phase.completedAt})`,
-            20,
-            y
-          );
-        });
+<!-- ================= FASE 5 ================= -->
+<section id="phase5" class="screen">
+  <h2>Fase 5 – Conclusão do Voo</h2>
 
-        y += 12;
-        pdf.text(
-          "Declaração:",
-          20,
-          y
-        );
+  <form id="phase5Form" class="checklist">
+    <label><input type="checkbox" /> Aeronave desligada</label>
+    <label><input type="checkbox" /> Controle desligado</label>
+    <label><input type="checkbox" /> Baterias removidas</label>
+    <label><input type="checkbox" /> Equipamentos armazenados</label>
 
-        y += 8;
-        pdf.text(
-          "Declaro que executei integralmente o checklist operacional RPAS conforme a doutrina vigente.",
-          20,
-          y,
-          { maxWidth: 170 }
-        );
+    <label style="margin-top:16px;">
+      <input type="checkbox" />
+      Declaro que executei integralmente o checklist conforme a doutrina vigente.
+    </label>
 
-        pdf.save("Checklist_Operacional_RPAS.pdf");
-      });
-    });
-  </script>
+    <button type="submit">Encerrar Checklist</button>
+  </form>
+</section>
+
+<!-- ================= PDF ================= -->
+<section id="pdfScreen" class="screen">
+  <h2>Checklist Concluído</h2>
+  <p class="subtitle">Geração de documento institucional</p>
+  <button id="generatePdfBtn">Gerar PDF</button>
+</section>
+
+<script src="js/app.js"></script>
 
 </body>
 </html>
