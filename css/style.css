@@ -1,95 +1,123 @@
-/* =====================================================
-   CHECKLIST OPERACIONAL RPAS
-   Estilo institucional – PCSC / SAER / COARP
-   ===================================================== */
-
+/* ===== RESET ===== */
 * {
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  background-color: #1e1e1e;
-  color: #f2f2f2;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #0f1115;
+  color: #ffffff;
 }
 
-/* Telas */
+/* ===== HEADER ===== */
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background-color: #151821;
+  border-bottom: 1px solid #2a2f3a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 1000;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-logo {
+  height: 32px;
+}
+
+.header-title {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.header-link {
+  color: #8ab4f8;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.header-link:hover {
+  text-decoration: underline;
+}
+
+/* ===== CONTEÚDO ===== */
+.app-container {
+  padding-top: 72px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* ===== TELAS ===== */
 .screen {
   display: none;
-  min-height: 100vh;
-  padding: 32px 20px;
-  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
 }
 
 .screen.active {
   display: block;
 }
 
-/* Logos */
-.logos {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.logo-placeholder {
-  width: 70px;
-  height: 70px;
-  border: 2px solid #444;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #aaa;
-  font-size: 0.8rem;
-}
-
-/* Títulos */
-h1 {
-  font-size: 1.6rem;
-  margin-bottom: 8px;
+/* ===== TEXTOS ===== */
+h1, h2 {
+  margin-bottom: 12px;
 }
 
 .subtitle {
-  color: #ccc;
-  font-size: 0.95rem;
-  margin-bottom: 28px;
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 16px;
 }
 
-/* Aviso */
 .warning {
-  font-size: 0.9rem;
-  color: #ffcc00;
-  margin-bottom: 32px;
-  line-height: 1.4;
+  font-size: 13px;
+  color: #fbbc04;
+  margin-bottom: 24px;
 }
 
-/* Botão principal */
-button {
-  background-color: #2d89ef;
-  color: #ffffff;
+/* ===== FORM ===== */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+label {
+  font-size: 14px;
+}
+
+input, select {
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 4px;
   border: none;
-  padding: 14px 26px;
-  font-size: 1rem;
-  border-radius: 6px;
+}
+
+/* ===== BOTÕES ===== */
+button {
+  margin-top: 16px;
+  padding: 12px;
+  font-size: 15px;
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #1b5fa7;
-}
-
-/* Responsividade básica */
-@media (min-width: 768px) {
-  h1 {
-    font-size: 2rem;
-  }
-
-  .screen {
-    padding-top: 80px;
-  }
+  background-color: #1558b0;
 }
