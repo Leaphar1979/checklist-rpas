@@ -1,6 +1,7 @@
 /* =====================================================
    CHECKLIST OPERACIONAL RPAS
-   Controle de fluxo + Identificação da Missão
+   Fase 1 – Preparação para o Voo
+   Validação + Registro
    ===================================================== */
 
 const checklistSession = {
@@ -16,7 +17,12 @@ const checklistSession = {
     rpas: "",
     missionType: ""
   },
-  phases: []
+  phases: {
+    phase1: {
+      completed: false,
+      completedAt: null
+    }
+  }
 };
 
 /* ===== FUNÇÃO UTILITÁRIA: TROCA DE TELAS ===== */
@@ -30,42 +36,69 @@ function showScreen(screenId) {
 /* ===== INICIAR CHECKLIST ===== */
 function startChecklist() {
   checklistSession.metadata.startTime = new Date().toISOString();
-
-  localStorage.setItem(
-    "checklistRPAS_session",
-    JSON.stringify(checklistSession)
-  );
-
+  localStorage.setItem("checklistRPAS_session", JSON.stringify(checklistSession));
   showScreen("mission");
 }
 
 /* ===== DOM READY ===== */
 document.addEventListener("DOMContentLoaded", () => {
 
-  const startBtn = document.getElementById("startBtn");
-  const missionForm = document.getElementById("missionForm");
+  /* Botão iniciar */
+  document.getElementById("startBtn")
+    .addEventListener("click", startChecklist);
 
-  startBtn.addEventListener("click", startChecklist);
+  /* Formulário identificação da missão */
+  document.getElementById("missionForm")
+    .addEventListener("submit", (e) => {
+      e.preventDefault();
 
-  missionForm.addEventListener("submit", (event) => {
-    event.preventDefault();
+      checklistSession.metadata.pilot = pilot.value;
+      checklistSession.metadata.observer = observer.value;
+      checklistSession.metadata.unit = unit.value;
+      checklistSession.metadata.rpas = rpas.value;
+      checklistSession.metadata.missionType = missionType.value;
 
-    checklistSession.metadata.pilot = pilot.value;
-    checklistSession.metadata.observer = observer.value;
-    checklistSession.metadata.unit = unit.value;
-    checklistSession.metadata.rpas = rpas.value;
-    checklistSession.metadata.missionType = missionType.value;
+      localStorage.setItem(
+        "checklistRPAS_session",
+        JSON.stringify(checklistSession)
+      );
 
-    localStorage.setItem(
-      "checklistRPAS_session",
-      JSON.stringify(checklistSession)
-    );
+      showScreen("phase1");
+    });
 
-    alert(
-      "Identificação da missão registrada.\n\n" +
-      "Próxima etapa: Preparação para o Voo."
-    );
+  /* ===== FASE 1 – PREPARAÇÃO PARA O VOO ===== */
+  document.getElementById("phase1Form")
+    .addEventListener("submit", (e) => {
+      e.preventDefault();
 
-    // Próxima tela será criada no próximo passo
-  });
+      const checkboxes = document
+        .querySelectorAll("#phase1Form input[type='checkbox']");
+
+      const allChecked = Array.from(checkboxes)
+        .every(cb => cb.checked);
+
+      if (!allChecked) {
+        alert(
+          "Todos os itens da Fase 1 devem ser concluídos\n" +
+          "antes de avançar."
+        );
+        return;
+      }
+
+      checklistSession.phases.phase1.completed = true;
+      checklistSession.phases.phase1.completedAt = new Date().toISOString();
+
+      localStorage.setItem(
+        "checklistRPAS_session",
+        JSON.stringify(checklistSession)
+      );
+
+      alert(
+        "Fase 1 – Preparação para o Voo concluída.\n\n" +
+        "Próxima etapa: Pré-Voo (no local da missão)."
+      );
+
+      // Próxima tela (Fase 2) será implementada no próximo passo
+    });
+
 });
