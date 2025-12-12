@@ -153,12 +153,13 @@ document.addEventListener("DOMContentLoaded", () => {
         JSON.stringify(checklistSession)
       );
 
-      alert(
-        "Checklist operacional RPAS ENCERRADO com sucesso.\n\n" +
-        "Procedimento concluído e registrado."
-      );
+alert(
+  "Checklist operacional RPAS ENCERRADO com sucesso.\n\n" +
+  "Procedimento concluído e registrado."
+);
 
-      // Próximo passo: geração de PDF
+// Avança para a tela de geração de PDF
+showScreen("pdfScreen");
     });
 
 });
