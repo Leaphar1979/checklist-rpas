@@ -1,6 +1,6 @@
 /* =====================================================
    CHECKLIST OPERACIONAL RPAS
-   Fases 1, 2 e 3 – Validação + Registro
+   Fases 1 a 4 – Validação + Registro
    ===================================================== */
 
 const checklistSession = {
@@ -19,7 +19,8 @@ const checklistSession = {
   phases: {
     phase1: { completed: false, completedAt: null },
     phase2: { completed: false, completedAt: null },
-    phase3: { completed: false, completedAt: null }
+    phase3: { completed: false, completedAt: null },
+    phase4: { completed: false, completedAt: null }
   }
 };
 
@@ -41,9 +42,11 @@ function startChecklist() {
 /* ===== DOM READY ===== */
 document.addEventListener("DOMContentLoaded", () => {
 
+  /* Splash */
   document.getElementById("startBtn")
     .addEventListener("click", startChecklist);
 
+  /* Identificação da missão */
   document.getElementById("missionForm")
     .addEventListener("submit", (e) => {
       e.preventDefault();
@@ -54,7 +57,11 @@ document.addEventListener("DOMContentLoaded", () => {
       checklistSession.metadata.rpas = rpas.value;
       checklistSession.metadata.missionType = missionType.value;
 
-      localStorage.setItem("checklistRPAS_session", JSON.stringify(checklistSession));
+      localStorage.setItem(
+        "checklistRPAS_session",
+        JSON.stringify(checklistSession)
+      );
+
       showScreen("phase1");
     });
 
@@ -62,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("phase1Form")
     .addEventListener("submit", (e) => {
       e.preventDefault();
+
       const ok = [...document.querySelectorAll("#phase1Form input[type='checkbox']")]
         .every(cb => cb.checked);
 
@@ -77,6 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("phase2Form")
     .addEventListener("submit", (e) => {
       e.preventDefault();
+
       const ok = [...document.querySelectorAll("#phase2Form input[type='checkbox']")]
         .every(cb => cb.checked);
 
@@ -88,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
       showScreen("phase3");
     });
 
-  /* ===== FASE 3 — VOO DA AERONAVE ===== */
+  /* ===== FASE 3 ===== */
   document.getElementById("phase3Form")
     .addEventListener("submit", (e) => {
       e.preventDefault();
@@ -96,13 +105,29 @@ document.addEventListener("DOMContentLoaded", () => {
       const ok = [...document.querySelectorAll("#phase3Form input[type='checkbox']")]
         .every(cb => cb.checked);
 
-      if (!ok) {
-        alert("Todos os itens da Fase 3 (Voo da Aeronave) devem ser concluídos.");
-        return;
-      }
+      if (!ok) return alert("Conclua todos os itens da Fase 3.");
 
       checklistSession.phases.phase3.completed = true;
       checklistSession.phases.phase3.completedAt = new Date().toISOString();
+      localStorage.setItem("checklistRPAS_session", JSON.stringify(checklistSession));
+      showScreen("phase4");
+    });
+
+  /* ===== FASE 4 — PÓS-VOO IMEDIATO ===== */
+  document.getElementById("phase4Form")
+    .addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const ok = [...document.querySelectorAll("#phase4Form input[type='checkbox']")]
+        .every(cb => cb.checked);
+
+      if (!ok) {
+        alert("Todos os itens da Fase 4 (Pós-Voo Imediato) devem ser concluídos.");
+        return;
+      }
+
+      checklistSession.phases.phase4.completed = true;
+      checklistSession.phases.phase4.completedAt = new Date().toISOString();
 
       localStorage.setItem(
         "checklistRPAS_session",
@@ -110,11 +135,11 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       alert(
-        "Fase 3 – Voo da Aeronave concluída.\n\n" +
-        "Próxima etapa: Pós-Voo Imediato."
+        "Fase 4 – Pós-Voo Imediato concluída.\n\n" +
+        "Próxima etapa: Conclusão do Voo."
       );
 
-      // A Fase 4 será implementada no próximo passo
+      // A Fase 5 será implementada no próximo passo
     });
 
 });
