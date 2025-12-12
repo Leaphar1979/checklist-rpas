@@ -11,9 +11,8 @@
 
 <body>
 
-  <!-- TELA 1 — SPLASH / IDENTIDADE -->
+  <!-- TELA 1 — SPLASH -->
   <section id="splash" class="screen active">
-
     <div class="logos">
       <span class="logo-placeholder">PCSC</span>
       <span class="logo-placeholder">SAER</span>
@@ -21,42 +20,34 @@
     </div>
 
     <h1>Checklist Operacional RPAS</h1>
-
-    <p class="subtitle">
-      COARP · NOARP · SAER · PCSC
-    </p>
+    <p class="subtitle">COARP · NOARP · SAER · PCSC</p>
 
     <p class="warning">
       Este aplicativo não autoriza voo.<br>
       A decisão e a responsabilidade são do Piloto em Comando.
     </p>
 
-    <button id="startBtn">
-      Iniciar Checklist
-    </button>
-
+    <button id="startBtn">Iniciar Checklist</button>
   </section>
 
   <!-- TELA 2 — IDENTIFICAÇÃO DA MISSÃO -->
   <section id="mission" class="screen">
-
     <h2>Identificação da Missão</h2>
 
     <form id="missionForm">
-
-      <label for="pilot">Piloto Remoto</label>
+      <label>Piloto Remoto</label>
       <input type="text" id="pilot" required />
 
-      <label for="observer">Observador</label>
+      <label>Observador</label>
       <input type="text" id="observer" />
 
-      <label for="unit">Unidade</label>
+      <label>Unidade</label>
       <input type="text" id="unit" required />
 
-      <label for="rpas">RPAS</label>
+      <label>RPAS</label>
       <input type="text" id="rpas" required />
 
-      <label for="missionType">Tipo de Missão</label>
+      <label>Tipo de Missão</label>
       <select id="missionType" required>
         <option value="">Selecione</option>
         <option>Investigação</option>
@@ -65,12 +56,50 @@
         <option>Outro</option>
       </select>
 
-      <button type="submit">
-        Avançar para Preparação do Voo
-      </button>
+      <button type="submit">Avançar para Preparação do Voo</button>
+    </form>
+  </section>
+
+  <!-- TELA 3 — FASE 1: PREPARAÇÃO PARA O VOO -->
+  <section id="phase1" class="screen">
+    <h2>Fase 1 – Preparação para o Voo</h2>
+    <p class="subtitle">Realizada em local seguro, antes do início da missão</p>
+
+    <form id="phase1Form" class="checklist">
+
+      <label>
+        <input type="checkbox" />
+        Itens de Conforto: providenciar repelente, protetor solar, boné, segunda pele, hidratação, alimentação
+      </label>
+
+      <label>
+        <input type="checkbox" />
+        Controle de Integridade Física da Aeronave
+      </label>
+
+      <label>
+        <input type="checkbox" />
+        Verificar / carregar bateria do controle e a que estará no drone
+      </label>
+
+      <label>
+        <input type="checkbox" />
+        Inserir cartão microSD compatível
+      </label>
+
+      <label>
+        <input type="checkbox" />
+        Configurar altura do RTH
+      </label>
+
+      <label>
+        <input type="checkbox" />
+        Confirmar recepção de satélites, mínimo 12
+      </label>
+
+      <button type="submit">Concluir Fase 1</button>
 
     </form>
-
   </section>
 
   <script src="js/app.js"></script>
