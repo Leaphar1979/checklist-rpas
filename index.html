@@ -2,16 +2,16 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Checklist Operacional RPAS — DEMO</title>
+  <title>Checklist Operacional RPAS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
 
-<header class="app-header demo-header">
+<header class="app-header">
   <div class="header-left">
-    <img src="assets/logos/coarp.png" alt="COARP" class="header-logo" />
+    <img src="assets/logos/coarp.png" class="header-logo" alt="COARP">
     <span class="header-title">Checklist Operacional RPAS</span>
   </div>
   <div class="header-right">
@@ -23,39 +23,35 @@
   </div>
 </header>
 
-<div class="demo-banner">
-  VERSÃO DEMONSTRATIVA — NÃO UTILIZAR EM OPERAÇÕES REAIS
-</div>
-
 <main class="app-container">
 
   <!-- SPLASH -->
   <section id="splash" class="screen active splash-screen">
     <div class="splash-logos">
-      <img src="assets/logos/pcsc.png" alt="PCSC" />
-      <img src="assets/logos/saer.png" alt="SAER" />
-      <img src="assets/logos/coarp.png" alt="COARP" />
+      <img src="assets/logos/pcsc.png" alt="PCSC">
+      <img src="assets/logos/saer.png" alt="SAER">
+      <img src="assets/logos/coarp.png" alt="COARP">
     </div>
 
     <h1>Checklist Operacional RPAS</h1>
     <p class="subtitle">COARP · NOARP · SAER · PCSC</p>
 
     <p class="warning">
-      <strong>VERSÃO DEMONSTRATIVA</strong><br><br>
-      Este aplicativo tem finalidade exclusivamente demonstrativa.
+      Este aplicativo não autoriza voo.<br>
+      A decisão e a responsabilidade são do Piloto em Comando.
     </p>
 
-    <button id="startBtn">Iniciar Demonstração</button>
+    <button id="startBtn">Iniciar Checklist</button>
   </section>
 
   <!-- MISSÃO -->
   <section id="mission" class="screen">
     <h2>Identificação da Missão</h2>
     <form id="missionForm">
-      <input id="pilot" placeholder="Piloto Remoto" required />
-      <input id="observer" placeholder="Observador" />
-      <input id="unit" placeholder="Unidade" required />
-      <input id="rpas" placeholder="RPAS" required />
+      <input id="pilot" placeholder="Piloto Remoto" required>
+      <input id="observer" placeholder="Observador">
+      <input id="unit" placeholder="Unidade" required>
+      <input id="rpas" placeholder="RPAS" required>
       <select id="missionType" required>
         <option value="">Tipo de Missão</option>
         <option>Investigação</option>
@@ -67,12 +63,12 @@
     </form>
   </section>
 
-  <!-- FASES -->
-  <section id="phase1" class="screen"><form id="phase1Form" class="checklist">…</form></section>
-  <section id="phase2" class="screen"><form id="phase2Form" class="checklist">…</form></section>
-  <section id="phase3" class="screen"><form id="phase3Form" class="checklist">…</form></section>
-  <section id="phase4" class="screen"><form id="phase4Form" class="checklist">…</form></section>
-  <section id="phase5" class="screen"><form id="phase5Form" class="checklist">…</form></section>
+  <!-- FASES (estrutura garantida, textos permanecem no JS/HTML anterior) -->
+  <section id="phase1" class="screen"><form id="phase1Form" class="checklist"></form></section>
+  <section id="phase2" class="screen"><form id="phase2Form" class="checklist"></form></section>
+  <section id="phase3" class="screen"><form id="phase3Form" class="checklist"></form></section>
+  <section id="phase4" class="screen"><form id="phase4Form" class="checklist"></form></section>
+  <section id="phase5" class="screen"><form id="phase5Form" class="checklist"></form></section>
 
   <!-- PDF -->
   <section id="pdfScreen" class="screen">
