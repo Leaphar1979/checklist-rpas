@@ -11,11 +11,10 @@
 
 <body>
 
-  <!-- TELA DE ABERTURA / IDENTIDADE -->
+  <!-- TELA 1 — SPLASH / IDENTIDADE -->
   <section id="splash" class="screen active">
 
     <div class="logos">
-      <!-- Os logos serão adicionados no passo seguinte -->
       <span class="logo-placeholder">PCSC</span>
       <span class="logo-placeholder">SAER</span>
       <span class="logo-placeholder">COARP</span>
@@ -35,6 +34,42 @@
     <button id="startBtn">
       Iniciar Checklist
     </button>
+
+  </section>
+
+  <!-- TELA 2 — IDENTIFICAÇÃO DA MISSÃO -->
+  <section id="mission" class="screen">
+
+    <h2>Identificação da Missão</h2>
+
+    <form id="missionForm">
+
+      <label for="pilot">Piloto Remoto</label>
+      <input type="text" id="pilot" required />
+
+      <label for="observer">Observador</label>
+      <input type="text" id="observer" />
+
+      <label for="unit">Unidade</label>
+      <input type="text" id="unit" required />
+
+      <label for="rpas">RPAS</label>
+      <input type="text" id="rpas" required />
+
+      <label for="missionType">Tipo de Missão</label>
+      <select id="missionType" required>
+        <option value="">Selecione</option>
+        <option>Investigação</option>
+        <option>Operação</option>
+        <option>Treinamento</option>
+        <option>Outro</option>
+      </select>
+
+      <button type="submit">
+        Avançar para Preparação do Voo
+      </button>
+
+    </form>
 
   </section>
 
