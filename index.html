@@ -9,26 +9,20 @@
 
 <body>
 
-<!-- ===== HEADER ===== -->
 <header class="app-header demo-header">
   <div class="header-left">
     <img src="assets/logos/coarp.png" alt="COARP" class="header-logo" />
     <span class="header-title">Checklist Operacional RPAS</span>
   </div>
-
   <div class="header-right">
-    <a
-      href="https://github.com/leaphar1979/checklist-rpas/blob/main/README.md"
-      target="_blank"
-      class="header-link"
-      rel="noopener noreferrer"
-    >
+    <a href="https://github.com/leaphar1979/checklist-rpas/blob/main/README.md"
+       target="_blank"
+       class="header-link">
       📘 Sobre / Doutrina
     </a>
   </div>
 </header>
 
-<!-- ===== DEMO BANNER ===== -->
 <div class="demo-banner">
   VERSÃO DEMONSTRATIVA — NÃO UTILIZAR EM OPERAÇÕES REAIS
 </div>
@@ -48,16 +42,43 @@
 
     <p class="warning">
       <strong>VERSÃO DEMONSTRATIVA</strong><br><br>
-      Este aplicativo tem finalidade exclusivamente demonstrativa.<br>
-      Não substitui procedimentos oficiais nem autoriza operações reais.
+      Este aplicativo tem finalidade exclusivamente demonstrativa.
     </p>
 
     <button id="startBtn">Iniciar Demonstração</button>
   </section>
 
-  <!-- DEMAIS TELAS -->
-  <!-- mission, phase1…phase5, pdfScreen -->
-  <!-- permanecem inalteradas -->
+  <!-- MISSÃO -->
+  <section id="mission" class="screen">
+    <h2>Identificação da Missão</h2>
+    <form id="missionForm">
+      <input id="pilot" placeholder="Piloto Remoto" required />
+      <input id="observer" placeholder="Observador" />
+      <input id="unit" placeholder="Unidade" required />
+      <input id="rpas" placeholder="RPAS" required />
+      <select id="missionType" required>
+        <option value="">Tipo de Missão</option>
+        <option>Investigação</option>
+        <option>Operação</option>
+        <option>Treinamento</option>
+        <option>Outro</option>
+      </select>
+      <button type="submit">Avançar</button>
+    </form>
+  </section>
+
+  <!-- FASES -->
+  <section id="phase1" class="screen"><form id="phase1Form" class="checklist">…</form></section>
+  <section id="phase2" class="screen"><form id="phase2Form" class="checklist">…</form></section>
+  <section id="phase3" class="screen"><form id="phase3Form" class="checklist">…</form></section>
+  <section id="phase4" class="screen"><form id="phase4Form" class="checklist">…</form></section>
+  <section id="phase5" class="screen"><form id="phase5Form" class="checklist">…</form></section>
+
+  <!-- PDF -->
+  <section id="pdfScreen" class="screen">
+    <h2>Checklist Concluído</h2>
+    <button id="generatePdfBtn">Gerar PDF</button>
+  </section>
 
 </main>
 
