@@ -15,11 +15,9 @@
     <span class="header-title">Checklist Operacional RPAS</span>
   </div>
   <div class="header-right">
-    <a
-      href="https://github.com/leaphar1979/checklist-rpas/blob/main/README.md"
-      target="_blank"
-      class="header-link"
-    >
+    <a href="https://github.com/leaphar1979/checklist-rpas/blob/main/README.md"
+       target="_blank"
+       class="header-link">
       📘 Sobre / Doutrina
     </a>
   </div>
@@ -27,104 +25,103 @@
 
 <main class="app-container">
 
-  <!-- SPLASH -->
-  <section id="splash" class="screen active splash-screen">
-    <div class="splash-logos">
-      <img src="assets/logos/pcsc.png" alt="PCSC">
-      <img src="assets/logos/saer.png" alt="SAER">
-      <img src="assets/logos/coarp.png" alt="COARP">
-    </div>
+<section id="splash" class="screen active splash-screen">
+  <h1>Checklist Operacional RPAS</h1>
+  <button id="startBtn">Iniciar Checklist</button>
+</section>
 
-    <h1>Checklist Operacional RPAS</h1>
-    <p class="subtitle">COARP · NOARP · SAER · PCSC</p>
+<section id="mission" class="screen">
+  <h2>Identificação da Missão</h2>
+  <form id="missionForm">
+    <input id="pilot" placeholder="Piloto Remoto" required>
+    <input id="observer" placeholder="Observador">
+    <input id="unit" placeholder="Unidade" required>
+    <input id="rpas" placeholder="RPAS" required>
+    <select id="missionType" required>
+      <option value="">Tipo de Missão</option>
+      <option>Investigação</option>
+      <option>Operação</option>
+      <option>Treinamento</option>
+      <option>Outro</option>
+    </select>
+    <button type="submit">Avançar</button>
+  </form>
+</section>
 
-    <p class="warning">
-      Este aplicativo não autoriza voo.<br>
-      A decisão e a responsabilidade são do Piloto em Comando.
-    </p>
+<section id="phase1" class="screen">
+  <h2>Fase 1 – Preparação para o Voo</h2>
 
-    <button id="startBtn">Iniciar Checklist</button>
-  </section>
+  <form id="phase1Form" class="checklist">
 
-  <!-- IDENTIFICAÇÃO DA MISSÃO -->
-  <section id="mission" class="screen">
-    <h2>Identificação da Missão</h2>
-    <form id="missionForm">
-      <input id="pilot" placeholder="Piloto Remoto" required>
-      <input id="observer" placeholder="Observador">
-      <input id="unit" placeholder="Unidade" required>
-      <input id="rpas" placeholder="RPAS" required>
-      <select id="missionType" required>
-        <option value="">Tipo de Missão</option>
-        <option>Investigação</option>
-        <option>Operação</option>
-        <option>Treinamento</option>
-        <option>Outro</option>
-      </select>
-      <button type="submit">Avançar</button>
-    </form>
-  </section>
+    <label><input type="checkbox"> Itens de Conforto: providenciar repelente, protetor solar, boné, segunda pele, hidratação, alimentação</label>
 
-  <!-- FASE 1 -->
-  <section id="phase1" class="screen">
-    <h2>Fase 1 — Pré-Missão</h2>
-    <form id="phase1Form" class="checklist">
-      <p style="opacity:0.7; font-style: italic;">
-        Conteúdo do checklist da Fase 1 será exibido aqui.
-      </p>
-      <button type="submit">Avançar</button>
-    </form>
-  </section>
+    <label><input type="checkbox"> Criação/manutenção/Login conta DJI conectando o celular no controle como roteador</label>
 
-  <!-- FASE 2 -->
-  <section id="phase2" class="screen">
-    <h2>Fase 2 — Execução</h2>
-    <form id="phase2Form" class="checklist">
-      <p style="opacity:0.7; font-style: italic;">
-        Conteúdo do checklist da Fase 2 será exibido aqui.
-      </p>
-      <button type="submit">Avançar</button>
-    </form>
-  </section>
+    <label><input type="checkbox"> Controle de Integridade Física da Aeronave</label>
 
-  <!-- FASE 3 -->
-  <section id="phase3" class="screen">
-    <h2>Fase 3 — Pós-Execução</h2>
-    <form id="phase3Form" class="checklist">
-      <p style="opacity:0.7; font-style: italic;">
-        Conteúdo do checklist da Fase 3 será exibido aqui.
-      </p>
-      <button type="submit">Avançar</button>
-    </form>
-  </section>
+    <label><input type="checkbox"> Manusear a aeronave com mão dupla e não segurar pelas hastes</label>
 
-  <!-- FASE 4 -->
-  <section id="phase4" class="screen">
-    <h2>Fase 4 — Retorno / Encerramento</h2>
-    <form id="phase4Form" class="checklist">
-      <p style="opacity:0.7; font-style: italic;">
-        Conteúdo do checklist da Fase 4 será exibido aqui.
-      </p>
-      <button type="submit">Avançar</button>
-    </form>
-  </section>
+    <label><input type="checkbox"> Verificar shell (estrutura), braços (hastes), integridade das hélices, rotor/estator</label>
 
-  <!-- FASE 5 (TESTE DE FLUXO FINAL) -->
-  <section id="phase5" class="screen">
-    <h2>Fase 5 — Pós-Missão</h2>
-    <form id="phase5Form" class="checklist">
-      <p style="opacity:0.7; font-style: italic;">
-        Conteúdo do checklist da Fase 5 será exibido aqui.
-      </p>
-      <button type="submit">Finalizar Checklist</button>
-    </form>
-  </section>
+    <label><input type="checkbox"> Verificar/carregar bateria do controle e a que estará no drone</label>
 
-  <!-- PDF -->
-  <section id="pdfScreen" class="screen">
-    <h2>Checklist Concluído</h2>
-    <button id="generatePdfBtn">Gerar PDF</button>
-  </section>
+    <label><input type="checkbox"> Abertura dos braços de sustentação</label>
+
+    <label><input type="checkbox"> Inserir cartão microSD compatível conforme fabricante</label>
+
+    <label><input type="checkbox"> Fixação correta das hélices</label>
+
+    <label><input type="checkbox"> Inserir bateria corretamente e preservar trava</label>
+
+    <label><input type="checkbox"> Posicionar aeronave em local seguro para decolagem</label>
+
+    <label><input type="checkbox"> Abrir antenas do controle para frente</label>
+
+    <label><input type="checkbox"> Ligar o rádio controle primeiro</label>
+
+    <label><input type="checkbox"> Retirada da tampa/trava do gimbal</label>
+
+    <label><input type="checkbox"> Ligar a aeronave com cuidado para não forçar as hastes</label>
+
+    <label><input type="checkbox"> Verificar necessidade de atualizações</label>
+
+    <label><input type="checkbox"> Verificar Aircraft Status e corrigir erros (COMPASS/IMU)</label>
+
+    <label><input type="checkbox"> Configurar altura do RTH</label>
+
+    <label><input type="checkbox"> Configurar altura e distância limites</label>
+
+    <label><input type="checkbox"> Configurar ação em caso de perda de sinal</label>
+
+    <label><input type="checkbox"> Configurar ação para CRITICAL LOW BATTERY</label>
+
+    <label><input type="checkbox"> Confirmar recepção mínima de 12 satélites</label>
+
+    <label><input type="checkbox"> Confirmar HOMEPOINT no mapa</label>
+
+    <label><input type="checkbox"> Posicionar drone e piloto corretamente para teste</label>
+
+    <label><input type="checkbox"> Acionar motores</label>
+
+    <label><input type="checkbox"> Realizar varredura holística 360°</label>
+
+    <label><input type="checkbox"> Decolar e testar comandos básicos</label>
+
+    <label><input type="checkbox"> Pousar aeronave e cortar motores</label>
+
+    <button type="submit">Avançar</button>
+  </form>
+</section>
+
+<section id="phase2" class="screen"></section>
+<section id="phase3" class="screen"></section>
+<section id="phase4" class="screen"></section>
+<section id="phase5" class="screen"></section>
+
+<section id="pdfScreen" class="screen">
+  <h2>Checklist Concluído</h2>
+  <button id="generatePdfBtn">Gerar PDF</button>
+</section>
 
 </main>
 
