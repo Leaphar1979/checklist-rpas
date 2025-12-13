@@ -1,139 +1,156 @@
 /* ===== RESET ===== */
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
-  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-  background-color: #0c1016;
-  color: #e6e6e6;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #0f1115;
+  color: #ffffff;
 }
 
 /* ===== HEADER ===== */
 .app-header {
   position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 62px;
-  background: #101520;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background-color: #151821;
   border-bottom: 1px solid #2a2f3a;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0 22px;
+  justify-content: space-between;
+  padding: 0 16px;
   z-index: 1000;
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
-.header-logo { height: 36px; }
+.header-logo {
+  height: 32px;
+}
 
 .header-title {
-  font-size: 15px;
-  font-weight: 600;
-  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .header-link {
-  color: #9bbcff;
+  color: #8ab4f8;
   text-decoration: none;
-  font-size: 14px;
-}
-
-/* ===== PROGRESS BAR ===== */
-.progress-bar {
-  margin-top: 62px;
-  display: flex;
-  background-color: #121621;
-  border-bottom: 1px solid #2a2f3a;
-}
-
-.step {
-  flex: 1;
-  text-align: center;
-  padding: 10px 0;
   font-size: 13px;
-  color: #9aa0ac;
-  border-right: 1px solid #1f2430;
 }
 
-.step:last-child { border-right: none; }
-
-.step.active {
-  background-color: #1a73e8;
-  color: #ffffff;
-  font-weight: 600;
-}
-
-/* ===== CONTAINER ===== */
+/* ===== CONTEÚDO ===== */
 .app-container {
-  padding: 28px;
-  padding-top: 28px;
+  padding-top: 72px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
-/* ===== SCREENS ===== */
-.screen { display: none; max-width: 1100px; margin: 0 auto; }
-.screen.active { display: block; }
+/* ===== TELAS ===== */
+.screen {
+  display: none;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.screen.active {
+  display: block;
+}
 
 /* ===== SPLASH ===== */
-.splash-screen { text-align: center; margin-top: 20px; }
+.splash-screen {
+  text-align: center;
+}
 
 .splash-logos {
   display: flex;
   justify-content: center;
-  gap: 36px;
-  margin-bottom: 28px;
+  gap: 32px;
+  margin-bottom: 24px;
 }
 
-.splash-logos img { height: 70px; }
+.splash-logos img {
+  height: 64px;
+}
 
-h1 { font-size: 28px; margin-bottom: 12px; }
-h2 { font-size: 24px; margin-bottom: 12px; }
+/* ===== TEXTOS ===== */
+h1 {
+  margin-bottom: 12px;
+}
 
-.subtitle { opacity: 0.85; margin-bottom: 20px; }
-.warning { color: #fbbc04; margin-bottom: 24px; }
+h2 {
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 16px;
+}
+
+.warning {
+  font-size: 13px;
+  color: #fbbc04;
+  margin-bottom: 24px;
+}
+
+/* ===== FORM ===== */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
 /* ===== CHECKLIST ===== */
 .checklist {
-  background-color: #121621;
+  background-color: #151821;
   border: 1px solid #2a2f3a;
-  border-radius: 8px;
-  padding: 28px;
+  border-radius: 6px;
+  padding: 20px;
 }
 
 .checklist label {
   display: flex;
-  gap: 14px;
-  font-size: 17px;
-  padding: 14px 0;
-  border-bottom: 1px solid #1f2430;
+  gap: 12px;
+  padding: 10px 0;
+  font-size: 15px;
+  border-bottom: 1px solid #2a2f3a;
+}
+
+.checklist label:last-child {
+  border-bottom: none;
 }
 
 .checklist input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  accent-color: #1a73e8;
+  width: 18px;
+  height: 18px;
 }
 
 /* ===== INPUTS ===== */
 input, select {
-  padding: 14px;
-  font-size: 16px;
-  border-radius: 6px;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 4px;
   border: none;
-  margin-bottom: 16px;
 }
 
-/* ===== BUTTON ===== */
+/* ===== BOTÕES ===== */
 button {
-  margin-top: 24px;
-  padding: 16px;
-  font-size: 16px;
-  font-weight: 600;
+  margin-top: 16px;
+  padding: 12px;
+  font-size: 15px;
   background-color: #1a73e8;
-  color: #fff;
+  color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
 }
