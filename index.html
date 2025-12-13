@@ -149,11 +149,26 @@
   </form>
 </section>
 
-<!-- FINAL -->
+<!-- FINAL – ASSINATURA -->
 <section id="pdfScreen" class="screen">
-  <h2>Checklist Concluído</h2>
-  <p>Procedimento finalizado e registrado.</p>
-  <button id="generatePdfBtn">Gerar PDF</button>
+  <h2>Encerramento do Checklist</h2>
+
+  <p>
+    Declaro que executei integralmente o checklist operacional RPAS conforme
+    a doutrina vigente da Polícia Civil de Santa Catarina.
+  </p>
+
+  <form id="signatureForm">
+    <input id="signatureName" placeholder="Nome do Operador" required>
+    <input id="signatureId" placeholder="Matrícula Funcional" required>
+
+    <label class="signature-check">
+      <input type="checkbox" id="signatureConfirm" required>
+      Confirmo a veracidade das informações acima
+    </label>
+
+    <button type="submit">Assinar e Gerar PDF</button>
+  </form>
 </section>
 
 </main>
