@@ -9,7 +9,7 @@ const checklistSession = {
     checklistName: "Checklist Operacional RPAS",
     institution: "PCSC / SAER / NOARP",
     doctrine: "COARP",
-    version: "v1.1",
+    version: "v1.2",
     startTime: null,
     endTime: null,
     pilot: "",
@@ -142,7 +142,6 @@ document.addEventListener("DOMContentLoaded", () => {
       checklistSession.metadata.signatureName = name;
       checklistSession.metadata.signatureId = id;
 
-      // Gerar hash
       checklistSession.metadata.hash =
         await gerarHashSHA256(checklistSession);
 
@@ -156,48 +155,95 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-/* ===== PDF ===== */
+/* ===== PDF UNIFICADO E CORRIGIDO ===== */
 function gerarPDF(data) {
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF();
-  let y = 40;
+  let y;
 
+  /* ===== LOGOS ===== */
   const addLogo = (src, x, next) => {
     const img = new Image();
     img.onload = () => {
-      pdf.addImage(img, "PNG", x, 10, 18, 18);
+      pdf.addImage(img, "PNG", x, 15, 18, 18);
       if (next) next();
     };
     img.src = src;
   };
 
-  const conteudo = () => {
-    pdf.setFontSize(14);
-    pdf.text("CHECKLIST OPERACIONAL RPAS", 105, 18, { align: "center" });
+  const gerarConteudo = () => {
+
+    /* ===== CABEÇALHO ===== */
+    pdf.setFontSize(16);
+    pdf.text("CHECKLIST OPERACIONAL RPAS", 105, 45, { align: "center" });
 
     pdf.setFontSize(10);
     pdf.text(
-      "PCSC · SAER · NOARP · COARP",
+      "Polícia Civil de Santa Catarina · SAER · NOARP · COARP",
       105,
-      25,
+      52,
       { align: "center" }
     );
 
-    pdf.text(`Piloto: ${data.metadata.pilot}`, 20, y); y+=6;
-    pdf.text(`Matrícula: ${data.metadata.signatureId}`, 20, y); y+=6;
-    pdf.text(`Início: ${data.metadata.startTime}`, 20, y); y+=6;
-    pdf.text(`Término: ${data.metadata.endTime}`, 20, y); y+=10;
+    y = 65;
 
-    pdf.text("HASH SHA-256:", 20, y); y+=6;
+    /* ===== IDENTIFICAÇÃO DA MISSÃO ===== */
+    pdf.setFontSize(12);
+    pdf.text("Identificação da Missão", 20, y);
+    y += 6;
+
+    pdf.setFontSize(10);
+    pdf.text(`Piloto Remoto: ${data.metadata.pilot}`, 20, y); y += 6;
+    pdf.text(`Observador: ${data.metadata.observer}`, 20, y); y += 6;
+    pdf.text(`Unidade: ${data.metadata.unit}`, 20, y); y += 6;
+    pdf.text(`RPAS: ${data.metadata.rpas}`, 20, y); y += 6;
+    pdf.text(`Tipo de Missão: ${data.metadata.missionType}`, 20, y); y += 6;
+    pdf.text(`Início: ${data.metadata.startTime}`, 20, y); y += 6;
+    pdf.text(`Término: ${data.metadata.endTime}`, 20, y); y += 10;
+
+    /* ===== STATUS DAS FASES ===== */
+    pdf.setFontSize(12);
+    pdf.text("Status das Fases", 20, y);
+    y += 6;
+
+    pdf.setFontSize(10);
+    Object.entries(data.phases).forEach(([fase, info]) => {
+      pdf.text(
+        `${fase.toUpperCase()} — ${info.completed ? "CONCLUÍDA" : "NÃO CONCLUÍDA"} ${
+          info.completedAt ? "(" + info.completedAt + ")" : ""
+        }`,
+        20,
+        y
+      );
+      y += 6;
+    });
+
+    y += 10;
+
+    /* ===== ASSINATURA ===== */
+    pdf.setFontSize(12);
+    pdf.text("Assinatura do Operador", 20, y);
+    y += 6;
+
+    pdf.setFontSize(10);
+    pdf.text(`Nome: ${data.metadata.signatureName}`, 20, y); y += 6;
+    pdf.text(`Matrícula: ${data.metadata.signatureId}`, 20, y); y += 10;
+
+    /* ===== HASH ===== */
+    pdf.setFontSize(12);
+    pdf.text("Hash de Integridade (SHA-256)", 20, y);
+    y += 6;
+
     pdf.setFontSize(8);
     pdf.text(data.metadata.hash, 20, y, { maxWidth: 170 });
 
     pdf.save("Checklist_Operacional_RPAS.pdf");
   };
 
-  addLogo("assets/logos/pcsc.png", 20, () => {
-    addLogo("assets/logos/saer.png", 45, () => {
-      addLogo("assets/logos/coarp.png", 70, conteudo);
+  /* ===== ORDEM DOS LOGOS ===== */
+  addLogo("assets/logos/pcsc.png", 35, () => {
+    addLogo("assets/logos/saer.png", 70, () => {
+      addLogo("assets/logos/coarp.png", 105, gerarConteudo);
     });
   });
 }
