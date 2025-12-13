@@ -59,11 +59,20 @@ document.addEventListener("DOMContentLoaded", () => {
     missionForm.addEventListener("submit", e => {
       e.preventDefault();
 
-      checklistSession.metadata.pilot = pilot.value;
-      checklistSession.metadata.observer = observer.value;
-      checklistSession.metadata.unit = unit.value;
-      checklistSession.metadata.rpas = rpas.value;
-      checklistSession.metadata.missionType = missionType.value;
+      checklistSession.metadata.pilot =
+        document.getElementById("pilot").value;
+
+      checklistSession.metadata.observer =
+        document.getElementById("observer").value;
+
+      checklistSession.metadata.unit =
+        document.getElementById("unit").value;
+
+      checklistSession.metadata.rpas =
+        document.getElementById("rpas").value;
+
+      checklistSession.metadata.missionType =
+        document.getElementById("missionType").value;
 
       localStorage.setItem(
         "checklistRPAS_session",
@@ -166,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* ===== GERAÇÃO DE PDF ===== */
+  /* ===== GERAÇÃO DE PDF (ROBUSTA) ===== */
   const pdfBtn = document.getElementById("generatePdfBtn");
   if (pdfBtn) {
     pdfBtn.addEventListener("click", () => {
@@ -181,42 +190,75 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF();
-      let y = 20;
+      let y = 40;
 
-      pdf.setFontSize(14);
-      pdf.text("CHECKLIST OPERACIONAL RPAS", 20, y);
-      y += 10;
+      const addLogo = (src, x, next) => {
+        const img = new Image();
+        img.onload = () => {
+          pdf.addImage(img, "PNG", x, 10, 18, 18);
+          if (next) next();
+        };
+        img.src = src;
+      };
 
-      pdf.setFontSize(10);
-      pdf.text(`Instituição: ${data.metadata.institution}`, 20, y); y += 6;
-      pdf.text(`Doutrina: ${data.metadata.doctrine}`, 20, y); y += 6;
-      pdf.text(`Piloto: ${data.metadata.pilot}`, 20, y); y += 6;
-      pdf.text(`Observador: ${data.metadata.observer}`, 20, y); y += 6;
-      pdf.text(`Unidade: ${data.metadata.unit}`, 20, y); y += 6;
-      pdf.text(`RPAS: ${data.metadata.rpas}`, 20, y); y += 6;
-      pdf.text(`Missão: ${data.metadata.missionType}`, 20, y); y += 8;
-      pdf.text(`Início: ${data.metadata.startTime}`, 20, y); y += 6;
-      pdf.text(`Término: ${data.metadata.endTime}`, 20, y); y += 10;
+      const gerarConteudo = () => {
 
-      pdf.text("Fases:", 20, y); y += 6;
-      Object.entries(data.phases).forEach(([fase, info]) => {
+        pdf.setFontSize(14);
+        pdf.text("CHECKLIST OPERACIONAL RPAS", 105, 18, { align: "center" });
+
+        pdf.setFontSize(10);
         pdf.text(
-          `${fase.toUpperCase()} - ${info.completed ? "OK" : "NÃO OK"} (${info.completedAt})`,
-          20,
-          y
+          "Polícia Civil de Santa Catarina · SAER · NOARP · COARP",
+          105,
+          25,
+          { align: "center" }
         );
+
+        pdf.setFontSize(12);
+        pdf.text("Identificação da Missão", 20, y);
         y += 6;
+
+        pdf.setFontSize(10);
+        pdf.text(`Piloto: ${data.metadata.pilot}`, 20, y); y += 6;
+        pdf.text(`Observador: ${data.metadata.observer}`, 20, y); y += 6;
+        pdf.text(`Unidade: ${data.metadata.unit}`, 20, y); y += 6;
+        pdf.text(`RPAS: ${data.metadata.rpas}`, 20, y); y += 6;
+        pdf.text(`Tipo de Missão: ${data.metadata.missionType}`, 20, y); y += 6;
+        pdf.text(`Início: ${data.metadata.startTime}`, 20, y); y += 6;
+        pdf.text(`Término: ${data.metadata.endTime}`, 20, y); y += 10;
+
+        pdf.setFontSize(12);
+        pdf.text("Status das Fases", 20, y);
+        y += 6;
+
+        pdf.setFontSize(10);
+        Object.entries(data.phases).forEach(([fase, info]) => {
+          pdf.text(
+            `${fase.toUpperCase()} — ${info.completed ? "CONCLUÍDA" : "NÃO CONCLUÍDA"} ${info.completedAt ? "(" + info.completedAt + ")" : ""}`,
+            20,
+            y
+          );
+          y += 6;
+        });
+
+        y += 10;
+
+        pdf.text(
+          "Declaro que executei integralmente o checklist operacional RPAS conforme a doutrina vigente da Polícia Civil de Santa Catarina.",
+          20,
+          y,
+          { maxWidth: 170 }
+        );
+
+        pdf.save("Checklist_Operacional_RPAS.pdf");
+      };
+
+      addLogo("assets/logos/pcsc.png", 20, () => {
+        addLogo("assets/logos/saer.png", 45, () => {
+          addLogo("assets/logos/coarp.png", 70, gerarConteudo);
+        });
       });
 
-      y += 10;
-      pdf.text(
-        "Declaro que executei integralmente o checklist operacional RPAS conforme a doutrina vigente.",
-        20,
-        y,
-        { maxWidth: 170 }
-      );
-
-      pdf.save("Checklist_Operacional_RPAS.pdf");
     });
   }
 
