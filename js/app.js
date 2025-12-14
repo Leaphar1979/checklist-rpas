@@ -9,7 +9,7 @@ const checklistSession = {
     checklistName: "Checklist Operacional RPAS",
     institution: "PCSC / SAER / NOARP",
     doctrine: "COARP",
-    version: "v1.2",
+    version: "v1.3",
     startTime: null,
     endTime: null,
     pilot: "",
@@ -19,8 +19,14 @@ const checklistSession = {
     missionType: "",
     signatureName: "",
     signatureId: "",
-    hash: ""
+    hash: "",
+
+    /* ===== NOVOS CAMPOS (ENCERRAMENTO ANTECIPADO) ===== */
+    endedEarly: false,
+    endedAtPhase: null,
+    earlyEndReason: ""
   },
+
   phases: {
     phase1: { completed: false, completedAt: null },
     phase2: { completed: false, completedAt: null },
@@ -155,13 +161,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-/* ===== PDF UNIFICADO E CORRIGIDO ===== */
+/* ===== PDF (SEM ALTERAÇÕES NESTE PASSO) ===== */
 function gerarPDF(data) {
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF();
   let y;
 
-  /* ===== LOGOS ===== */
   const addLogo = (src, x, next) => {
     const img = new Image();
     img.onload = () => {
@@ -173,7 +178,6 @@ function gerarPDF(data) {
 
   const gerarConteudo = () => {
 
-    /* ===== CABEÇALHO ===== */
     pdf.setFontSize(16);
     pdf.text("CHECKLIST OPERACIONAL RPAS", 105, 45, { align: "center" });
 
@@ -187,7 +191,6 @@ function gerarPDF(data) {
 
     y = 65;
 
-    /* ===== IDENTIFICAÇÃO DA MISSÃO ===== */
     pdf.setFontSize(12);
     pdf.text("Identificação da Missão", 20, y);
     y += 6;
@@ -201,7 +204,6 @@ function gerarPDF(data) {
     pdf.text(`Início: ${data.metadata.startTime}`, 20, y); y += 6;
     pdf.text(`Término: ${data.metadata.endTime}`, 20, y); y += 10;
 
-    /* ===== STATUS DAS FASES ===== */
     pdf.setFontSize(12);
     pdf.text("Status das Fases", 20, y);
     y += 6;
@@ -220,7 +222,6 @@ function gerarPDF(data) {
 
     y += 10;
 
-    /* ===== ASSINATURA ===== */
     pdf.setFontSize(12);
     pdf.text("Assinatura do Operador", 20, y);
     y += 6;
@@ -229,7 +230,6 @@ function gerarPDF(data) {
     pdf.text(`Nome: ${data.metadata.signatureName}`, 20, y); y += 6;
     pdf.text(`Matrícula: ${data.metadata.signatureId}`, 20, y); y += 10;
 
-    /* ===== HASH ===== */
     pdf.setFontSize(12);
     pdf.text("Hash de Integridade (SHA-256)", 20, y);
     y += 6;
@@ -240,7 +240,6 @@ function gerarPDF(data) {
     pdf.save("Checklist_Operacional_RPAS.pdf");
   };
 
-  /* ===== ORDEM DOS LOGOS ===== */
   addLogo("assets/logos/pcsc.png", 35, () => {
     addLogo("assets/logos/saer.png", 70, () => {
       addLogo("assets/logos/coarp.png", 105, gerarConteudo);
