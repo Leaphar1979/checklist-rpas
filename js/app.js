@@ -9,7 +9,7 @@ const checklistSession = {
     checklistName: "Checklist Operacional RPAS",
     institution: "PCSC / SAER / NOARP",
     doctrine: "COARP",
-    version: "v1.6.2",
+    version: "v1.6.4",
     startTime: null,
     endTime: null,
     pilot: "",
@@ -90,7 +90,6 @@ async function gerarHashSHA256(data) {
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("startBtn")?.addEventListener("click", startChecklist);
 
-  /* Missão */
   document.getElementById("missionForm")?.addEventListener("submit", e => {
     e.preventDefault();
 
@@ -153,7 +152,6 @@ document.addEventListener("DOMContentLoaded", () => {
     checklistSession.metadata.earlyEndReason = reason;
     checklistSession.metadata.endTime = new Date().toISOString();
 
-    // Observações (opcional) — pode vir vazio
     checklistSession.metadata.operatorNotes =
       (document.getElementById("operatorNotes")?.value || "").trim();
 
@@ -178,6 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     checklistSession.metadata.signatureName = name;
     checklistSession.metadata.signatureId = id;
+
     checklistSession.metadata.operatorNotes =
       (document.getElementById("operatorNotes")?.value || "").trim();
 
@@ -209,14 +208,44 @@ async function gerarPDF(data) {
     });
   }
 
-  // Carrega imagens (se falhar, PDF sai mesmo assim)
-  const imgPCSC = await loadImage("assets/logos/pcsc.png");
-  const imgSAER = await loadImage("assets/logos/saer.png");
-  const imgNOARP = await loadImage("assets/logos/noarp.png");
+  async function loadImageAny(paths) {
+    for (const p of paths) {
+      const img = await loadImage(p);
+      if (img) return { img, path: p };
+    }
+    return { img: null, path: null };
+  }
+
+  // PCSC (fixo)
+  const pcsc = await loadImageAny([
+    "assets/logos/pcsc.png",
+    "assets/logos/PCSC.png",
+    "assets/logos/pcsc.PNG"
+  ]);
+
+  // SAER (robusto)
+  const saer = await loadImageAny([
+    "assets/logos/saer.png",
+    "assets/logos/SAER.png",
+    "assets/logos/saer.PNG",
+    "assets/logos/saer.jpg",
+    "assets/logos/saer.jpeg",
+    "assets/logos/saer.webp"
+  ]);
+
+  // NOARP (robusto — aqui estava o problema)
+  const noarp = await loadImageAny([
+    "assets/logos/noarp.png",
+    "assets/logos/NOARP.png",
+    "assets/logos/noarp.PNG",
+    "assets/logos/noarp.jpg",
+    "assets/logos/noarp.jpeg",
+    "assets/logos/noarp.webp"
+  ]);
 
   // ===== Logo PCSC centralizado no topo =====
-  if (imgPCSC) {
-    pdf.addImage(imgPCSC, "PNG", (pageWidth / 2) - 12, 10, 24, 24);
+  if (pcsc.img) {
+    pdf.addImage(pcsc.img, "PNG", (pageWidth / 2) - 12, 10, 24, 24);
   }
 
   // ===== Cabeçalho institucional =====
@@ -231,22 +260,29 @@ async function gerarPDF(data) {
     { align: "center" }
   );
 
-  // ===== Logos SAER + NOARP abaixo do cabeçalho (antes do título) =====
-  const duoY = 64;          // logo logo abaixo do cabeçalho
+  // ===== Logos SAER + NOARP (centralizados dinamicamente) =====
+  const duoY = 64;
   const duoSize = 18;
   const duoGap = 14;
-  const duoTotal = (duoSize * 2) + duoGap;
-  const duoStartX = (pageWidth - duoTotal) / 2;
 
-  if (imgSAER) {
-    pdf.addImage(imgSAER, "PNG", duoStartX, duoY, duoSize, duoSize);
-  }
-  if (imgNOARP) {
-    pdf.addImage(imgNOARP, "PNG", duoStartX + duoSize + duoGap, duoY, duoSize, duoSize);
+  const duoList = [];
+  if (saer.img) duoList.push({ img: saer.img, label: "SAER" });
+  if (noarp.img) duoList.push({ img: noarp.img, label: "NOARP" });
+
+  if (duoList.length === 1) {
+    // 1 logo só => centraliza ele
+    pdf.addImage(duoList[0].img, "PNG", (pageWidth / 2) - (duoSize / 2), duoY, duoSize, duoSize);
+  } else if (duoList.length === 2) {
+    const duoTotal = (duoSize * 2) + duoGap;
+    const duoStartX = (pageWidth - duoTotal) / 2;
+    pdf.addImage(duoList[0].img, "PNG", duoStartX, duoY, duoSize, duoSize);
+    pdf.addImage(duoList[1].img, "PNG", duoStartX + duoSize + duoGap, duoY, duoSize, duoSize);
+  } else {
+    // nenhum encontrado => não desenha nada
   }
 
-  // ===== Título (abaixo dos logos SAER/NOARP) =====
-  const titleY = duoY + duoSize + 10; // espaço seguro após os logos
+  // ===== Título =====
+  const titleY = duoY + duoSize + 10;
   pdf.setFontSize(14);
   pdf.text("CHECKLIST OPERACIONAL RPAS", pageWidth / 2, titleY, { align: "center" });
 
@@ -292,7 +328,7 @@ async function gerarPDF(data) {
   pdf.setFontSize(8);
   pdf.text(data.metadata.hash || "(não gerado)", 20, y, { maxWidth: 170 });
 
-  // ===== Rodapé institucional =====
+  // ===== Rodapé =====
   pdf.setFontSize(7);
   pdf.text(footerText, pageWidth / 2, pageHeight - 10, {
     align: "center",
