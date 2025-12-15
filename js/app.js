@@ -197,27 +197,41 @@ function gerarPDF(data) {
   const pdf = new jsPDF();
   let y = 65;
 
-  const addLogo = (src, x, next) => {
-    const img = new Image();
-    img.onload = () => {
-      pdf.addImage(img, "PNG", x, 15, 18, 18);
-      if (next) next();
-    };
-    img.src = src;
+const pageWidth = pdf.internal.pageSize.getWidth();
+
+/* ===== LOGOS CENTRALIZADOS ===== */
+const logoSize = 18;
+const logoGap = 12;
+const totalLogoWidth = (logoSize * 3) + (logoGap * 2);
+const startX = (pageWidth - totalLogoWidth) / 2;
+const logoY = 15;
+
+const addLogo = (src, x, next) => {
+  const img = new Image();
+  img.onload = () => {
+    pdf.addImage(img, "PNG", x, logoY, logoSize, logoSize);
+    if (next) next();
   };
+  img.src = src;
+};
 
-  const gerarConteudo = () => {
+/* ===== CONTEÚDO DO PDF ===== */
+const gerarConteudo = () => {
 
-    pdf.setFontSize(16);
-    pdf.text("CHECKLIST OPERACIONAL RPAS", 105, 45, { align: "center" });
+  const titleY = logoY + logoSize + 12;
 
-    pdf.setFontSize(10);
-    pdf.text(
-      "Polícia Civil de Santa Catarina · SAER · NOARP · COARP",
-      105,
-      52,
-      { align: "center" }
-    );
+  pdf.setFontSize(16);
+  pdf.text("CHECKLIST OPERACIONAL RPAS", pageWidth / 2, titleY, {
+    align: "center"
+  });
+
+  pdf.setFontSize(10);
+  pdf.text(
+    "Polícia Civil de Santa Catarina · SAER · NOARP · COARP",
+    pageWidth / 2,
+    titleY + 7,
+    { align: "center" }
+  );
 
     pdf.setFontSize(10);
     pdf.text(`Piloto: ${data.metadata.pilot}`, 20, y); y+=6;
@@ -260,9 +274,12 @@ function gerarPDF(data) {
     pdf.save("Checklist_Operacional_RPAS.pdf");
   };
 
-  addLogo("assets/logos/pcsc.png", 35, () => {
-    addLogo("assets/logos/saer.png", 70, () => {
-      addLogo("assets/logos/coarp.png", 105, gerarConteudo);
-    });
+ addLogo("assets/logos/pcsc.png", startX, () => {
+  addLogo("assets/logos/saer.png", startX + logoSize + logoGap, () => {
+    addLogo(
+      "assets/logos/coarp.png",
+      startX + (logoSize + logoGap) * 2,
+      gerarConteudo
+    );
   });
-}
+});
