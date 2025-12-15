@@ -23,228 +23,233 @@
 
 <main class="app-container">
 
-<!-- SPLASH -->
-<section id="splash" class="screen active">
-  <h1>Checklist Operacional RPAS</h1>
-  <p class="subtitle">COARP · NOARP · SAER · PCSC</p>
-  <button id="startBtn">Iniciar Checklist</button>
-</section>
+  <!-- SPLASH -->
+  <section id="splash" class="screen active">
 
-<!-- IDENTIFICAÇÃO -->
-<section id="mission" class="screen">
-  <h2>Identificação da Missão</h2>
-  <form id="missionForm">
-    <input id="pilot" placeholder="Piloto Remoto" required>
-    <input id="observer" placeholder="Observador">
-    <input id="unit" placeholder="Unidade" required>
-    <input id="rpas" placeholder="RPAS" required>
-    <select id="missionType" required>
-      <option value="">Tipo de Missão</option>
-      <option>Investigação</option>
-      <option>Operação</option>
-      <option>Treinamento</option>
-      <option>Outro</option>
-    </select>
-    <button type="submit">Avançar</button>
-  </form>
-</section>
-
-<!-- FASE 1 -->
-<section id="phase1" class="screen">
-  <h2>Fase 1 – Preparação para o Voo</h2>
-  <form id="phase1Form" class="checklist">
-    <label><input type="checkbox"> Itens de Conforto</label>
-    <label><input type="checkbox"> Login conta DJI</label>
-    <label><input type="checkbox"> Integridade física da aeronave</label>
-    <label><input type="checkbox"> Manuseio correto</label>
-    <label><input type="checkbox"> Verificação estrutural</label>
-    <label><input type="checkbox"> Baterias carregadas</label>
-    <label><input type="checkbox"> Braços abertos</label>
-    <label><input type="checkbox"> Cartão microSD</label>
-    <label><input type="checkbox"> Hélices fixadas</label>
-    <label><input type="checkbox"> Bateria inserida</label>
-    <label><input type="checkbox"> Local seguro</label>
-    <label><input type="checkbox"> Antenas posicionadas</label>
-    <label><input type="checkbox"> Rádio controle ligado</label>
-    <label><input type="checkbox"> Tampa do gimbal retirada</label>
-    <label><input type="checkbox"> Aeronave ligada</label>
-    <label><input type="checkbox"> Atualizações verificadas</label>
-    <label><input type="checkbox"> Status da aeronave</label>
-    <label><input type="checkbox"> Altura RTH</label>
-    <label><input type="checkbox"> Limites configurados</label>
-    <label><input type="checkbox"> Perda de sinal</label>
-    <label><input type="checkbox"> Low battery</label>
-    <label><input type="checkbox"> Satélites</label>
-    <label><input type="checkbox"> Homepoint</label>
-    <label><input type="checkbox"> Posição piloto/drone</label>
-    <label><input type="checkbox"> Motores acionados</label>
-    <label><input type="checkbox"> Varredura 360°</label>
-    <label><input type="checkbox"> Teste de comandos</label>
-    <label><input type="checkbox"> Pouso e corte</label>
-
-    <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase1')">
-      Encerrar checklist
-    </button>
-
-    <button type="submit">Avançar</button>
-  </form>
-</section>
-
-<!-- FASE 2 -->
-<section id="phase2" class="screen">
-  <h2>Fase 2 – Prevoo</h2>
-  <form id="phase2Form" class="checklist">
-    <label><input type="checkbox"> Clima</label>
-    <label><input type="checkbox"> Trajetória</label>
-    <label><input type="checkbox"> Ambiente seguro</label>
-    <label><input type="checkbox"> Baterias</label>
-    <label><input type="checkbox"> Cartões</label>
-    <label><input type="checkbox"> Hélices</label>
-    <label><input type="checkbox"> Tampa do gimbal</label>
-    <label><input type="checkbox"> Bateria</label>
-    <label><input type="checkbox"> Local seguro</label>
-    <label><input type="checkbox"> Ligar equipamentos</label>
-    <label><input type="checkbox"> RTH</label>
-    <label><input type="checkbox"> Satélites</label>
-    <label><input type="checkbox"> Aviso equipe</label>
-    <label><input type="checkbox"> Motores</label>
-
-    <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase2')">
-      Encerrar checklist
-    </button>
-
-    <button type="submit">Avançar</button>
-  </form>
-</section>
-
-<!-- FASE 3 -->
-<section id="phase3" class="screen">
-  <h2>Fase 3 – Voo</h2>
-  <form id="phase3Form" class="checklist">
-    <label><input type="checkbox"> Vigilância aérea</label>
-    <label><input type="checkbox"> Aproximação</label>
-    <label><input type="checkbox"> Clima</label>
-    <label><input type="checkbox"> Obstáculos</label>
-    <label><input type="checkbox"> Aviso pouso</label>
-    <label><input type="checkbox"> Pouso correto</label>
-    <label><input type="checkbox"> Corte motores</label>
-    <label><input type="checkbox"> Desligamento</label>
-
-    <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase3')">
-      Encerrar checklist
-    </button>
-
-    <button type="submit">Avançar</button>
-  </form>
-</section>
-
-<!-- FASE 4 -->
-<section id="phase4" class="screen">
-  <h2>Fase 4 – Pós-Voo</h2>
-  <form id="phase4Form" class="checklist">
-    <label><input type="checkbox"> Retirar bateria</label>
-    <label><input type="checkbox"> Trava do gimbal</label>
-    <label><input type="checkbox"> Guardar aeronave</label>
-    <label><input type="checkbox"> Cartão</label>
-    <label><input type="checkbox"> Integridade</label>
-    <label><input type="checkbox"> Comunicação</label>
-
-    <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase4')">
-      Encerrar checklist
-    </button>
-
-    <button type="submit">Avançar</button>
-  </form>
-</section>
-
-<!-- FASE 5 -->
-<section id="phase5" class="screen">
-  <h2>Fase 5 – Pós-Missão</h2>
-  <form id="phase5Form" class="checklist">
-    <label><input type="checkbox"> Guarda imagens</label>
-    <label><input type="checkbox"> Registro</label>
-    <label><input type="checkbox"> Chefia</label>
-    <label><input type="checkbox"> Intercorrências</label>
-    <label><input type="checkbox"> Encerrar missão</label>
-
-    <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase5')">
-      Encerrar checklist
-    </button>
-
-    <button type="submit">Finalizar Checklist</button>
-  </form>
-</section>
-<!-- FINAL – ASSINATURA -->
-<section id="pdfScreen" class="screen">
-  <h2>Encerramento do Checklist</h2>
-
-  <p>
-    Declaro que executei integralmente o checklist operacional RPAS conforme
-    a doutrina vigente da Polícia Civil de Santa Catarina.
-  </p>
-
-  <form id="signatureForm">
-
-    <!-- OBSERVAÇÕES (AGORA NO LUGAR CERTO) -->
-    <label for="operatorNotes">
-      Observações discricionárias do operador (opcional)
-    </label>
-    <textarea
-      id="operatorNotes"
-      placeholder="Descreva aqui qualquer observação relevante sobre a missão, intercorrências ou encerramento."
-      rows="4"
-      class="form-input"
-    ></textarea>
-
-    <!-- IDENTIFICAÇÃO -->
-    <input
-      id="signatureName"
-      placeholder="Nome do Operador"
-      required
-      class="form-input"
+    <!-- ✅ LOGO NOARP (apenas aqui) -->
+    <img
+      src="assets/logos/noarp.png"
+      alt="NOARP"
+      style="display:block;margin:10px auto 14px auto;width:72%;max-width:260px;height:auto;"
     >
 
-    <input
-      id="signatureId"
-      placeholder="Matrícula Funcional"
-      required
-      class="form-input"
-    >
+    <h1>Checklist Operacional RPAS</h1>
+    <p class="subtitle">COARP · NOARP · SAER · PCSC</p>
+    <button id="startBtn">Iniciar Checklist</button>
+  </section>
 
-    <label class="signature-check">
-      <input type="checkbox" id="signatureConfirm" required>
-      Confirmo a veracidade das informações
-    </label>
+  <!-- IDENTIFICAÇÃO -->
+  <section id="mission" class="screen">
+    <h2>Identificação da Missão</h2>
+    <form id="missionForm">
+      <input id="pilot" placeholder="Piloto Remoto" required>
+      <input id="observer" placeholder="Observador">
+      <input id="unit" placeholder="Unidade" required>
+      <input id="rpas" placeholder="RPAS" required>
+      <select id="missionType" required>
+        <option value="">Tipo de Missão</option>
+        <option>Investigação</option>
+        <option>Operação</option>
+        <option>Treinamento</option>
+        <option>Outro</option>
+      </select>
+      <button type="submit">Avançar</button>
+    </form>
+  </section>
 
-    <button type="submit">
-      Assinar e Gerar PDF
-    </button>
+  <!-- FASE 1 -->
+  <section id="phase1" class="screen">
+    <h2>Fase 1 – Preparação para o Voo</h2>
+    <form id="phase1Form" class="checklist">
+      <label><input type="checkbox"> Itens de Conforto</label>
+      <label><input type="checkbox"> Login conta DJI</label>
+      <label><input type="checkbox"> Integridade física da aeronave</label>
+      <label><input type="checkbox"> Manuseio correto</label>
+      <label><input type="checkbox"> Verificação estrutural</label>
+      <label><input type="checkbox"> Baterias carregadas</label>
+      <label><input type="checkbox"> Braços abertos</label>
+      <label><input type="checkbox"> Cartão microSD</label>
+      <label><input type="checkbox"> Hélices fixadas</label>
+      <label><input type="checkbox"> Bateria inserida</label>
+      <label><input type="checkbox"> Local seguro</label>
+      <label><input type="checkbox"> Antenas posicionadas</label>
+      <label><input type="checkbox"> Rádio controle ligado</label>
+      <label><input type="checkbox"> Tampa do gimbal retirada</label>
+      <label><input type="checkbox"> Aeronave ligada</label>
+      <label><input type="checkbox"> Atualizações verificadas</label>
+      <label><input type="checkbox"> Status da aeronave</label>
+      <label><input type="checkbox"> Altura RTH</label>
+      <label><input type="checkbox"> Limites configurados</label>
+      <label><input type="checkbox"> Perda de sinal</label>
+      <label><input type="checkbox"> Low battery</label>
+      <label><input type="checkbox"> Satélites</label>
+      <label><input type="checkbox"> Homepoint</label>
+      <label><input type="checkbox"> Posição piloto/drone</label>
+      <label><input type="checkbox"> Motores acionados</label>
+      <label><input type="checkbox"> Varredura 360°</label>
+      <label><input type="checkbox"> Teste de comandos</label>
+      <label><input type="checkbox"> Pouso e corte</label>
 
-  </form>
-</section>
+      <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase1')">
+        Encerrar checklist
+      </button>
 
-<!-- ENCERRAMENTO ANTECIPADO -->
-<section id="earlyEndScreen" class="screen">
-  <h2>Encerramento Antecipado do Checklist</h2>
-  <p>
-    O encerramento antecipado deverá ser devidamente justificado e ficará
-    registrado para fins administrativos e de auditoria.
-  </p>
+      <button type="submit">Avançar</button>
+    </form>
+  </section>
 
-  <form id="earlyEndForm">
-    <textarea id="earlyEndReason"
-      placeholder="Descreva o motivo do encerramento antecipado"
-      rows="5"
-      required></textarea>
+  <!-- FASE 2 -->
+  <section id="phase2" class="screen">
+    <h2>Fase 2 – Prevoo</h2>
+    <form id="phase2Form" class="checklist">
+      <label><input type="checkbox"> Clima</label>
+      <label><input type="checkbox"> Trajetória</label>
+      <label><input type="checkbox"> Ambiente seguro</label>
+      <label><input type="checkbox"> Baterias</label>
+      <label><input type="checkbox"> Cartões</label>
+      <label><input type="checkbox"> Hélices</label>
+      <label><input type="checkbox"> Tampa do gimbal</label>
+      <label><input type="checkbox"> Bateria</label>
+      <label><input type="checkbox"> Local seguro</label>
+      <label><input type="checkbox"> Ligar equipamentos</label>
+      <label><input type="checkbox"> RTH</label>
+      <label><input type="checkbox"> Satélites</label>
+      <label><input type="checkbox"> Aviso equipe</label>
+      <label><input type="checkbox"> Motores</label>
 
-    <label class="signature-check">
-      <input type="checkbox" id="earlyEndConfirm" required>
-      Confirmo o encerramento antecipado
-    </label>
+      <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase2')">
+        Encerrar checklist
+      </button>
 
-    <button type="submit">Confirmar Encerramento</button>
-  </form>
-</section>
+      <button type="submit">Avançar</button>
+    </form>
+  </section>
+
+  <!-- FASE 3 -->
+  <section id="phase3" class="screen">
+    <h2>Fase 3 – Voo</h2>
+    <form id="phase3Form" class="checklist">
+      <label><input type="checkbox"> Vigilância aérea</label>
+      <label><input type="checkbox"> Aproximação</label>
+      <label><input type="checkbox"> Clima</label>
+      <label><input type="checkbox"> Obstáculos</label>
+      <label><input type="checkbox"> Aviso pouso</label>
+      <label><input type="checkbox"> Pouso correto</label>
+      <label><input type="checkbox"> Corte motores</label>
+      <label><input type="checkbox"> Desligamento</label>
+
+      <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase3')">
+        Encerrar checklist
+      </button>
+
+      <button type="submit">Avançar</button>
+    </form>
+  </section>
+
+  <!-- FASE 4 -->
+  <section id="phase4" class="screen">
+    <h2>Fase 4 – Pós-Voo</h2>
+    <form id="phase4Form" class="checklist">
+      <label><input type="checkbox"> Retirar bateria</label>
+      <label><input type="checkbox"> Trava do gimbal</label>
+      <label><input type="checkbox"> Guardar aeronave</label>
+      <label><input type="checkbox"> Cartão</label>
+      <label><input type="checkbox"> Integridade</label>
+      <label><input type="checkbox"> Comunicação</label>
+
+      <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase4')">
+        Encerrar checklist
+      </button>
+
+      <button type="submit">Avançar</button>
+    </form>
+  </section>
+
+  <!-- FASE 5 -->
+  <section id="phase5" class="screen">
+    <h2>Fase 5 – Pós-Missão</h2>
+    <form id="phase5Form" class="checklist">
+      <label><input type="checkbox"> Guarda imagens</label>
+      <label><input type="checkbox"> Registro</label>
+      <label><input type="checkbox"> Chefia</label>
+      <label><input type="checkbox"> Intercorrências</label>
+      <label><input type="checkbox"> Encerrar missão</label>
+
+      <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase5')">
+        Encerrar checklist
+      </button>
+
+      <button type="submit">Finalizar Checklist</button>
+    </form>
+  </section>
+
+  <!-- FINAL – ASSINATURA -->
+  <section id="pdfScreen" class="screen">
+    <h2>Encerramento do Checklist</h2>
+
+    <p>
+      Declaro que executei integralmente o checklist operacional RPAS conforme
+      a doutrina vigente da Polícia Civil de Santa Catarina.
+    </p>
+
+    <form id="signatureForm">
+
+      <label for="operatorNotes">
+        Observações discricionárias do operador (opcional)
+      </label>
+      <textarea
+        id="operatorNotes"
+        placeholder="Descreva aqui qualquer observação relevante sobre a missão, intercorrências ou encerramento."
+        rows="4"
+        class="form-input"
+      ></textarea>
+
+      <input
+        id="signatureName"
+        placeholder="Nome do Operador"
+        required
+        class="form-input"
+      >
+
+      <input
+        id="signatureId"
+        placeholder="Matrícula Funcional"
+        required
+        class="form-input"
+      >
+
+      <label class="signature-check">
+        <input type="checkbox" id="signatureConfirm" required>
+        Confirmo a veracidade das informações
+      </label>
+
+      <button type="submit">Assinar e Gerar PDF</button>
+    </form>
+  </section>
+
+  <!-- ENCERRAMENTO ANTECIPADO -->
+  <section id="earlyEndScreen" class="screen">
+    <h2>Encerramento Antecipado do Checklist</h2>
+    <p>
+      O encerramento antecipado deverá ser devidamente justificado e ficará
+      registrado para fins administrativos e de auditoria.
+    </p>
+
+    <form id="earlyEndForm">
+      <textarea
+        id="earlyEndReason"
+        placeholder="Descreva o motivo do encerramento antecipado"
+        rows="5"
+        required></textarea>
+
+      <label class="signature-check">
+        <input type="checkbox" id="earlyEndConfirm" required>
+        Confirmo o encerramento antecipado
+      </label>
+
+      <button type="submit">Confirmar Encerramento</button>
+    </form>
+  </section>
 
 </main>
 
