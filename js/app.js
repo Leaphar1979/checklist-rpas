@@ -9,7 +9,7 @@ const checklistSession = {
     checklistName: "Checklist Operacional RPAS",
     institution: "PCSC / SAER / NOARP",
     doctrine: "COARP",
-    version: "v1.4",
+    version: "v1.5",
     startTime: null,
     endTime: null,
     pilot: "",
@@ -19,6 +19,7 @@ const checklistSession = {
     missionType: "",
     signatureName: "",
     signatureId: "",
+    operatorNotes: "",
     hash: "",
 
     /* ===== ENCERRAMENTO ANTECIPADO ===== */
@@ -56,8 +57,6 @@ function startChecklist() {
 
 /* ===== ENCERRAMENTO ANTECIPADO ===== */
 function goToEarlyEnd(phase) {
-  console.log("Encerramento antecipado solicitado na fase:", phase);
-
   checklistSession.metadata.endedEarly = true;
   checklistSession.metadata.endedAtPhase = phase;
 
@@ -82,7 +81,6 @@ async function gerarHashSHA256(data) {
 /* ===== DOM READY ===== */
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* Splash */
   document.getElementById("startBtn")
     ?.addEventListener("click", startChecklist);
 
@@ -143,23 +141,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /* ===== ENCERRAMENTO ANTECIPADO – FORM ===== */
+  /* ===== ENCERRAMENTO ANTECIPADO ===== */
   document.getElementById("earlyEndForm")
     ?.addEventListener("submit", async e => {
       e.preventDefault();
 
-      const reason =
+      checklistSession.metadata.earlyEndReason =
         document.getElementById("earlyEndReason").value.trim();
-      const confirm =
-        document.getElementById("earlyEndConfirm").checked;
+      checklistSession.metadata.endTime =
+        new Date().toISOString();
 
-      if (!reason || !confirm) {
-        alert("Informe o motivo e confirme o encerramento antecipado.");
-        return;
-      }
-
-      checklistSession.metadata.earlyEndReason = reason;
-      checklistSession.metadata.endTime = new Date().toISOString();
+      checklistSession.metadata.operatorNotes =
+        document.getElementById("operatorNotes")?.value.trim() || "";
 
       checklistSession.metadata.hash =
         await gerarHashSHA256(checklistSession);
@@ -172,25 +165,18 @@ document.addEventListener("DOMContentLoaded", () => {
       gerarPDF(checklistSession);
     });
 
-  /* ===== ASSINATURA + PDF (FLUXO NORMAL) ===== */
+  /* ===== FLUXO NORMAL ===== */
   document.getElementById("signatureForm")
     ?.addEventListener("submit", async e => {
       e.preventDefault();
 
-      const name =
+      checklistSession.metadata.signatureName =
         document.getElementById("signatureName").value.trim();
-      const id =
+      checklistSession.metadata.signatureId =
         document.getElementById("signatureId").value.trim();
-      const confirm =
-        document.getElementById("signatureConfirm").checked;
 
-      if (!name || !id || !confirm) {
-        alert("Preencha e confirme a assinatura.");
-        return;
-      }
-
-      checklistSession.metadata.signatureName = name;
-      checklistSession.metadata.signatureId = id;
+      checklistSession.metadata.operatorNotes =
+        document.getElementById("operatorNotes").value.trim();
 
       checklistSession.metadata.hash =
         await gerarHashSHA256(checklistSession);
@@ -253,8 +239,21 @@ function gerarPDF(data) {
       y+=10;
     }
 
+    if (data.metadata.operatorNotes) {
+      pdf.setFontSize(12);
+      pdf.text("Observações do Operador", 20, y); y+=6;
+      pdf.setFontSize(10);
+      pdf.text(
+        data.metadata.operatorNotes,
+        20,
+        y,
+        { maxWidth: 170 }
+      );
+      y+=10;
+    }
+
     pdf.setFontSize(10);
-    pdf.text(`Hash SHA-256:`, 20, y); y+=6;
+    pdf.text("Hash SHA-256:", 20, y); y+=6;
     pdf.setFontSize(8);
     pdf.text(data.metadata.hash, 20, y, { maxWidth: 170 });
 
