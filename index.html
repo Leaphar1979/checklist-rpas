@@ -4,8 +4,18 @@
   <meta charset="UTF-8" />
   <title>Checklist Operacional RPAS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- ✅ PWA / iOS -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#000000">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Checklist RPAS">
+
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
@@ -25,14 +35,11 @@
 
   <!-- SPLASH -->
   <section id="splash" class="screen active">
-
-    <!-- ✅ LOGO NOARP (apenas aqui) -->
     <img
       src="assets/logos/noarp.png"
       alt="NOARP"
       style="display:block;margin:10px auto 14px auto;width:72%;max-width:260px;height:auto;"
     >
-
     <h1>Checklist Operacional RPAS</h1>
     <p class="subtitle">COARP · NOARP · SAER · PCSC</p>
     <button id="startBtn">Iniciar Checklist</button>
@@ -193,10 +200,7 @@
     </p>
 
     <form id="signatureForm">
-
-      <label for="operatorNotes">
-        Observações discricionárias do operador (opcional)
-      </label>
+      <label for="operatorNotes">Observações discricionárias do operador (opcional)</label>
       <textarea
         id="operatorNotes"
         placeholder="Descreva aqui qualquer observação relevante sobre a missão, intercorrências ou encerramento."
@@ -204,19 +208,8 @@
         class="form-input"
       ></textarea>
 
-      <input
-        id="signatureName"
-        placeholder="Nome do Operador"
-        required
-        class="form-input"
-      >
-
-      <input
-        id="signatureId"
-        placeholder="Matrícula Funcional"
-        required
-        class="form-input"
-      >
+      <input id="signatureName" placeholder="Nome do Operador" required class="form-input">
+      <input id="signatureId" placeholder="Matrícula Funcional" required class="form-input">
 
       <label class="signature-check">
         <input type="checkbox" id="signatureConfirm" required>
