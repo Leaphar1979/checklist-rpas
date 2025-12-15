@@ -9,7 +9,7 @@ const checklistSession = {
     checklistName: "Checklist Operacional RPAS",
     institution: "PCSC / SAER / NOARP",
     doctrine: "COARP",
-    version: "v1.6",
+    version: "v1.7",
     startTime: null,
     endTime: null,
     pilot: "",
@@ -286,7 +286,7 @@ async function gerarPDF(data) {
 
   let y = titleY + 12;
 
-  /* DADOS com data BR */
+  /* DADOS */
   pdf.setFontSize(10);
   pdf.text(`Piloto Remoto: ${data.metadata.pilot}`, 20, y); y += 6;
   pdf.text(`Observador: ${data.metadata.observer}`, 20, y); y += 6;
@@ -297,7 +297,22 @@ async function gerarPDF(data) {
   pdf.text(`Início: ${formatDateBR(data.metadata.startTime)}`, 20, y); y += 6;
   pdf.text(`Término: ${formatDateBR(data.metadata.endTime)}`, 20, y); y += 10;
 
-  /* Encerramento antecipado com FASE em texto */
+  /* STATUS DAS FASES (novo A4) */
+  pdf.setFontSize(12);
+  pdf.text("Status das Fases", 20, y); y += 6;
+
+  pdf.setFontSize(10);
+  ["phase1","phase2","phase3","phase4","phase5"].forEach(k => {
+    const info = data.phases?.[k] || { completed: false, completedAt: null };
+    const status = info.completed ? "CONCLUÍDA" : "NÃO CONCLUÍDA";
+    const when = info.completedAt ? ` (${formatDateBR(info.completedAt)})` : "";
+    pdf.text(`${phaseLabel(k)} — ${status}${when}`, 20, y, { maxWidth: 170 });
+    y += 6;
+  });
+
+  y += 6;
+
+  /* Encerramento antecipado */
   if (data.metadata.endedEarly) {
     pdf.setFontSize(12);
     pdf.text("ENCERRAMENTO ANTECIPADO", 20, y); y += 6;
