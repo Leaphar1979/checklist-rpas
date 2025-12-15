@@ -81,6 +81,7 @@ async function gerarHashSHA256(data) {
 /* ===== DOM READY ===== */
 document.addEventListener("DOMContentLoaded", () => {
 
+  /* Splash */
   document.getElementById("startBtn")
     ?.addEventListener("click", startChecklist);
 
@@ -119,8 +120,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const ok = [...form.querySelectorAll("input[type='checkbox']")]
         .every(cb => cb.checked);
 
-      if (!ok)
-        return alert(`Conclua todos os itens da ${phase.toUpperCase()}.`);
+      if (!ok) {
+        alert(`Conclua todos os itens da ${phase.toUpperCase()}.`);
+        return;
+      }
 
       checklistSession.phases[phase].completed = true;
       checklistSession.phases[phase].completedAt =
@@ -138,6 +141,16 @@ document.addEventListener("DOMContentLoaded", () => {
         "checklistRPAS_session",
         JSON.stringify(checklistSession)
       );
+    });
+  });
+
+  /* ===== BOTÕES "ENCERRAR CHECKLIST" (TODAS AS FASES) ===== */
+  document.querySelectorAll(".btn-early-end").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.preventDefault();
+      const phase = btn.getAttribute("data-phase");
+      if (!phase) return;
+      goToEarlyEnd(phase);
     });
   });
 
@@ -174,9 +187,11 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("signatureName").value.trim();
       checklistSession.metadata.signatureId =
         document.getElementById("signatureId").value.trim();
-
       checklistSession.metadata.operatorNotes =
         document.getElementById("operatorNotes").value.trim();
+
+      checklistSession.metadata.endTime =
+        new Date().toISOString();
 
       checklistSession.metadata.hash =
         await gerarHashSHA256(checklistSession);
@@ -197,85 +212,83 @@ function gerarPDF(data) {
   const pdf = new jsPDF();
 
   const pageWidth = pdf.internal.pageSize.getWidth();
-  const pageHeight = pdf.internal.pageSize.getHeight();
+  let y = 85;
 
   /* ===== CABEÇALHO INSTITUCIONAL ===== */
-  const drawHeader = () => {
-    const logoSize = 22;
-    const logoX = (pageWidth - logoSize) / 2;
-    const logoY = 10;
+  const logoSize = 22;
+  const logoX = (pageWidth - logoSize) / 2;
 
-    const logo = document.getElementById("pcscLogoPDF");
-    pdf.addImage(logo, "PNG", logoX, logoY, logoSize, logoSize);
+  const img = new Image();
+  img.onload = () => {
 
-    let textY = logoY + logoSize + 6;
+    pdf.addImage(img, "PNG", logoX, 15, logoSize, logoSize);
 
     pdf.setFontSize(10);
-    pdf.text("ESTADO DE SANTA CATARINA", pageWidth / 2, textY, { align: "center" });
-    textY += 5;
-    pdf.text("POLÍCIA CIVIL", pageWidth / 2, textY, { align: "center" });
-    textY += 5;
-    pdf.text("DELEGACIA GERAL", pageWidth / 2, textY, { align: "center" });
-    textY += 5;
+    pdf.text("ESTADO DE SANTA CATARINA", pageWidth / 2, 45, { align: "center" });
+    pdf.text("POLÍCIA CIVIL", pageWidth / 2, 51, { align: "center" });
+    pdf.text("DELEGACIA GERAL", pageWidth / 2, 57, { align: "center" });
     pdf.text(
       "NÚCLEO DE OPERAÇÕES AÉREAS REMOTAMENTE PILOTADAS",
       pageWidth / 2,
-      textY,
+      63,
       { align: "center" }
     );
+
+    /* ===== CONTEÚDO ===== */
+    pdf.setFontSize(12);
+    pdf.text("CHECKLIST OPERACIONAL RPAS", pageWidth / 2, 75, {
+      align: "center"
+    });
+
+    pdf.setFontSize(10);
+    pdf.text(`Piloto: ${data.metadata.pilot}`, 20, y); y+=6;
+    pdf.text(`Unidade: ${data.metadata.unit}`, 20, y); y+=6;
+    pdf.text(`Início: ${data.metadata.startTime}`, 20, y); y+=6;
+    pdf.text(`Término: ${data.metadata.endTime}`, 20, y); y+=10;
+
+    if (data.metadata.endedEarly) {
+      pdf.setFontSize(12);
+      pdf.text("ENCERRAMENTO ANTECIPADO", 20, y); y+=6;
+      pdf.setFontSize(10);
+      pdf.text(`Fase: ${data.metadata.endedAtPhase}`, 20, y); y+=6;
+      pdf.text(
+        `Motivo: ${data.metadata.earlyEndReason}`,
+        20,
+        y,
+        { maxWidth: 170 }
+      );
+      y+=10;
+    }
+
+    if (data.metadata.operatorNotes) {
+      pdf.setFontSize(12);
+      pdf.text("Observações do Operador", 20, y); y+=6;
+      pdf.setFontSize(10);
+      pdf.text(
+        data.metadata.operatorNotes,
+        20,
+        y,
+        { maxWidth: 170 }
+      );
+      y+=10;
+    }
+
+    pdf.setFontSize(10);
+    pdf.text("Hash SHA-256:", 20, y); y+=6;
+    pdf.setFontSize(8);
+    pdf.text(data.metadata.hash, 20, y, { maxWidth: 170 });
+
+    /* ===== RODAPÉ ===== */
+    pdf.setFontSize(7);
+    pdf.text(
+      "Centro Administrativo da SSP, Bloco B - Av. Gov. Ivo Silveira, 1521 - Capoeiras, Florianópolis - SC | CEP 88085-000 | Fone: (48) 3665-8488 | www.pc.sc.gov.br",
+      pageWidth / 2,
+      287,
+      { align: "center", maxWidth: 180 }
+    );
+
+    pdf.save("Checklist_Operacional_RPAS.pdf");
   };
 
-  drawHeader();
-
-  let y = 80;
-
-  pdf.setFontSize(10);
-  pdf.text(`Piloto: ${data.metadata.pilot}`, 20, y); y+=6;
-  pdf.text(`Unidade: ${data.metadata.unit}`, 20, y); y+=6;
-  pdf.text(`Início: ${data.metadata.startTime}`, 20, y); y+=6;
-  pdf.text(`Término: ${data.metadata.endTime}`, 20, y); y+=10;
-
-  if (data.metadata.endedEarly) {
-    pdf.setFontSize(12);
-    pdf.text("ENCERRAMENTO ANTECIPADO", 20, y); y+=6;
-    pdf.setFontSize(10);
-    pdf.text(`Fase: ${data.metadata.endedAtPhase}`, 20, y); y+=6;
-    pdf.text(
-      `Motivo: ${data.metadata.earlyEndReason}`,
-      20,
-      y,
-      { maxWidth: 170 }
-    );
-    y+=10;
-  }
-
-  if (data.metadata.operatorNotes) {
-    pdf.setFontSize(12);
-    pdf.text("Observações do Operador", 20, y); y+=6;
-    pdf.setFontSize(10);
-    pdf.text(
-      data.metadata.operatorNotes,
-      20,
-      y,
-      { maxWidth: 170 }
-    );
-    y+=10;
-  }
-
-  pdf.setFontSize(10);
-  pdf.text("Hash SHA-256:", 20, y); y+=6;
-  pdf.setFontSize(8);
-  pdf.text(data.metadata.hash, 20, y, { maxWidth: 170 });
-
-  /* ===== RODAPÉ INSTITUCIONAL ===== */
-  const footerY = pageHeight - 18;
-  pdf.setFontSize(8);
-  pdf.text(
-    "Centro Administrativo da SSP, Bloco B – Av. Gov. Ivo Silveira, 1521 – Capoeiras, Florianópolis – SC | CEP 88085-000 | Fone: (48) 3665-8488 | www.pc.sc.gov.br",
-    pageWidth / 2,
-    footerY,
-    { align: "center", maxWidth: 180 }
-  );
-
-  pdf.save("Checklist_Operacional_RPAS.pdf");
+  img.src = "assets/logos/pcsc.png";
 }
