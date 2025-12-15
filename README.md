@@ -1,129 +1,88 @@
 # Checklist Operacional RPAS
 
-**COARP · NOARP · SAER · PCSC**
-
----
+COARP · NOARP · SAER · PCSC
 
 ## 📌 Finalidade
 
-Este repositório contém um **WebApp institucional** destinado à execução e ao registro do **Checklist Operacional de Aeronaves Remotamente Pilotadas (RPAS)** no âmbito da **Polícia Civil de Santa Catarina**.
+Este aplicativo (PWA) é uma ferramenta **institucional** destinada à execução e ao registro do **Checklist Operacional de Aeronaves Remotamente Pilotadas (RPAS)** no âmbito da Polícia Civil de Santa Catarina.
 
-O aplicativo foi desenvolvido como **ferramenta de apoio operacional**, com foco em:
+Objetivos principais:
+- padronizar a execução do checklist operacional;
+- registrar temporalmente as fases e o encerramento;
+- fortalecer a cadeia de custódia digital do procedimento;
+- gerar relatório em PDF para registro e controle administrativo.
 
-- padronização da execução do checklist;
-- redução de erro humano durante a operação;
-- registro temporal das fases do procedimento;
-- cadeia de custódia digital do checklist;
-- geração de documento institucional (PDF) para fins de registro administrativo e controle interno.
+## ✅ Acesso ao Aplicativo (PWA)
 
-🔗 **Acesso ao aplicativo:**  
-👉 https://leaphar1979.github.io/checklist-rpas/
+Acesse pelo navegador e, se desejado, instale na tela inicial (modo aplicativo):
 
----
+**Acesso:** https://leaphar1979.github.io/checklist-rpas/
 
-## ⚖️ Base Normativa e Legal
+## ⚖️ Base Normativa
 
-O conteúdo do checklist segue **integralmente**, sem supressão, criação ou modificação de itens, a doutrina e as normativas vigentes, em especial:
+O conteúdo do checklist segue **integralmente** a doutrina e as normativas vigentes, **sem supressão ou criação de itens**, em especial:
 
-- **Resolução nº 05/GAB/DGPC/PCSC**, de 03 de março de 2023  
-  *(Publicada no DOE nº 21.975, de 08/03/2023)*  
-  — Regulamenta o uso de Aeronaves Remotamente Pilotadas (RPAS) no âmbito da Polícia Civil de Santa Catarina e institui o NOARP;
+- **Resolução nº 05/GAB/DGPC/PCSC, de 03 de março de 2023** (publicada no DOE 21975 de 08/03/2023);
+- Doutrina COARP – Curso de Operador de Aeronaves Remotamente Pilotadas;
+- Diretrizes NOARP / SAER / PCSC;
+- Normas ANAC, DECEA e ANATEL aplicáveis ao uso de RPAS.
 
-- **Doutrina COARP** — Curso de Operador de Aeronaves Remotamente Pilotadas;
-
-- Diretrizes operacionais do **NOARP / SAER / PCSC**;
-
-- Normas aplicáveis da **ANAC**, **DECEA** e **ANATEL**, relativas ao uso do espaço aéreo, segurança operacional e telecomunicações.
-
-⚠️ **Este aplicativo não substitui, altera ou cria normas operacionais**, servindo exclusivamente como instrumento de apoio à execução da doutrina vigente.
-
----
+⚠️ Este aplicativo **não substitui** normas operacionais, **não cria** doutrina e **não autoriza voo**.
 
 ## 🧭 Responsabilidade Operacional
 
-Este aplicativo **não autoriza voo**.
+A decisão de decolagem, condução da missão e pouso é **exclusiva do Piloto em Comando**, que permanece integralmente responsável pela operação da aeronave, nos termos da legislação e da doutrina vigente.
 
-A decisão de decolagem, condução da missão e pouso é **exclusiva do Piloto em Comando**, que permanece integralmente responsável pela operação da aeronave, nos termos da legislação aeronáutica, da doutrina institucional e das normas internas da PCSC.
-
----
-
-## 🔢 Numeração Oficial do Checklist
-
-A numeração oficial dos itens do checklist:
-
-- é preservada internamente no sistema, para fins de rastreabilidade e auditoria;
-- pode ser exibida nos documentos técnicos (PDF);
-- pode não ser exibida na interface do aplicativo, por decisão de usabilidade.
-
-Essa opção **não altera conteúdo, ordem ou doutrina**, tendo como único objetivo melhorar a clareza visual e reduzir erro humano durante a execução operacional.
-
----
-
-## 🗂️ Cadeia de Custódia Digital
+## 🗂️ Cadeia de Custódia Digital e Integridade
 
 O aplicativo registra automaticamente:
-
-- data e hora de início do checklist;
+- data/hora de início;
 - identificação da missão;
-- data e hora de conclusão de cada fase;
-- encerramento formal do procedimento;
-- declaração final de cumprimento integral do checklist;
-- assinatura do operador;
-- hash criptográfico (SHA-256) para garantia de integridade.
+- conclusão de cada fase (quando aplicável);
+- encerramento (normal ou antecipado, com justificativa);
+- declaração final do operador;
+- hash SHA-256 do registro (integridade).
 
-Esses dados são utilizados para a geração de **PDF institucional**, destinado exclusivamente a registro administrativo, controle interno e eventual auditoria.
+O relatório PDF é gerado para **uso administrativo interno**, conforme diretrizes institucionais.
 
----
+## 🔢 Numeração do Checklist
 
-## 🛠️ Tecnologias Utilizadas
+A numeração oficial:
+- é preservada internamente para rastreabilidade/auditoria;
+- pode ser exibida no PDF quando necessário;
+- pode não ser exibida na interface por decisão de usabilidade, sem alterar conteúdo, ordem ou doutrina.
 
-- HTML5
-- CSS3
-- JavaScript (Vanilla)
-- Web Crypto API (SHA-256)
-- jsPDF (geração de PDF)
-- Armazenamento local (localStorage)
+## 🔒 Uso Institucional e Restrições
 
-O projeto é compatível com:
+Uso **exclusivamente institucional** (NOARP/SAER/PCSC).
 
-- celular (Android / iOS);
-- tablet;
-- computador (desktop).
+É **vedado**:
+- divulgar externamente;
+- compartilhar arquivos/relatórios fora dos canais autorizados;
+- reproduzir, modificar ou distribuir o aplicativo sem autorização formal da gestão competente.
 
----
+## 🛠️ Tecnologias
 
-## 🚧 Status do Projeto
+- HTML5, CSS3, JavaScript (Vanilla)
+- jsPDF (PDF)
+- localStorage (armazenamento local)
+- PWA (Service Worker + Manifest)
 
-- ✔ Checklist operacional completo
-- ✔ Fluxo de fases implementado
-- ✔ Cadeia de custódia digital funcional
-- ✔ Assinatura do operador
-- ✔ Hash de integridade (SHA-256)
-- ✔ Geração de PDF institucional
-- 🚧 PWA instalável (em fase final de implementação)
+Compatível com:
+- Android / iOS (Safari / Chrome)
+- tablet
+- computador
 
----
+## 👤 Contato do Desenvolvedor
 
-## 🔒 Licença e Uso Institucional
+Desenvolvedor: **Agente de Polícia (PCSC)**  
+Contato (Telegram): **@Leapharr**
 
-Este repositório e o aplicativo dele derivado destinam-se **exclusivamente ao uso institucional da Polícia Civil de Santa Catarina**, em especial no âmbito do **NOARP / SAER**.
+## 📄 Atualizações
 
-🔴 **É vedada** a reprodução, redistribuição, adaptação, compartilhamento externo ou uso por terceiros **sem autorização formal da gestão competente**.
-
-🔴 O conteúdo operacional não poderá ser alterado sem respaldo normativo ou orientação institucional expressa.
-
-📄 **Licença:**  
-Creative Commons **CC BY-NC-ND 4.0**  
-(Atribuição · Uso Não Comercial · Vedada a Criação de Obras Derivadas)
-
----
-
-## 📄 Observação Final
-
-Este projeto poderá sofrer atualizações futuras **exclusivamente** para:
-
+O projeto poderá sofrer atualizações futuras, exclusivamente para:
 - adequação a novas versões da doutrina;
 - melhorias de usabilidade;
-- correções técnicas ou de segurança.
+- correções técnicas.
 
-Qualquer alteração de conteúdo operacional dependerá de **orientação formal da gestão competente**.
+Qualquer alteração de conteúdo operacional dependerá de orientação formal da gestão competente.
