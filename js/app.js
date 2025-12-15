@@ -9,7 +9,7 @@ const checklistSession = {
     checklistName: "Checklist Operacional RPAS",
     institution: "PCSC / SAER / NOARP",
     doctrine: "COARP",
-    version: "v1.6",
+    version: "v1.6.1",
     startTime: null,
     endTime: null,
     pilot: "",
@@ -36,17 +36,34 @@ const checklistSession = {
   }
 };
 
-/* ===== NAVEGAÇÃO ===== */
+/* ===== UTIL ===== */
+function persist() {
+  localStorage.setItem("checklistRPAS_session", JSON.stringify(checklistSession));
+}
+
 function showScreen(screenId) {
-  document.querySelectorAll(".screen").forEach(s =>
-    s.classList.remove("active")
-  );
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   document.getElementById(screenId)?.classList.add("active");
 }
 
 /* ===== INÍCIO ===== */
 function startChecklist() {
   checklistSession.metadata.startTime = new Date().toISOString();
+  checklistSession.metadata.endTime = null;
+  checklistSession.metadata.endedEarly = false;
+  checklistSession.metadata.endedAtPhase = null;
+  checklistSession.metadata.earlyEndReason = "";
+  checklistSession.metadata.signatureName = "";
+  checklistSession.metadata.signatureId = "";
+  checklistSession.metadata.operatorNotes = "";
+  checklistSession.metadata.hash = "";
+
+  // reset fases
+  Object.keys(checklistSession.phases).forEach(p => {
+    checklistSession.phases[p].completed = false;
+    checklistSession.phases[p].completedAt = null;
+  });
+
   persist();
   showScreen("mission");
 }
@@ -58,6 +75,8 @@ function goToEarlyEnd(phase) {
   persist();
   showScreen("earlyEndScreen");
 }
+// garante funcionar com onclick inline no HTML
+window.goToEarlyEnd = goToEarlyEnd;
 
 /* ===== HASH ===== */
 async function gerarHashSHA256(data) {
@@ -69,33 +88,25 @@ async function gerarHashSHA256(data) {
     .join("");
 }
 
-function persist() {
-  localStorage.setItem(
-    "checklistRPAS_session",
-    JSON.stringify(checklistSession)
-  );
-}
-
-/* ===== DOM ===== */
+/* ===== DOM READY ===== */
 document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("startBtn")?.addEventListener("click", startChecklist);
 
-  document.getElementById("startBtn")
-    ?.addEventListener("click", startChecklist);
+  /* Missão */
+  document.getElementById("missionForm")?.addEventListener("submit", e => {
+    e.preventDefault();
 
-  document.getElementById("missionForm")
-    ?.addEventListener("submit", e => {
-      e.preventDefault();
+    checklistSession.metadata.pilot = document.getElementById("pilot").value;
+    checklistSession.metadata.observer = document.getElementById("observer").value;
+    checklistSession.metadata.unit = document.getElementById("unit").value;
+    checklistSession.metadata.rpas = document.getElementById("rpas").value;
+    checklistSession.metadata.missionType = document.getElementById("missionType").value;
 
-      checklistSession.metadata.pilot = pilot.value;
-      checklistSession.metadata.observer = observer.value;
-      checklistSession.metadata.unit = unit.value;
-      checklistSession.metadata.rpas = rpas.value;
-      checklistSession.metadata.missionType = missionType.value;
+    persist();
+    showScreen("phase1");
+  });
 
-      persist();
-      showScreen("phase1");
-    });
-
+  /* Fases */
   ["phase1","phase2","phase3","phase4","phase5"].forEach((phase, i) => {
     const form = document.getElementById(`${phase}Form`);
     if (!form) return;
@@ -106,82 +117,96 @@ document.addEventListener("DOMContentLoaded", () => {
       const ok = [...form.querySelectorAll("input[type='checkbox']")]
         .every(cb => cb.checked);
 
-      if (!ok)
-        return alert(`Conclua todos os itens da ${phase.toUpperCase()}.`);
+      if (!ok) {
+        alert(`Conclua todos os itens da ${phase.toUpperCase()}.`);
+        return;
+      }
 
       checklistSession.phases[phase].completed = true;
       checklistSession.phases[phase].completedAt = new Date().toISOString();
 
+      persist();
+
       if (phase === "phase5") {
         checklistSession.metadata.endTime = new Date().toISOString();
+        persist();
         showScreen("pdfScreen");
       } else {
         showScreen(`phase${i + 2}`);
       }
-
-      persist();
     });
   });
 
-  document.getElementById("confirmEarlyEndBtn")
-    ?.addEventListener("click", async () => {
+  /* Encerramento antecipado: AGORA GERA PDF */
+  document.getElementById("earlyEndForm")?.addEventListener("submit", async e => {
+    e.preventDefault();
 
-      const reason = earlyEndReason.value.trim();
-      if (!reason || !earlyEndConfirm.checked) {
-        alert("Informe o motivo e confirme o encerramento.");
-        return;
-      }
+    const reasonEl = document.getElementById("earlyEndReason");
+    const confirmEl = document.getElementById("earlyEndConfirm");
 
-      checklistSession.metadata.earlyEndReason = reason;
-      checklistSession.metadata.endTime = new Date().toISOString();
-      checklistSession.metadata.operatorNotes =
-        operatorNotes?.value.trim() || "";
+    const reason = (reasonEl?.value || "").trim();
+    const confirm = !!confirmEl?.checked;
 
-      checklistSession.metadata.hash =
-        await gerarHashSHA256(checklistSession);
+    if (!reason || !confirm) {
+      alert("Informe o motivo e confirme o encerramento antecipado.");
+      return;
+    }
 
-      persist();
-      gerarPDF(checklistSession);
-    });
+    checklistSession.metadata.earlyEndReason = reason;
+    checklistSession.metadata.endTime = new Date().toISOString();
 
-  document.getElementById("confirmSignatureBtn")
-    ?.addEventListener("click", async () => {
+    // Observações (opcional) — só existe na tela final normal, então pode vir vazio
+    checklistSession.metadata.operatorNotes =
+      (document.getElementById("operatorNotes")?.value || "").trim();
 
-      if (!signatureConfirm.checked) {
-        alert("Confirme a assinatura.");
-        return;
-      }
+    checklistSession.metadata.hash = await gerarHashSHA256(checklistSession);
 
-      checklistSession.metadata.signatureName = signatureName.value.trim();
-      checklistSession.metadata.signatureId = signatureId.value.trim();
-      checklistSession.metadata.operatorNotes = operatorNotes.value.trim();
-      checklistSession.metadata.endTime = new Date().toISOString();
+    persist();
+    gerarPDF(checklistSession);
+  });
 
-      checklistSession.metadata.hash =
-        await gerarHashSHA256(checklistSession);
+  /* Fluxo normal: assinatura + PDF */
+  document.getElementById("signatureForm")?.addEventListener("submit", async e => {
+    e.preventDefault();
 
-      persist();
-      gerarPDF(checklistSession);
-    });
+    const name = (document.getElementById("signatureName")?.value || "").trim();
+    const id = (document.getElementById("signatureId")?.value || "").trim();
+    const confirm = !!document.getElementById("signatureConfirm")?.checked;
+
+    if (!name || !id || !confirm) {
+      alert("Preencha Nome, Matrícula e confirme a veracidade.");
+      return;
+    }
+
+    checklistSession.metadata.signatureName = name;
+    checklistSession.metadata.signatureId = id;
+    checklistSession.metadata.operatorNotes =
+      (document.getElementById("operatorNotes")?.value || "").trim();
+
+    // se ainda não tinha endTime (por algum motivo), define aqui
+    checklistSession.metadata.endTime = checklistSession.metadata.endTime || new Date().toISOString();
+
+    checklistSession.metadata.hash = await gerarHashSHA256(checklistSession);
+
+    persist();
+    gerarPDF(checklistSession);
+  });
 });
 
-/* ===== PDF ===== */
+/* ===== PDF INSTITUCIONAL (com cabeçalho + rodapé) ===== */
 function gerarPDF(data) {
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF();
   const pageWidth = pdf.internal.pageSize.getWidth();
-  let y = 70;
+  const pageHeight = pdf.internal.pageSize.getHeight();
 
-  /* LOGO PCSC */
-  const logo = new Image();
-  logo.src = "assets/logos/pcsc.png";
-  logo.onload = () => {
-    pdf.addImage(logo, "PNG", pageWidth / 2 - 12, 10, 24, 24);
-    render();
-  };
+  const footerText =
+    "Centro Administrativo da SSP, Bloco B - Av. Gov. Ivo Silveira, 1521 - Capoeiras, Florianópolis - SC | CEP 88085-000 | Fone: (48) 3665-8488 | www.pc.sc.gov.br";
 
-  function render() {
+  function renderConteudo() {
+    let y = 78;
 
+    // Cabeçalho institucional (texto aprovado)
     pdf.setFontSize(10);
     pdf.text("ESTADO DE SANTA CATARINA", pageWidth / 2, 42, { align: "center" });
     pdf.text("POLÍCIA CIVIL", pageWidth / 2, 48, { align: "center" });
@@ -193,44 +218,70 @@ function gerarPDF(data) {
       { align: "center" }
     );
 
+    // Título
     pdf.setFontSize(14);
-    pdf.text("CHECKLIST OPERACIONAL RPAS", pageWidth / 2, y, { align: "center" });
-    y += 10;
+    pdf.text("CHECKLIST OPERACIONAL RPAS", pageWidth / 2, 72, { align: "center" });
 
     pdf.setFontSize(10);
-    pdf.text(`Piloto: ${data.metadata.pilot}`, 20, y); y+=6;
-    pdf.text(`Unidade: ${data.metadata.unit}`, 20, y); y+=6;
-    pdf.text(`Início: ${data.metadata.startTime}`, 20, y); y+=6;
-    pdf.text(`Término: ${data.metadata.endTime}`, 20, y); y+=10;
+    pdf.text(`Piloto Remoto: ${data.metadata.pilot}`, 20, y); y += 6;
+    pdf.text(`Observador: ${data.metadata.observer}`, 20, y); y += 6;
+    pdf.text(`Unidade: ${data.metadata.unit}`, 20, y); y += 6;
+    pdf.text(`RPAS: ${data.metadata.rpas}`, 20, y); y += 6;
+    pdf.text(`Tipo de Missão: ${data.metadata.missionType}`, 20, y); y += 6;
+    pdf.text(`Início: ${data.metadata.startTime}`, 20, y); y += 6;
+    pdf.text(`Término: ${data.metadata.endTime}`, 20, y); y += 10;
 
     if (data.metadata.endedEarly) {
       pdf.setFontSize(12);
-      pdf.text("ENCERRAMENTO ANTECIPADO", 20, y); y+=6;
+      pdf.text("ENCERRAMENTO ANTECIPADO", 20, y); y += 6;
       pdf.setFontSize(10);
-      pdf.text(`Fase: ${data.metadata.endedAtPhase}`, 20, y); y+=6;
+      pdf.text(`Fase: ${data.metadata.endedAtPhase}`, 20, y); y += 6;
       pdf.text(`Motivo: ${data.metadata.earlyEndReason}`, 20, y, { maxWidth: 170 });
-      y+=10;
+      y += 10;
     }
 
     if (data.metadata.operatorNotes) {
       pdf.setFontSize(12);
-      pdf.text("Observações do Operador", 20, y); y+=6;
+      pdf.text("Observações do Operador", 20, y); y += 6;
       pdf.setFontSize(10);
       pdf.text(data.metadata.operatorNotes, 20, y, { maxWidth: 170 });
-      y+=10;
+      y += 10;
     }
 
-    pdf.setFontSize(8);
-    pdf.text(`HASH SHA-256: ${data.metadata.hash}`, 20, y, { maxWidth: 170 });
+    // Assinatura (se existir)
+    if (data.metadata.signatureName || data.metadata.signatureId) {
+      pdf.setFontSize(12);
+      pdf.text("Assinatura do Operador", 20, y); y += 6;
+      pdf.setFontSize(10);
+      if (data.metadata.signatureName) pdf.text(`Nome: ${data.metadata.signatureName}`, 20, y), y += 6;
+      if (data.metadata.signatureId) pdf.text(`Matrícula: ${data.metadata.signatureId}`, 20, y), y += 8;
+    }
 
+    // Hash
+    pdf.setFontSize(9);
+    pdf.text("HASH SHA-256:", 20, y); y += 5;
+    pdf.setFontSize(8);
+    pdf.text(data.metadata.hash || "(não gerado)", 20, y, { maxWidth: 170 });
+
+    // Rodapé institucional
     pdf.setFontSize(7);
-    pdf.text(
-      "Centro Administrativo da SSP, Bloco B - Av. Gov. Ivo Silveira, 1521 - Capoeiras, Florianópolis - SC | CEP 88085-000 | Fone: (48) 3665-8488 | www.pc.sc.gov.br",
-      pageWidth / 2,
-      285,
-      { align: "center", maxWidth: 180 }
-    );
+    pdf.text(footerText, pageWidth / 2, pageHeight - 10, {
+      align: "center",
+      maxWidth: 180
+    });
 
     pdf.save("Checklist_Operacional_RPAS.pdf");
   }
+
+  // Logo PCSC centralizado acima do texto (como você validou)
+  const logo = new Image();
+  logo.onload = () => {
+    pdf.addImage(logo, "PNG", (pageWidth / 2) - 12, 10, 24, 24);
+    renderConteudo();
+  };
+  logo.onerror = () => {
+    // Se der erro ao carregar imagem, não trava o PDF.
+    renderConteudo();
+  };
+  logo.src = "assets/logos/pcsc.png";
 }
