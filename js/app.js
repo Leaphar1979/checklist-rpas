@@ -9,7 +9,7 @@ const checklistSession = {
     checklistName: "Checklist Operacional RPAS",
     institution: "PCSC / SAER / NOARP",
     doctrine: "COARP",
-    version: "v1.6.1",
+    version: "v1.6.2",
     startTime: null,
     endTime: null,
     pilot: "",
@@ -58,7 +58,6 @@ function startChecklist() {
   checklistSession.metadata.operatorNotes = "";
   checklistSession.metadata.hash = "";
 
-  // reset fases
   Object.keys(checklistSession.phases).forEach(p => {
     checklistSession.phases[p].completed = false;
     checklistSession.phases[p].completedAt = null;
@@ -75,7 +74,6 @@ function goToEarlyEnd(phase) {
   persist();
   showScreen("earlyEndScreen");
 }
-// garante funcionar com onclick inline no HTML
 window.goToEarlyEnd = goToEarlyEnd;
 
 /* ===== HASH ===== */
@@ -137,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /* Encerramento antecipado: AGORA GERA PDF */
+  /* Encerramento antecipado: gera PDF */
   document.getElementById("earlyEndForm")?.addEventListener("submit", async e => {
     e.preventDefault();
 
@@ -155,14 +153,14 @@ document.addEventListener("DOMContentLoaded", () => {
     checklistSession.metadata.earlyEndReason = reason;
     checklistSession.metadata.endTime = new Date().toISOString();
 
-    // Observações (opcional) — só existe na tela final normal, então pode vir vazio
+    // Observações (opcional) — pode vir vazio
     checklistSession.metadata.operatorNotes =
       (document.getElementById("operatorNotes")?.value || "").trim();
 
     checklistSession.metadata.hash = await gerarHashSHA256(checklistSession);
 
     persist();
-    gerarPDF(checklistSession);
+    await gerarPDF(checklistSession);
   });
 
   /* Fluxo normal: assinatura + PDF */
@@ -183,105 +181,123 @@ document.addEventListener("DOMContentLoaded", () => {
     checklistSession.metadata.operatorNotes =
       (document.getElementById("operatorNotes")?.value || "").trim();
 
-    // se ainda não tinha endTime (por algum motivo), define aqui
     checklistSession.metadata.endTime = checklistSession.metadata.endTime || new Date().toISOString();
-
     checklistSession.metadata.hash = await gerarHashSHA256(checklistSession);
 
     persist();
-    gerarPDF(checklistSession);
+    await gerarPDF(checklistSession);
   });
 });
 
-/* ===== PDF INSTITUCIONAL (com cabeçalho + rodapé) ===== */
-function gerarPDF(data) {
+/* ===== PDF INSTITUCIONAL (com cabeçalho + rodapé + SAER/NOARP) ===== */
+async function gerarPDF(data) {
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF();
+
   const pageWidth = pdf.internal.pageSize.getWidth();
   const pageHeight = pdf.internal.pageSize.getHeight();
 
   const footerText =
     "Centro Administrativo da SSP, Bloco B - Av. Gov. Ivo Silveira, 1521 - Capoeiras, Florianópolis - SC | CEP 88085-000 | Fone: (48) 3665-8488 | www.pc.sc.gov.br";
 
-  function renderConteudo() {
-    let y = 78;
-
-    // Cabeçalho institucional (texto aprovado)
-    pdf.setFontSize(10);
-    pdf.text("ESTADO DE SANTA CATARINA", pageWidth / 2, 42, { align: "center" });
-    pdf.text("POLÍCIA CIVIL", pageWidth / 2, 48, { align: "center" });
-    pdf.text("DELEGACIA GERAL", pageWidth / 2, 54, { align: "center" });
-    pdf.text(
-      "NÚCLEO DE OPERAÇÕES AÉREAS REMOTAMENTE PILOTADAS",
-      pageWidth / 2,
-      60,
-      { align: "center" }
-    );
-
-    // Título
-    pdf.setFontSize(14);
-    pdf.text("CHECKLIST OPERACIONAL RPAS", pageWidth / 2, 72, { align: "center" });
-
-    pdf.setFontSize(10);
-    pdf.text(`Piloto Remoto: ${data.metadata.pilot}`, 20, y); y += 6;
-    pdf.text(`Observador: ${data.metadata.observer}`, 20, y); y += 6;
-    pdf.text(`Unidade: ${data.metadata.unit}`, 20, y); y += 6;
-    pdf.text(`RPAS: ${data.metadata.rpas}`, 20, y); y += 6;
-    pdf.text(`Tipo de Missão: ${data.metadata.missionType}`, 20, y); y += 6;
-    pdf.text(`Início: ${data.metadata.startTime}`, 20, y); y += 6;
-    pdf.text(`Término: ${data.metadata.endTime}`, 20, y); y += 10;
-
-    if (data.metadata.endedEarly) {
-      pdf.setFontSize(12);
-      pdf.text("ENCERRAMENTO ANTECIPADO", 20, y); y += 6;
-      pdf.setFontSize(10);
-      pdf.text(`Fase: ${data.metadata.endedAtPhase}`, 20, y); y += 6;
-      pdf.text(`Motivo: ${data.metadata.earlyEndReason}`, 20, y, { maxWidth: 170 });
-      y += 10;
-    }
-
-    if (data.metadata.operatorNotes) {
-      pdf.setFontSize(12);
-      pdf.text("Observações do Operador", 20, y); y += 6;
-      pdf.setFontSize(10);
-      pdf.text(data.metadata.operatorNotes, 20, y, { maxWidth: 170 });
-      y += 10;
-    }
-
-    // Assinatura (se existir)
-    if (data.metadata.signatureName || data.metadata.signatureId) {
-      pdf.setFontSize(12);
-      pdf.text("Assinatura do Operador", 20, y); y += 6;
-      pdf.setFontSize(10);
-      if (data.metadata.signatureName) pdf.text(`Nome: ${data.metadata.signatureName}`, 20, y), y += 6;
-      if (data.metadata.signatureId) pdf.text(`Matrícula: ${data.metadata.signatureId}`, 20, y), y += 8;
-    }
-
-    // Hash
-    pdf.setFontSize(9);
-    pdf.text("HASH SHA-256:", 20, y); y += 5;
-    pdf.setFontSize(8);
-    pdf.text(data.metadata.hash || "(não gerado)", 20, y, { maxWidth: 170 });
-
-    // Rodapé institucional
-    pdf.setFontSize(7);
-    pdf.text(footerText, pageWidth / 2, pageHeight - 10, {
-      align: "center",
-      maxWidth: 180
+  function loadImage(src) {
+    return new Promise(resolve => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => resolve(null);
+      img.src = src;
     });
-
-    pdf.save("Checklist_Operacional_RPAS.pdf");
   }
 
-  // Logo PCSC centralizado acima do texto (como você validou)
-  const logo = new Image();
-  logo.onload = () => {
-    pdf.addImage(logo, "PNG", (pageWidth / 2) - 12, 10, 24, 24);
-    renderConteudo();
-  };
-  logo.onerror = () => {
-    // Se der erro ao carregar imagem, não trava o PDF.
-    renderConteudo();
-  };
-  logo.src = "assets/logos/pcsc.png";
+  // Carrega imagens (se falhar, PDF sai mesmo assim)
+  const imgPCSC = await loadImage("assets/logos/pcsc.png");
+  const imgSAER = await loadImage("assets/logos/saer.png");
+  const imgNOARP = await loadImage("assets/logos/noarp.png");
+
+  // ===== Logo PCSC centralizado no topo =====
+  if (imgPCSC) {
+    pdf.addImage(imgPCSC, "PNG", (pageWidth / 2) - 12, 10, 24, 24);
+  }
+
+  // ===== Cabeçalho institucional =====
+  pdf.setFontSize(10);
+  pdf.text("ESTADO DE SANTA CATARINA", pageWidth / 2, 42, { align: "center" });
+  pdf.text("POLÍCIA CIVIL", pageWidth / 2, 48, { align: "center" });
+  pdf.text("DELEGACIA GERAL", pageWidth / 2, 54, { align: "center" });
+  pdf.text(
+    "NÚCLEO DE OPERAÇÕES AÉREAS REMOTAMENTE PILOTADAS",
+    pageWidth / 2,
+    60,
+    { align: "center" }
+  );
+
+  // ===== Logos SAER + NOARP abaixo do cabeçalho (antes do título) =====
+  const duoY = 64;          // logo logo abaixo do cabeçalho
+  const duoSize = 18;
+  const duoGap = 14;
+  const duoTotal = (duoSize * 2) + duoGap;
+  const duoStartX = (pageWidth - duoTotal) / 2;
+
+  if (imgSAER) {
+    pdf.addImage(imgSAER, "PNG", duoStartX, duoY, duoSize, duoSize);
+  }
+  if (imgNOARP) {
+    pdf.addImage(imgNOARP, "PNG", duoStartX + duoSize + duoGap, duoY, duoSize, duoSize);
+  }
+
+  // ===== Título (abaixo dos logos SAER/NOARP) =====
+  const titleY = duoY + duoSize + 10; // espaço seguro após os logos
+  pdf.setFontSize(14);
+  pdf.text("CHECKLIST OPERACIONAL RPAS", pageWidth / 2, titleY, { align: "center" });
+
+  // ===== Conteúdo =====
+  let y = titleY + 12;
+
+  pdf.setFontSize(10);
+  pdf.text(`Piloto Remoto: ${data.metadata.pilot}`, 20, y); y += 6;
+  pdf.text(`Observador: ${data.metadata.observer}`, 20, y); y += 6;
+  pdf.text(`Unidade: ${data.metadata.unit}`, 20, y); y += 6;
+  pdf.text(`RPAS: ${data.metadata.rpas}`, 20, y); y += 6;
+  pdf.text(`Tipo de Missão: ${data.metadata.missionType}`, 20, y); y += 6;
+  pdf.text(`Início: ${data.metadata.startTime}`, 20, y); y += 6;
+  pdf.text(`Término: ${data.metadata.endTime}`, 20, y); y += 10;
+
+  if (data.metadata.endedEarly) {
+    pdf.setFontSize(12);
+    pdf.text("ENCERRAMENTO ANTECIPADO", 20, y); y += 6;
+    pdf.setFontSize(10);
+    pdf.text(`Fase: ${data.metadata.endedAtPhase}`, 20, y); y += 6;
+    pdf.text(`Motivo: ${data.metadata.earlyEndReason}`, 20, y, { maxWidth: 170 });
+    y += 10;
+  }
+
+  if (data.metadata.operatorNotes) {
+    pdf.setFontSize(12);
+    pdf.text("Observações do Operador", 20, y); y += 6;
+    pdf.setFontSize(10);
+    pdf.text(data.metadata.operatorNotes, 20, y, { maxWidth: 170 });
+    y += 10;
+  }
+
+  if (data.metadata.signatureName || data.metadata.signatureId) {
+    pdf.setFontSize(12);
+    pdf.text("Assinatura do Operador", 20, y); y += 6;
+    pdf.setFontSize(10);
+    if (data.metadata.signatureName) { pdf.text(`Nome: ${data.metadata.signatureName}`, 20, y); y += 6; }
+    if (data.metadata.signatureId) { pdf.text(`Matrícula: ${data.metadata.signatureId}`, 20, y); y += 8; }
+  }
+
+  pdf.setFontSize(9);
+  pdf.text("HASH SHA-256:", 20, y); y += 5;
+  pdf.setFontSize(8);
+  pdf.text(data.metadata.hash || "(não gerado)", 20, y, { maxWidth: 170 });
+
+  // ===== Rodapé institucional =====
+  pdf.setFontSize(7);
+  pdf.text(footerText, pageWidth / 2, pageHeight - 10, {
+    align: "center",
+    maxWidth: 180
+  });
+
+  pdf.save("Checklist_Operacional_RPAS.pdf");
 }
