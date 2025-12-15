@@ -174,29 +174,52 @@
     <button type="submit">Finalizar Checklist</button>
   </form>
 </section>
-
-<!-- FINAL – ASSINATURA + OBSERVAÇÕES -->
+<!-- FINAL – ASSINATURA -->
 <section id="pdfScreen" class="screen">
   <h2>Encerramento do Checklist</h2>
 
-  <label for="operatorNotes">
-    Observações discricionárias do operador (opcional)
-  </label>
-  <textarea
-    id="operatorNotes"
-    placeholder="Registre aqui observações, intercorrências ou notas técnicas relevantes"
-    rows="5"></textarea>
+  <p>
+    Declaro que executei integralmente o checklist operacional RPAS conforme
+    a doutrina vigente da Polícia Civil de Santa Catarina.
+  </p>
 
   <form id="signatureForm">
-    <input id="signatureName" placeholder="Nome do Operador" required>
-    <input id="signatureId" placeholder="Matrícula Funcional" required>
+
+    <!-- OBSERVAÇÕES (AGORA NO LUGAR CERTO) -->
+    <label for="operatorNotes">
+      Observações discricionárias do operador (opcional)
+    </label>
+    <textarea
+      id="operatorNotes"
+      placeholder="Descreva aqui qualquer observação relevante sobre a missão, intercorrências ou encerramento."
+      rows="4"
+      class="form-input"
+    ></textarea>
+
+    <!-- IDENTIFICAÇÃO -->
+    <input
+      id="signatureName"
+      placeholder="Nome do Operador"
+      required
+      class="form-input"
+    >
+
+    <input
+      id="signatureId"
+      placeholder="Matrícula Funcional"
+      required
+      class="form-input"
+    >
 
     <label class="signature-check">
       <input type="checkbox" id="signatureConfirm" required>
       Confirmo a veracidade das informações
     </label>
 
-    <button type="submit">Assinar e Gerar PDF</button>
+    <button type="submit">
+      Assinar e Gerar PDF
+    </button>
+
   </form>
 </section>
 
