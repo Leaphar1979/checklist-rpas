@@ -75,7 +75,7 @@ Compatível com:
 
 ## 👤 Contato do Desenvolvedor
 
-Desenvolvedor: **Agente de Polícia (PCSC)**  
+Desenvolvedor: **Raphael Serafim** — Agente de Polícia (PCSC)  
 Contato (Telegram): **@Leapharr**
 
 ## 📄 Atualizações
