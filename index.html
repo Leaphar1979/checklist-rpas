@@ -5,12 +5,10 @@
   <title>Checklist Operacional RPAS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- PWA -->
-  <meta name="theme-color" content="#0b1115" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
-
   <link rel="stylesheet" href="css/style.css" />
+
+  <!-- iOS Home Screen -->
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 </head>
 
 <body>
@@ -20,9 +18,12 @@
     <span class="header-title">Checklist Operacional RPAS</span>
   </div>
   <div class="header-right">
-    <a href="https://github.com/leaphar1979/checklist-rpas/blob/main/README.md"
-       target="_blank"
-       class="header-link">📘 Sobre / Doutrina</a>
+    <a
+      href="https://github.com/leaphar1979/checklist-rpas/blob/main/README.md"
+      target="_blank"
+      class="header-link"
+      rel="noopener"
+    >📘 Sobre / Doutrina</a>
   </div>
 </header>
 
@@ -30,6 +31,13 @@
 
   <!-- SPLASH -->
   <section id="splash" class="screen active">
+    <!-- LOGO GRANDE NOARP (somente na primeira página) -->
+    <img
+      src="assets/logos/noarp.png"
+      alt="NOARP"
+      style="display:block;margin:18px auto 12px;max-width:280px;width:70%;height:auto;"
+    />
+
     <h1>Checklist Operacional RPAS</h1>
     <p class="subtitle">COARP · NOARP · SAER · PCSC</p>
     <button id="startBtn">Iniciar Checklist</button>
@@ -183,63 +191,29 @@
   <!-- FINAL – ASSINATURA -->
   <section id="pdfScreen" class="screen">
     <h2>Encerramento do Checklist</h2>
-
-    <p>
-      Declaro que executei integralmente o checklist operacional RPAS conforme
-      a doutrina vigente da Polícia Civil de Santa Catarina.
-    </p>
-
     <form id="signatureForm">
+      <label for="operatorNotes">Observações discricionárias do operador (opcional)</label>
+      <textarea id="operatorNotes" rows="4" placeholder="Descreva aqui qualquer observação relevante..."></textarea>
 
-      <label for="operatorNotes">
-        Observações discricionárias do operador (opcional)
-      </label>
-      <textarea
-        id="operatorNotes"
-        placeholder="Descreva aqui qualquer observação relevante sobre a missão, intercorrências ou encerramento."
-        rows="4"
-        class="form-input"
-      ></textarea>
-
-      <input
-        id="signatureName"
-        placeholder="Nome do Operador"
-        required
-        class="form-input"
-      >
-
-      <input
-        id="signatureId"
-        placeholder="Matrícula Funcional"
-        required
-        class="form-input"
-      >
+      <input id="signatureName" placeholder="Nome do Operador" required>
+      <input id="signatureId" placeholder="Matrícula Funcional" required>
 
       <label class="signature-check">
         <input type="checkbox" id="signatureConfirm" required>
         Confirmo a veracidade das informações
       </label>
 
-      <button type="submit">
-        Assinar e Gerar PDF
-      </button>
-
+      <button type="submit">Assinar e Gerar PDF</button>
     </form>
   </section>
 
   <!-- ENCERRAMENTO ANTECIPADO -->
   <section id="earlyEndScreen" class="screen">
     <h2>Encerramento Antecipado do Checklist</h2>
-    <p>
-      O encerramento antecipado deverá ser devidamente justificado e ficará
-      registrado para fins administrativos e de auditoria.
-    </p>
+    <p>O encerramento antecipado deverá ser devidamente justificado e ficará registrado para fins administrativos e de auditoria.</p>
 
     <form id="earlyEndForm">
-      <textarea id="earlyEndReason"
-        placeholder="Descreva o motivo do encerramento antecipado"
-        rows="5"
-        required></textarea>
+      <textarea id="earlyEndReason" rows="5" placeholder="Descreva o motivo do encerramento antecipado" required></textarea>
 
       <label class="signature-check">
         <input type="checkbox" id="earlyEndConfirm" required>
