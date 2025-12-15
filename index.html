@@ -81,9 +81,12 @@
     <label><input type="checkbox"> Varredura 360°</label>
     <label><input type="checkbox"> Teste de comandos</label>
     <label><input type="checkbox"> Pouso e corte</label>
+
+    <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase1')">
+      Encerrar checklist
+    </button>
+
     <button type="submit">Avançar</button>
-    <button type="button" class="btn-secondary"
-      onclick="goToEarlyEnd('phase1')">Encerrar checklist</button>
   </form>
 </section>
 
@@ -105,9 +108,12 @@
     <label><input type="checkbox"> Satélites</label>
     <label><input type="checkbox"> Aviso equipe</label>
     <label><input type="checkbox"> Motores</label>
+
+    <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase2')">
+      Encerrar checklist
+    </button>
+
     <button type="submit">Avançar</button>
-    <button type="button" class="btn-secondary"
-      onclick="goToEarlyEnd('phase2')">Encerrar checklist</button>
   </form>
 </section>
 
@@ -123,9 +129,12 @@
     <label><input type="checkbox"> Pouso correto</label>
     <label><input type="checkbox"> Corte motores</label>
     <label><input type="checkbox"> Desligamento</label>
+
+    <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase3')">
+      Encerrar checklist
+    </button>
+
     <button type="submit">Avançar</button>
-    <button type="button" class="btn-secondary"
-      onclick="goToEarlyEnd('phase3')">Encerrar checklist</button>
   </form>
 </section>
 
@@ -139,9 +148,12 @@
     <label><input type="checkbox"> Cartão</label>
     <label><input type="checkbox"> Integridade</label>
     <label><input type="checkbox"> Comunicação</label>
+
+    <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase4')">
+      Encerrar checklist
+    </button>
+
     <button type="submit">Avançar</button>
-    <button type="button" class="btn-secondary"
-      onclick="goToEarlyEnd('phase4')">Encerrar checklist</button>
   </form>
 </section>
 
@@ -154,42 +166,59 @@
     <label><input type="checkbox"> Chefia</label>
     <label><input type="checkbox"> Intercorrências</label>
     <label><input type="checkbox"> Encerrar missão</label>
+
+    <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase5')">
+      Encerrar checklist
+    </button>
+
     <button type="submit">Finalizar Checklist</button>
-    <button type="button" class="btn-secondary"
-      onclick="goToEarlyEnd('phase5')">Encerrar checklist</button>
   </form>
 </section>
 
-<!-- FINAL – ASSINATURA -->
+<!-- FINAL – ASSINATURA + OBSERVAÇÕES -->
 <section id="pdfScreen" class="screen">
   <h2>Encerramento do Checklist</h2>
+
+  <label for="operatorNotes">
+    Observações discricionárias do operador (opcional)
+  </label>
+  <textarea
+    id="operatorNotes"
+    placeholder="Registre aqui observações, intercorrências ou notas técnicas relevantes"
+    rows="5"></textarea>
+
   <form id="signatureForm">
     <input id="signatureName" placeholder="Nome do Operador" required>
     <input id="signatureId" placeholder="Matrícula Funcional" required>
+
     <label class="signature-check">
       <input type="checkbox" id="signatureConfirm" required>
       Confirmo a veracidade das informações
     </label>
+
     <button type="submit">Assinar e Gerar PDF</button>
   </form>
 </section>
 
-<!-- 🟥 FASE 1.2 – ENCERRAMENTO ANTECIPADO -->
+<!-- ENCERRAMENTO ANTECIPADO -->
 <section id="earlyEndScreen" class="screen">
   <h2>Encerramento Antecipado do Checklist</h2>
   <p>
-    O encerramento antecipado do checklist deverá ser devidamente
-    justificado e ficará registrado para fins administrativos e de auditoria.
+    O encerramento antecipado deverá ser devidamente justificado e ficará
+    registrado para fins administrativos e de auditoria.
   </p>
+
   <form id="earlyEndForm">
     <textarea id="earlyEndReason"
       placeholder="Descreva o motivo do encerramento antecipado"
       rows="5"
       required></textarea>
+
     <label class="signature-check">
       <input type="checkbox" id="earlyEndConfirm" required>
       Confirmo o encerramento antecipado
     </label>
+
     <button type="submit">Confirmar Encerramento</button>
   </form>
 </section>
