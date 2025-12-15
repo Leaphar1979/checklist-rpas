@@ -9,7 +9,7 @@ const checklistSession = {
     checklistName: "Checklist Operacional RPAS",
     institution: "PCSC / SAER / NOARP",
     doctrine: "COARP",
-    version: "v1.7",
+    version: "v1.6",
     startTime: null,
     endTime: null,
     pilot: "",
@@ -22,7 +22,7 @@ const checklistSession = {
     operatorNotes: "",
     hash: "",
 
-    /* ===== ENCERRAMENTO ANTECIPADO ===== */
+    /* Encerramento antecipado */
     endedEarly: false,
     endedAtPhase: null,
     earlyEndReason: ""
@@ -37,7 +37,7 @@ const checklistSession = {
   }
 };
 
-/* ===== FUNÇÃO DE NAVEGAÇÃO ===== */
+/* ===== NAVEGAÇÃO ===== */
 function showScreen(screenId) {
   document.querySelectorAll(".screen").forEach(s =>
     s.classList.remove("active")
@@ -45,7 +45,7 @@ function showScreen(screenId) {
   document.getElementById(screenId)?.classList.add("active");
 }
 
-/* ===== INICIAR CHECKLIST ===== */
+/* ===== INÍCIO ===== */
 function startChecklist() {
   checklistSession.metadata.startTime = new Date().toISOString();
   localStorage.setItem(
@@ -68,7 +68,7 @@ function goToEarlyEnd(phase) {
   showScreen("earlyEndScreen");
 }
 
-/* ===== GERAR HASH SHA-256 ===== */
+/* ===== HASH SHA-256 ===== */
 async function gerarHashSHA256(data) {
   const encoder = new TextEncoder();
   const encoded = encoder.encode(JSON.stringify(data));
@@ -81,6 +81,7 @@ async function gerarHashSHA256(data) {
 /* ===== DOM READY ===== */
 document.addEventListener("DOMContentLoaded", () => {
 
+  /* Splash */
   document.getElementById("startBtn")
     ?.addEventListener("click", startChecklist);
 
@@ -108,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
       showScreen("phase1");
     });
 
-  /* ===== FASES ===== */
+  /* Fases */
   ["phase1","phase2","phase3","phase4","phase5"].forEach((phase, i) => {
     const form = document.getElementById(`${phase}Form`);
     if (!form) return;
@@ -120,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .every(cb => cb.checked);
 
       if (!ok) {
-        alert(`Conclua todos os itens da ${phase.toUpperCase()}.`);
+        alert("Conclua todos os itens da fase.");
         return;
       }
 
@@ -143,25 +144,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /* ===== BOTÕES ENCERRAR ===== */
-  document.querySelectorAll(".btn-early-end").forEach(btn => {
-    btn.addEventListener("click", e => {
-      e.preventDefault();
-      const phase = btn.getAttribute("data-phase");
-      if (phase) goToEarlyEnd(phase);
-    });
-  });
+  /* ===== BOTÃO ENCERRAMENTO ANTECIPADO ===== */
+  document.getElementById("confirmEarlyEndBtn")
+    ?.addEventListener("click", async () => {
 
-  /* ===== ENCERRAMENTO ANTECIPADO ===== */
-  document.getElementById("earlyEndForm")
-    ?.addEventListener("submit", async e => {
-      e.preventDefault();
-
-      checklistSession.metadata.earlyEndReason =
+      const reason =
         document.getElementById("earlyEndReason").value.trim();
+      const confirm =
+        document.getElementById("earlyEndConfirm").checked;
+
+      if (!reason || !confirm) {
+        alert("Informe o motivo e confirme o encerramento.");
+        return;
+      }
+
+      checklistSession.metadata.earlyEndReason = reason;
       checklistSession.metadata.endTime =
         new Date().toISOString();
-
       checklistSession.metadata.operatorNotes =
         document.getElementById("operatorNotes")?.value.trim() || "";
 
@@ -176,18 +175,26 @@ document.addEventListener("DOMContentLoaded", () => {
       gerarPDF(checklistSession);
     });
 
-  /* ===== FLUXO NORMAL ===== */
-  document.getElementById("signatureForm")
-    ?.addEventListener("submit", async e => {
-      e.preventDefault();
+  /* ===== BOTÃO ASSINATURA NORMAL ===== */
+  document.getElementById("confirmSignatureBtn")
+    ?.addEventListener("click", async () => {
 
-      checklistSession.metadata.signatureName =
+      const name =
         document.getElementById("signatureName").value.trim();
-      checklistSession.metadata.signatureId =
+      const id =
         document.getElementById("signatureId").value.trim();
+      const confirm =
+        document.getElementById("signatureConfirm").checked;
+
+      if (!name || !id || !confirm) {
+        alert("Preencha os dados e confirme a assinatura.");
+        return;
+      }
+
+      checklistSession.metadata.signatureName = name;
+      checklistSession.metadata.signatureId = id;
       checklistSession.metadata.operatorNotes =
         document.getElementById("operatorNotes").value.trim();
-
       checklistSession.metadata.endTime =
         new Date().toISOString();
 
@@ -201,7 +208,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       gerarPDF(checklistSession);
     });
-
 });
 
 /* ===== PDF ===== */
@@ -210,105 +216,80 @@ function gerarPDF(data) {
   const pdf = new jsPDF();
 
   const pageWidth = pdf.internal.pageSize.getWidth();
-  let y = 115;
+  let y = 80;
 
-  /* ===== LOGOS ===== */
-  const logoMainSize = 24;
-  const logoSubSize = 18;
+  /* LOGOS */
+  const logoSize = 18;
+  const gap = 12;
+  const total = logoSize * 3 + gap * 2;
+  const startX = (pageWidth - total) / 2;
 
-  const logoMainX = (pageWidth - logoMainSize) / 2;
-  const logoSubGap = 20;
-  const totalSubWidth = (logoSubSize * 2) + logoSubGap;
-  const startSubX = (pageWidth - totalSubWidth) / 2;
+  const addLogo = (src, x, next) => {
+    const img = new Image();
+    img.onload = () => {
+      pdf.addImage(img, "PNG", x, 20, logoSize, logoSize);
+      if (next) next();
+    };
+    img.src = src;
+  };
 
-  const logoPC = new Image();
-  const logoSAER = new Image();
-  const logoNOARP = new Image();
+  const conteudo = () => {
 
-  logoPC.onload = () => {
-    pdf.addImage(logoPC, "PNG", logoMainX, 15, logoMainSize, logoMainSize);
-
-    pdf.setFontSize(10);
-    pdf.text("ESTADO DE SANTA CATARINA", pageWidth / 2, 45, { align: "center" });
-    pdf.text("POLÍCIA CIVIL", pageWidth / 2, 51, { align: "center" });
-    pdf.text("DELEGACIA GERAL", pageWidth / 2, 57, { align: "center" });
+    pdf.setFontSize(12);
+    pdf.text("ESTADO DE SANTA CATARINA", pageWidth/2, 50, { align: "center" });
+    pdf.text("POLÍCIA CIVIL", pageWidth/2, 56, { align: "center" });
+    pdf.text("DELEGACIA GERAL", pageWidth/2, 62, { align: "center" });
     pdf.text(
       "NÚCLEO DE OPERAÇÕES AÉREAS REMOTAMENTE PILOTADAS",
-      pageWidth / 2,
-      63,
+      pageWidth/2,
+      68,
       { align: "center" }
     );
 
-    logoSAER.onload = () => {
-      pdf.addImage(logoSAER, "PNG", startSubX, 70, logoSubSize, logoSubSize);
+    pdf.setFontSize(14);
+    pdf.text("CHECKLIST OPERACIONAL RPAS", pageWidth/2, 78, {
+      align: "center"
+    });
 
-      logoNOARP.onload = () => {
-        pdf.addImage(
-          logoNOARP,
-          "PNG",
-          startSubX + logoSubSize + logoSubGap,
-          70,
-          logoSubSize,
-          logoSubSize
-        );
+    pdf.setFontSize(10);
+    pdf.text(`Piloto: ${data.metadata.pilot}`, 20, y); y+=6;
+    pdf.text(`Unidade: ${data.metadata.unit}`, 20, y); y+=6;
+    pdf.text(`Início: ${data.metadata.startTime}`, 20, y); y+=6;
+    pdf.text(`Término: ${data.metadata.endTime}`, 20, y); y+=10;
 
-        /* ===== TÍTULO ===== */
-        pdf.setFontSize(12);
-        pdf.text("CHECKLIST OPERACIONAL RPAS", pageWidth / 2, 100, {
-          align: "center"
-        });
+    if (data.metadata.endedEarly) {
+      pdf.setFontSize(12);
+      pdf.text("ENCERRAMENTO ANTECIPADO", 20, y); y+=6;
+      pdf.setFontSize(10);
+      pdf.text(`Fase: ${data.metadata.endedAtPhase}`, 20, y); y+=6;
+      pdf.text(`Motivo: ${data.metadata.earlyEndReason}`, 20, y, {
+        maxWidth: 170
+      });
+      y+=10;
+    }
 
-        /* ===== CONTEÚDO ===== */
-        pdf.setFontSize(10);
-        pdf.text(`Piloto: ${data.metadata.pilot}`, 20, y); y+=6;
-        pdf.text(`Unidade: ${data.metadata.unit}`, 20, y); y+=6;
-        pdf.text(`Início: ${data.metadata.startTime}`, 20, y); y+=6;
-        pdf.text(`Término: ${data.metadata.endTime}`, 20, y); y+=10;
+    if (data.metadata.operatorNotes) {
+      pdf.setFontSize(12);
+      pdf.text("Observações do Operador", 20, y); y+=6;
+      pdf.setFontSize(10);
+      pdf.text(data.metadata.operatorNotes, 20, y, { maxWidth: 170 });
+      y+=10;
+    }
 
-        if (data.metadata.endedEarly) {
-          pdf.setFontSize(12);
-          pdf.text("ENCERRAMENTO ANTECIPADO", 20, y); y+=6;
-          pdf.setFontSize(10);
-          pdf.text(`Fase: ${data.metadata.endedAtPhase}`, 20, y); y+=6;
-          pdf.text(
-            `Motivo: ${data.metadata.earlyEndReason}`,
-            20,
-            y,
-            { maxWidth: 170 }
-          );
-          y+=10;
-        }
+    pdf.setFontSize(8);
+    pdf.text(
+      "Centro Administrativo da SSP, Bloco B - Av. Gov. Ivo Silveira, 1521 - Capoeiras, Florianópolis - SC | CEP 88085-000 | Fone: (48) 3665-8488 | www.pc.sc.gov.br",
+      pageWidth/2,
+      285,
+      { align: "center", maxWidth: 180 }
+    );
 
-        if (data.metadata.operatorNotes) {
-          pdf.setFontSize(12);
-          pdf.text("Observações do Operador", 20, y); y+=6;
-          pdf.setFontSize(10);
-          pdf.text(data.metadata.operatorNotes, 20, y, { maxWidth: 170 });
-          y+=10;
-        }
-
-        pdf.setFontSize(10);
-        pdf.text("Hash SHA-256:", 20, y); y+=6;
-        pdf.setFontSize(8);
-        pdf.text(data.metadata.hash, 20, y, { maxWidth: 170 });
-
-        /* ===== RODAPÉ ===== */
-        pdf.setFontSize(7);
-        pdf.text(
-          "Centro Administrativo da SSP, Bloco B - Av. Gov. Ivo Silveira, 1521 - Capoeiras, Florianópolis - SC | CEP 88085-000 | Fone: (48) 3665-8488 | www.pc.sc.gov.br",
-          pageWidth / 2,
-          287,
-          { align: "center", maxWidth: 180 }
-        );
-
-        pdf.save("Checklist_Operacional_RPAS.pdf");
-      };
-
-      logoNOARP.src = "assets/logos/noarp.png";
-    };
-
-    logoSAER.src = "assets/logos/saer.png";
+    pdf.save("Checklist_Operacional_RPAS.pdf");
   };
 
-  logoPC.src = "assets/logos/pcsc.png";
+  addLogo("assets/logos/pcsc.png", startX, () => {
+    addLogo("assets/logos/saer.png", startX + logoSize + gap, () => {
+      addLogo("assets/logos/noarp.png", startX + (logoSize + gap) * 2, conteudo);
+    });
+  });
 }
