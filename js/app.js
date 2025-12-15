@@ -21,7 +21,7 @@ const checklistSession = {
     signatureId: "",
     hash: "",
 
-    /* ===== NOVOS CAMPOS (ENCERRAMENTO ANTECIPADO) ===== */
+    /* ===== ENCERRAMENTO ANTECIPADO ===== */
     endedEarly: false,
     endedAtPhase: null,
     earlyEndReason: ""
@@ -52,6 +52,22 @@ function startChecklist() {
     JSON.stringify(checklistSession)
   );
   showScreen("mission");
+}
+
+/* ===== ENCERRAMENTO ANTECIPADO ===== */
+function goToEarlyEnd(phase) {
+
+  console.log("Encerramento antecipado solicitado na fase:", phase);
+
+  checklistSession.metadata.endedEarly = true;
+  checklistSession.metadata.endedAtPhase = phase;
+
+  localStorage.setItem(
+    "checklistRPAS_session",
+    JSON.stringify(checklistSession)
+  );
+
+  showScreen("earlyEndScreen");
 }
 
 /* ===== GERAR HASH SHA-256 ===== */
@@ -161,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-/* ===== PDF (SEM ALTERAÇÕES NESTE PASSO) ===== */
+/* ===== PDF ===== */
 function gerarPDF(data) {
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF();
@@ -204,23 +220,23 @@ function gerarPDF(data) {
     pdf.text(`Início: ${data.metadata.startTime}`, 20, y); y += 6;
     pdf.text(`Término: ${data.metadata.endTime}`, 20, y); y += 10;
 
-    pdf.setFontSize(12);
-    pdf.text("Status das Fases", 20, y);
-    y += 6;
-
-    pdf.setFontSize(10);
-    Object.entries(data.phases).forEach(([fase, info]) => {
+    if (data.metadata.endedEarly) {
+      pdf.setFontSize(12);
+      pdf.text("ENCERRAMENTO ANTECIPADO", 20, y); y += 6;
+      pdf.setFontSize(10);
       pdf.text(
-        `${fase.toUpperCase()} — ${info.completed ? "CONCLUÍDA" : "NÃO CONCLUÍDA"} ${
-          info.completedAt ? "(" + info.completedAt + ")" : ""
-        }`,
+        `Fase: ${data.metadata.endedAtPhase}`,
         20,
         y
+      ); y += 6;
+      pdf.text(
+        `Motivo: ${data.metadata.earlyEndReason || "Não informado"}`,
+        20,
+        y,
+        { maxWidth: 170 }
       );
-      y += 6;
-    });
-
-    y += 10;
+      y += 10;
+    }
 
     pdf.setFontSize(12);
     pdf.text("Assinatura do Operador", 20, y);
