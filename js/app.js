@@ -9,7 +9,7 @@ const checklistSession = {
     checklistName: "Checklist Operacional RPAS",
     institution: "PCSC / SAER / NOARP",
     doctrine: "COARP",
-    version: "v1.3",
+    version: "v1.4",
     startTime: null,
     endTime: null,
     pilot: "",
@@ -56,7 +56,6 @@ function startChecklist() {
 
 /* ===== ENCERRAMENTO ANTECIPADO ===== */
 function goToEarlyEnd(phase) {
-
   console.log("Encerramento antecipado solicitado na fase:", phase);
 
   checklistSession.metadata.endedEarly = true;
@@ -144,7 +143,36 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /* ===== ASSINATURA + PDF ===== */
+  /* ===== ENCERRAMENTO ANTECIPADO – FORM ===== */
+  document.getElementById("earlyEndForm")
+    ?.addEventListener("submit", async e => {
+      e.preventDefault();
+
+      const reason =
+        document.getElementById("earlyEndReason").value.trim();
+      const confirm =
+        document.getElementById("earlyEndConfirm").checked;
+
+      if (!reason || !confirm) {
+        alert("Informe o motivo e confirme o encerramento antecipado.");
+        return;
+      }
+
+      checklistSession.metadata.earlyEndReason = reason;
+      checklistSession.metadata.endTime = new Date().toISOString();
+
+      checklistSession.metadata.hash =
+        await gerarHashSHA256(checklistSession);
+
+      localStorage.setItem(
+        "checklistRPAS_session",
+        JSON.stringify(checklistSession)
+      );
+
+      gerarPDF(checklistSession);
+    });
+
+  /* ===== ASSINATURA + PDF (FLUXO NORMAL) ===== */
   document.getElementById("signatureForm")
     ?.addEventListener("submit", async e => {
       e.preventDefault();
@@ -181,7 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function gerarPDF(data) {
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF();
-  let y;
+  let y = 65;
 
   const addLogo = (src, x, next) => {
     const img = new Image();
@@ -205,51 +233,28 @@ function gerarPDF(data) {
       { align: "center" }
     );
 
-    y = 65;
-
-    pdf.setFontSize(12);
-    pdf.text("Identificação da Missão", 20, y);
-    y += 6;
-
     pdf.setFontSize(10);
-    pdf.text(`Piloto Remoto: ${data.metadata.pilot}`, 20, y); y += 6;
-    pdf.text(`Observador: ${data.metadata.observer}`, 20, y); y += 6;
-    pdf.text(`Unidade: ${data.metadata.unit}`, 20, y); y += 6;
-    pdf.text(`RPAS: ${data.metadata.rpas}`, 20, y); y += 6;
-    pdf.text(`Tipo de Missão: ${data.metadata.missionType}`, 20, y); y += 6;
-    pdf.text(`Início: ${data.metadata.startTime}`, 20, y); y += 6;
-    pdf.text(`Término: ${data.metadata.endTime}`, 20, y); y += 10;
+    pdf.text(`Piloto: ${data.metadata.pilot}`, 20, y); y+=6;
+    pdf.text(`Unidade: ${data.metadata.unit}`, 20, y); y+=6;
+    pdf.text(`Início: ${data.metadata.startTime}`, 20, y); y+=6;
+    pdf.text(`Término: ${data.metadata.endTime}`, 20, y); y+=10;
 
     if (data.metadata.endedEarly) {
       pdf.setFontSize(12);
-      pdf.text("ENCERRAMENTO ANTECIPADO", 20, y); y += 6;
+      pdf.text("ENCERRAMENTO ANTECIPADO", 20, y); y+=6;
       pdf.setFontSize(10);
+      pdf.text(`Fase: ${data.metadata.endedAtPhase}`, 20, y); y+=6;
       pdf.text(
-        `Fase: ${data.metadata.endedAtPhase}`,
-        20,
-        y
-      ); y += 6;
-      pdf.text(
-        `Motivo: ${data.metadata.earlyEndReason || "Não informado"}`,
+        `Motivo: ${data.metadata.earlyEndReason}`,
         20,
         y,
         { maxWidth: 170 }
       );
-      y += 10;
+      y+=10;
     }
 
-    pdf.setFontSize(12);
-    pdf.text("Assinatura do Operador", 20, y);
-    y += 6;
-
     pdf.setFontSize(10);
-    pdf.text(`Nome: ${data.metadata.signatureName}`, 20, y); y += 6;
-    pdf.text(`Matrícula: ${data.metadata.signatureId}`, 20, y); y += 10;
-
-    pdf.setFontSize(12);
-    pdf.text("Hash de Integridade (SHA-256)", 20, y);
-    y += 6;
-
+    pdf.text(`Hash SHA-256:`, 20, y); y+=6;
     pdf.setFontSize(8);
     pdf.text(data.metadata.hash, 20, y, { maxWidth: 170 });
 
