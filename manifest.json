@@ -1,13 +1,10 @@
 {
   "name": "Checklist Operacional RPAS",
   "short_name": "Checklist RPAS",
-  "description": "WebApp institucional para execução e registro do Checklist Operacional RPAS – PCSC / SAER / NOARP / COARP",
-  "start_url": "./index.html",
+  "start_url": "./",
   "display": "standalone",
-  "background_color": "#0b0f14",
-  "theme_color": "#0b0f14",
-  "orientation": "portrait",
-  "scope": "./",
+  "background_color": "#0b1115",
+  "theme_color": "#0b1115",
   "icons": [
     {
       "src": "assets/icons/icon-192.png",
@@ -18,6 +15,12 @@
       "src": "assets/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
