@@ -1,4 +1,4 @@
-const CACHE_NAME = "checklist-rpas-v1.0.9"; // <- mude este número quando atualizar arquivos
+const CACHE_NAME = "checklist-rpas-v1.1.0";
 
 const ASSETS = [
   "./",
@@ -11,6 +11,7 @@ const ASSETS = [
   "./assets/icons/apple-touch-icon.png",
   "./assets/icons/icon-192.png",
   "./assets/icons/icon-512.png",
+  "./assets/icons/icon-512-maskable.png",
 
   "./assets/logos/pcsc.png",
   "./assets/logos/saer.png",
