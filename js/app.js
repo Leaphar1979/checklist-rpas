@@ -24,7 +24,10 @@ const checklistSession = {
 
     endedEarly: false,
     endedAtPhase: null,
-    earlyEndReason: ""
+    earlyEndReason: "",
+
+    // NOVO: para voltar caso clicou sem querer
+    lastScreenBeforeEarlyEnd: null
   },
 
   phases: {
@@ -42,9 +45,7 @@ function persist() {
 }
 
 function showScreen(screenId) {
-  document.querySelectorAll(".screen").forEach(s =>
-    s.classList.remove("active")
-  );
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   document.getElementById(screenId)?.classList.add("active");
 }
 
@@ -57,12 +58,34 @@ function startChecklist() {
 
 /* ===== ENCERRAMENTO ANTECIPADO ===== */
 function goToEarlyEnd(phase) {
+  // guarda onde o operador estava, para permitir voltar
+  checklistSession.metadata.lastScreenBeforeEarlyEnd = phase;
+
   checklistSession.metadata.endedEarly = true;
   checklistSession.metadata.endedAtPhase = phase;
+
   persist();
   showScreen("earlyEndScreen");
 }
 window.goToEarlyEnd = goToEarlyEnd;
+
+function cancelEarlyEnd() {
+  // desfaz o encerramento antecipado
+  checklistSession.metadata.endedEarly = false;
+  checklistSession.metadata.endedAtPhase = null;
+  checklistSession.metadata.earlyEndReason = "";
+
+  // limpa UI do formulário (se existir)
+  const reasonEl = document.getElementById("earlyEndReason");
+  if (reasonEl) reasonEl.value = "";
+  const confirmEl = document.getElementById("earlyEndConfirm");
+  if (confirmEl) confirmEl.checked = false;
+
+  const backTo = checklistSession.metadata.lastScreenBeforeEarlyEnd || "phase1";
+  persist();
+  showScreen(backTo);
+}
+window.cancelEarlyEnd = cancelEarlyEnd;
 
 /* ===== GERAR HASH SHA-256 ===== */
 async function gerarHashSHA256(data) {
@@ -139,8 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const ok = [...form.querySelectorAll("input[type='checkbox']")]
         .every(cb => cb.checked);
 
-      if (!ok)
-        return alert(`Conclua todos os itens da ${phase.toUpperCase()}.`);
+      if (!ok) return alert(`Conclua todos os itens da ${phase.toUpperCase()}.`);
 
       checklistSession.phases[phase].completed = true;
       checklistSession.phases[phase].completedAt = new Date().toISOString();
@@ -297,7 +319,7 @@ async function gerarPDF(data) {
   pdf.text(`Início: ${formatDateBR(data.metadata.startTime)}`, 20, y); y += 6;
   pdf.text(`Término: ${formatDateBR(data.metadata.endTime)}`, 20, y); y += 10;
 
-  /* STATUS DAS FASES (novo A4) */
+  /* STATUS DAS FASES */
   pdf.setFontSize(12);
   pdf.text("Status das Fases", 20, y); y += 6;
 
