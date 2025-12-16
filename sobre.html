@@ -23,80 +23,149 @@
   <section class="screen active about">
 
     <div class="about-header">
-      <h2 class="about-title">Sobre / Doutrina</h2>
-      <p class="about-subtitle">
-        Referências normativas e escopo do WebApp institucional para registro do Checklist Operacional RPAS.
-      </p>
+      <h2 class="about-title">Checklist Operacional RPAS</h2>
+      <p class="about-subtitle">COARP · NOARP · SAER · PCSC</p>
     </div>
 
-    <!-- Logos institucionais (mesmo padrão visual) -->
+    <!-- Logos institucionais -->
     <div class="about-logos-row">
       <img src="assets/logos/pcsc.png" alt="PCSC" class="about-logo about-logo-sm" />
       <img src="assets/logos/saer.png" alt="SAER" class="about-logo about-logo-sm" />
     </div>
 
-    <!-- Logos operacionais (destaque, equilibrados entre si) -->
+    <!-- Logos operacionais -->
     <div class="about-logos-hero">
       <img src="assets/logos/noarp.png" alt="NOARP" class="about-logo about-logo-lg" />
       <img src="assets/logos/coarp.png" alt="COARP" class="about-logo about-logo-lg" />
     </div>
 
     <div class="card">
-      <h3>Finalidade</h3>
+      <h3>📌 Finalidade</h3>
       <p>
-        Este WebApp institucional tem por finalidade apoiar a execução e o registro do
-        <strong>Checklist Operacional de Aeronaves Remotamente Pilotadas (RPAS)</strong>
-        no âmbito da Polícia Civil de Santa Catarina, promovendo padronização, rastreabilidade e documentação.
+        Este aplicativo (PWA) é uma ferramenta <strong>institucional</strong> destinada à execução e ao registro do
+        <strong>Checklist Operacional de Aeronaves Remotamente Pilotadas (RPAS)</strong> no âmbito da Polícia Civil de Santa Catarina.
       </p>
+      <p>Objetivos principais:</p>
       <ul>
-        <li>Padronização da execução do checklist;</li>
-        <li>Registro temporal das fases;</li>
-        <li>Cadeia de custódia digital (registro + integridade);</li>
-        <li>Geração de relatório em PDF para controle administrativo.</li>
+        <li>padronizar a execução do checklist operacional;</li>
+        <li>registrar temporalmente as fases e o encerramento;</li>
+        <li>fortalecer a cadeia de custódia digital do procedimento;</li>
+        <li>gerar relatório em PDF para registro e controle administrativo.</li>
       </ul>
     </div>
 
     <div class="card">
-      <h3>Base normativa</h3>
+      <h3>✅ Acesso ao Aplicativo (PWA)</h3>
       <p>
-        O conteúdo do checklist segue integralmente a doutrina e normativas vigentes, sem supressão ou criação de itens, em especial:
+        Acesse pelo navegador e, se desejado, instale na tela inicial (modo aplicativo):
+      </p>
+      <p>
+        <strong>Acesso:</strong>
+        <a href="https://leaphar1979.github.io/checklist-rpas/" target="_blank" rel="noopener" class="header-link" style="font-size:14px;">
+          https://leaphar1979.github.io/checklist-rpas/
+        </a>
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>⚖️ Base Normativa</h3>
+      <p>
+        O conteúdo do checklist segue <strong>integralmente</strong> a doutrina e as normativas vigentes,
+        <strong>sem supressão ou criação de itens</strong>, em especial:
       </p>
       <ul>
-        <li><strong>Resolução nº 05/GAB/DGPC/PCSC, de 03 de março de 2023</strong>;</li>
-        <li>Doutrina <strong>COARP</strong> – Curso de Operador de Aeronaves Remotamente Pilotadas;</li>
-        <li>Diretrizes do <strong>NOARP / SAER / PCSC</strong>;</li>
-        <li>Normas aplicáveis de <strong>ANAC, DECEA e ANATEL</strong> para operações com RPAS.</li>
+        <li><strong>Resolução nº 05/GAB/DGPC/PCSC, de 03 de março de 2023</strong> (publicada no DOE 21975 de 08/03/2023);</li>
+        <li>Doutrina COARP – Curso de Operador de Aeronaves Remotamente Pilotadas;</li>
+        <li>Diretrizes NOARP / SAER / PCSC;</li>
+        <li>Normas ANAC, DECEA e ANATEL aplicáveis ao uso de RPAS.</li>
       </ul>
       <p class="note">
-        <strong>Atenção:</strong> o aplicativo não substitui, altera ou cria normas operacionais.
+        ⚠️ Este aplicativo <strong>não substitui</strong> normas operacionais, <strong>não cria</strong> doutrina e <strong>não autoriza voo</strong>.
       </p>
     </div>
 
     <div class="card">
-      <h3>Responsabilidade operacional</h3>
+      <h3>🧭 Responsabilidade Operacional</h3>
       <p>
-        Este aplicativo <strong>não autoriza voo</strong>. A decisão de decolagem, condução da missão e pouso
-        é exclusiva do <strong>Piloto em Comando</strong>, que permanece integralmente responsável pela operação,
-        nos termos da legislação e da doutrina vigente.
+        A decisão de decolagem, condução da missão e pouso é <strong>exclusiva do Piloto em Comando</strong>,
+        que permanece integralmente responsável pela operação da aeronave, nos termos da legislação e da doutrina vigente.
       </p>
     </div>
 
     <div class="card">
-      <h3>Cadeia de custódia digital</h3>
+      <h3>🗂️ Cadeia de Custódia Digital e Integridade</h3>
       <p>O aplicativo registra automaticamente:</p>
       <ul>
-        <li>Data e hora de início do checklist;</li>
-        <li>Identificação da missão;</li>
-        <li>Conclusão e carimbo temporal por fase;</li>
-        <li>Encerramento formal do procedimento (normal ou antecipado);</li>
-        <li>Observações discricionárias do operador (opcional);</li>
-        <li><strong>Hash SHA-256</strong> para integridade do registro.</li>
+        <li>data/hora de início;</li>
+        <li>identificação da missão;</li>
+        <li>conclusão de cada fase (quando aplicável);</li>
+        <li>encerramento (normal ou antecipado, com justificativa);</li>
+        <li>declaração final do operador;</li>
+        <li>hash SHA-256 do registro (integridade).</li>
+      </ul>
+      <p>
+        O relatório PDF é gerado para <strong>uso administrativo interno</strong>, conforme diretrizes institucionais.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>🔢 Numeração do Checklist</h3>
+      <p>A numeração oficial:</p>
+      <ul>
+        <li>é preservada internamente para rastreabilidade/auditoria;</li>
+        <li>pode ser exibida no PDF quando necessário;</li>
+        <li>pode não ser exibida na interface por decisão de usabilidade, sem alterar conteúdo, ordem ou doutrina.</li>
       </ul>
     </div>
 
     <div class="card">
-      <h3>Desenvolvedor</h3>
-      <p><strong>Raphael Serafim</strong></p>
+      <h3>🔒 Uso Institucional e Restrições</h3>
+      <p>
+        Uso <strong>exclusivamente institucional</strong> (NOARP/SAER/PCSC).
+      </p>
+      <p>É <strong>vedado</strong>:</p>
+      <ul>
+        <li>divulgar externamente;</li>
+        <li>compartilhar arquivos/relatórios fora dos canais autorizados;</li>
+        <li>reproduzir, modificar ou distribuir o aplicativo sem autorização formal da gestão competente.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>🛠️ Tecnologias</h3>
+      <ul>
+        <li>HTML5, CSS3, JavaScript (Vanilla)</li>
+        <li>jsPDF (PDF)</li>
+        <li>localStorage (armazenamento local)</li>
+        <li>PWA (Service Worker + Manifest)</li>
+      </ul>
+      <p>Compatível com:</p>
+      <ul>
+        <li>Android / iOS (Safari / Chrome)</li>
+        <li>tablet</li>
+        <li>computador</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>👤 Contato do Desenvolvedor</h3>
+      <p>
+        Desenvolvedor: <strong>Raphael Serafim</strong> — Agente de Polícia (PCSC)<br/>
+        Contato (Telegram): <strong>@Leapharr</strong>
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>📄 Atualizações</h3>
+      <p>O projeto poderá sofrer atualizações futuras, exclusivamente para:</p>
+      <ul>
+        <li>adequação a novas versões da doutrina;</li>
+        <li>melhorias de usabilidade;</li>
+        <li>correções técnicas.</li>
+      </ul>
+      <p>
+        Qualquer alteração de conteúdo operacional dependerá de orientação formal da gestão competente.
+      </p>
     </div>
 
   </section>
