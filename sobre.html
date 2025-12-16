@@ -4,247 +4,111 @@
   <meta charset="UTF-8" />
   <title>Sobre / Doutrina — Checklist Operacional RPAS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-
   <link rel="stylesheet" href="css/style.css" />
-
-  <!-- PWA / iOS -->
   <meta name="theme-color" content="#000000" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  <meta name="apple-mobile-web-app-title" content="Checklist RPAS" />
-  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
-
-  <style>
-    /* Página "Sobre" usando o mesmo visual escuro do app */
-    .about-wrap{
-      max-width: 920px;
-      margin: 0 auto;
-      padding: 18px 16px 28px;
-    }
-    .about-top{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom: 14px;
-    }
-    .about-title{
-      font-size: 18px;
-      font-weight: 700;
-      margin: 0;
-    }
-    .about-actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-    .btn-mini{
-      display:inline-block;
-      padding: 10px 12px;
-      border: 1px solid rgba(255,255,255,.18);
-      border-radius: 10px;
-      text-decoration:none;
-      color: #fff;
-      background: rgba(255,255,255,.06);
-      font-size: 14px;
-      line-height: 1;
-    }
-    .btn-mini:active{ transform: scale(.99); }
-    .about-card{
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 14px;
-      padding: 16px;
-      background: rgba(255,255,255,.04);
-      margin-bottom: 12px;
-    }
-    .about-card h2{
-      font-size: 16px;
-      margin: 0 0 10px;
-    }
-    .about-card p, .about-card li{
-      font-size: 14px;
-      line-height: 1.45;
-      margin: 0 0 8px;
-    }
-    .about-card ul{
-      margin: 8px 0 0 18px;
-      padding: 0;
-    }
-    .small-note{
-      font-size: 12px;
-      opacity: .85;
-      margin-top: 8px;
-      line-height: 1.4;
-    }
-    .mono{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 12px;
-      opacity: .95;
-      word-break: break-word;
-    }
-    .logos-row{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-    }
-    .logos-row img{
-      height: 42px;
-      width: auto;
-      max-width: 44vw;
-      object-fit: contain;
-      filter: drop-shadow(0 2px 8px rgba(0,0,0,.35));
-    }
-    .about-footer{
-      text-align:center;
-      margin-top: 10px;
-      font-size: 12px;
-      opacity: .85;
-    }
-  </style>
 </head>
 
 <body>
 
 <header class="app-header">
   <div class="header-left">
-    <span class="header-title">Checklist Operacional RPAS</span>
+    <span class="header-title">Sobre / Doutrina</span>
   </div>
   <div class="header-right">
-    <a href="index.html" class="header-link" rel="noopener">⬅️ Voltar</a>
+    <a href="index.html" class="header-link" rel="noopener">⬅ Voltar ao App</a>
   </div>
 </header>
 
 <main class="app-container">
+
   <section class="screen active">
-    <div class="about-wrap">
+    <!-- LOGO CORRETO: NOARP -->
+    <img
+      src="assets/logos/noarp.png"
+      alt="NOARP"
+      style="display:block;margin:18px auto 12px;max-width:280px;width:70%;height:auto;"
+    />
 
-      <div class="logos-row">
-        <img src="assets/logos/pcsc.png" alt="PCSC" />
-        <img src="assets/logos/saer.png" alt="SAER" />
-        <img src="assets/logos/coarp.png" alt="COARP" />
-      </div>
+    <h1 style="text-align:center;margin-top:10px;">Checklist Operacional RPAS</h1>
+    <p class="subtitle" style="text-align:center;">COARP · NOARP · SAER · PCSC</p>
 
-      <div class="about-top">
-        <h1 class="about-title">📘 Sobre / Doutrina</h1>
-        <div class="about-actions">
-          <a class="btn-mini" href="index.html">Voltar ao App</a>
-        </div>
-      </div>
-
-      <div class="about-card">
-        <h2>📌 Finalidade</h2>
-        <p>
-          Este WebApp institucional destina-se à execução e ao registro do
-          <strong>Checklist Operacional de Aeronaves Remotamente Pilotadas (RPAS)</strong>
-          no âmbito da Polícia Civil de Santa Catarina.
-        </p>
-        <p>O aplicativo foi desenvolvido como ferramenta de apoio operacional, com foco em:</p>
-        <ul>
-          <li>padronização da execução do checklist;</li>
-          <li>registro temporal das fases;</li>
-          <li>cadeia de custódia digital do procedimento;</li>
-          <li>geração de documento (PDF) para registro e controle administrativo.</li>
-        </ul>
-      </div>
-
-      <div class="about-card">
-        <h2>⚖️ Base Normativa</h2>
-        <p>O conteúdo do checklist segue integralmente, sem supressão ou criação de itens, a doutrina e normativas vigentes, em especial:</p>
-        <ul>
-          <li>Resolução nº 05/GAB/DGPC/PCSC, de 03 de março de 2023;</li>
-          <li>Doutrina COARP – Curso de Operador de Aeronaves Remotamente Pilotadas;</li>
-          <li>Diretrizes do NOARP / SAER / PCSC;</li>
-          <li>Normas da ANAC, DECEA e ANATEL aplicáveis ao uso de RPAS.</li>
-        </ul>
-        <p class="small-note">⚠️ O aplicativo não substitui, altera ou cria normas operacionais.</p>
-      </div>
-
-      <div class="about-card">
-        <h2>🧭 Responsabilidade Operacional</h2>
-        <p><strong>Este aplicativo não autoriza voo.</strong></p>
-        <p>
-          A decisão de decolagem, condução da missão e pouso é exclusiva do Piloto em Comando,
-          que permanece integralmente responsável pela operação da aeronave, nos termos da legislação e da doutrina vigente.
-        </p>
-      </div>
-
-      <div class="about-card">
-        <h2>🔢 Numeração do Checklist</h2>
-        <p>A numeração oficial dos itens do checklist:</p>
-        <ul>
-          <li>é preservada internamente no sistema, para fins de rastreabilidade e auditoria;</li>
-          <li>pode ser exibida em documentos técnicos (PDF);</li>
-          <li>pode não ser exibida na interface do aplicativo, por decisão de usabilidade.</li>
-        </ul>
-        <p class="small-note">
-          Essa opção não altera conteúdo, ordem ou doutrina, tendo como único objetivo melhorar a clareza e reduzir erro humano durante a execução.
-        </p>
-      </div>
-
-      <div class="about-card">
-        <h2>🗂️ Cadeia de Custódia Digital</h2>
-        <p>O aplicativo registra automaticamente:</p>
-        <ul>
-          <li>data e hora de início do checklist;</li>
-          <li>identificação da missão;</li>
-          <li>data e hora de conclusão de cada fase;</li>
-          <li>encerramento formal do procedimento;</li>
-          <li>declaração final de cumprimento integral do checklist;</li>
-          <li>hash de integridade (SHA-256) para conferência do relatório.</li>
-        </ul>
-      </div>
-
-      <div class="about-card">
-        <h2>🛠️ Tecnologias Utilizadas</h2>
-        <ul>
-          <li>HTML5</li>
-          <li>CSS3</li>
-          <li>JavaScript (Vanilla)</li>
-          <li>jsPDF (geração de PDF)</li>
-          <li>Armazenamento local (localStorage)</li>
-        </ul>
-        <p class="small-note">
-          Compatível com celular (Android/iOS), tablet e computador (desktop).
-        </p>
-      </div>
-
-      <div class="about-card">
-        <h2>⚠️ Uso Institucional e Restrição de Compartilhamento</h2>
-        <p>
-          Este aplicativo é destinado a <strong>uso institucional</strong>.
-          A reprodução, redistribuição ou compartilhamento sem autorização da gestão competente
-          não é recomendado e pode ser restringido por normas internas.
-        </p>
-        <p class="small-note">
-          (Se você quiser, no próximo passo eu deixo este texto exatamente no formato que a sua gestão preferir.)
-        </p>
-      </div>
-
-      <div class="about-card">
-        <h2>👤 Desenvolvedor / Contato</h2>
-        <p><strong>Raphael Serafim</strong></p>
-        <p class="mono">Telegram: @Leapharr</p>
-      </div>
-
-      <div class="about-footer">
-        Checklist Operacional RPAS · PCSC · SAER · NOARP · COARP
-      </div>
-
+    <div class="card" style="margin-top:18px;">
+      <h2>📌 Finalidade</h2>
+      <p>
+        Este WebApp institucional é destinado à execução e registro do Checklist Operacional de
+        Aeronaves Remotamente Pilotadas (RPAS) no âmbito da Polícia Civil de Santa Catarina.
+      </p>
+      <ul>
+        <li>Padronização da execução do checklist</li>
+        <li>Registro temporal das fases</li>
+        <li>Cadeia de custódia digital do procedimento</li>
+        <li>Geração de documento (PDF) para registro e controle administrativo</li>
+      </ul>
     </div>
-  </section>
-</main>
 
-<script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("./service-worker.js");
-    });
-  }
-</script>
+    <div class="card">
+      <h2>⚖️ Base Normativa</h2>
+      <p>
+        O conteúdo do checklist segue integralmente, sem supressão ou criação de itens, a doutrina e normativas vigentes, em especial:
+      </p>
+      <ul>
+        <li>Resolução nº 05/GAB/DGPC/PCSC, de 03 de março de 2023</li>
+        <li>Doutrina COARP – Curso de Operador de Aeronaves Remotamente Pilotadas</li>
+        <li>Diretrizes do NOARP / SAER / PCSC</li>
+        <li>Normas da ANAC, DECEA e ANATEL aplicáveis ao uso de RPAS</li>
+      </ul>
+      <p><strong>⚠️ O aplicativo não substitui, altera ou cria normas operacionais.</strong></p>
+    </div>
+
+    <div class="card">
+      <h2>🧭 Responsabilidade Operacional</h2>
+      <p>
+        Este aplicativo não autoriza voo. A decisão de decolagem, condução da missão e pouso é exclusiva do Piloto em Comando,
+        que permanece integralmente responsável pela operação da aeronave, nos termos da legislação e da doutrina vigente.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>🗂️ Cadeia de Custódia Digital</h2>
+      <p>O aplicativo registra automaticamente:</p>
+      <ul>
+        <li>Data e hora de início do checklist</li>
+        <li>Identificação da missão</li>
+        <li>Data e hora de conclusão de cada fase</li>
+        <li>Encerramento formal do procedimento</li>
+        <li>Declaração final de cumprimento integral do checklist</li>
+        <li>Hash SHA-256 para integridade do registro</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>🚧 Status do Projeto</h2>
+      <ul>
+        <li>Checklist operacional completo</li>
+        <li>Fluxo de fases implementado</li>
+        <li>Cadeia de custódia digital funcional</li>
+        <li>Geração de PDF institucional com hash e assinatura</li>
+        <li>PWA instalável</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>📄 Observação Final</h2>
+      <p>
+        Este projeto poderá sofrer atualizações futuras, exclusivamente para adequação a novas versões da doutrina,
+        melhorias de usabilidade e correções técnicas. Qualquer alteração de conteúdo operacional dependerá de orientação formal
+        da gestão competente.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>👨‍💻 Desenvolvedor</h2>
+      <p><strong>Raphael Serafim</strong></p>
+    </div>
+
+  </section>
+
+</main>
 
 </body>
 </html>
