@@ -4,8 +4,152 @@
   <meta charset="UTF-8" />
   <title>Sobre / Doutrina — Checklist Operacional RPAS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <link rel="stylesheet" href="css/style.css" />
   <meta name="theme-color" content="#000000" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    /* ====== AJUSTES VISUAIS SOMENTE PARA O SOBRE ====== */
+    .about-wrap { max-width: 980px; margin: 0 auto; }
+
+    .hero {
+      background: linear-gradient(180deg, rgba(21,24,33,0.9), rgba(21,24,33,0.35));
+      border: 1px solid #2a2f3a;
+      border-radius: 10px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .hero-top {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .hero-title h1 {
+      font-size: 22px;
+      margin: 0 0 4px;
+    }
+    .hero-title p {
+      margin: 0;
+      opacity: 0.85;
+      font-size: 13px;
+    }
+
+    .logos-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 22px;
+      margin: 14px 0 6px;
+      flex-wrap: wrap;
+    }
+
+    .logo-small {
+      height: 64px;
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.35));
+    }
+
+    .logo-main {
+      height: 110px;
+      width: auto;
+      display: block;
+      margin: 10px auto 4px;
+      max-width: 90%;
+      filter: drop-shadow(0 3px 12px rgba(0,0,0,0.45));
+    }
+
+    .cta {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid #2a2f3a;
+      text-decoration: none;
+      font-size: 14px;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: #1a73e8;
+      color: #fff;
+      border-color: rgba(26,115,232,0.5);
+    }
+    .btn-primary:hover { filter: brightness(1.05); }
+
+    .btn-ghost {
+      background: rgba(255,255,255,0.04);
+      color: #dbe7ff;
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.06); }
+
+    .card {
+      background-color: #151821;
+      border: 1px solid #2a2f3a;
+      border-radius: 10px;
+      padding: 16px 16px 14px;
+      margin: 12px 0;
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin: 0 0 10px;
+    }
+
+    .card h3 {
+      font-size: 15px;
+      margin: 0 0 8px;
+      opacity: 0.95;
+    }
+
+    .card p { margin: 8px 0; line-height: 1.45; opacity: 0.95; }
+    .card ul { margin: 8px 0 0 18px; }
+    .card li { margin: 6px 0; line-height: 1.35; opacity: 0.95; }
+
+    .pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid #2a2f3a;
+      background: rgba(255,255,255,0.03);
+      font-size: 12px;
+      opacity: 0.9;
+      margin-top: 8px;
+    }
+
+    .warn {
+      color: #fbbc04;
+      font-weight: 700;
+    }
+
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
+    /* Em telas menores, reduz um pouco os logos */
+    @media (max-width: 520px) {
+      .logo-small { height: 54px; }
+      .logo-main { height: 92px; }
+      .hero-title h1 { font-size: 20px; }
+    }
+  </style>
 </head>
 
 <body>
@@ -20,58 +164,72 @@
 </header>
 
 <main class="app-container">
-  <section class="screen active about">
+  <div class="about-wrap">
 
-    <div class="about-header">
-      <h2 class="about-title">Checklist Operacional RPAS</h2>
-      <p class="about-subtitle">COARP · NOARP · SAER · PCSC</p>
-    </div>
+    <!-- HERO / TOPO -->
+    <section class="hero">
+      <div class="hero-top">
+        <div class="hero-title">
+          <h1>Sobre / Doutrina</h1>
+          <p>COARP · NOARP · SAER · PCSC</p>
+          <span class="pill">PWA institucional · Checklist RPAS</span>
+        </div>
 
-    <!-- Logos institucionais -->
-    <div class="about-logos-row">
-      <img src="assets/logos/pcsc.png" alt="PCSC" class="about-logo about-logo-sm" />
-      <img src="assets/logos/saer.png" alt="SAER" class="about-logo about-logo-sm" />
-    </div>
+        <!-- CTA: acesso ao app -->
+        <div class="cta">
+          <a class="btn btn-primary" href="index.html" rel="noopener">🚀 Acessar o Aplicativo</a>
+          <a class="btn btn-ghost" href="index.html" rel="noopener">↩ Voltar ao App</a>
+        </div>
+      </div>
 
-    <!-- Logos operacionais -->
-    <div class="about-logos-hero">
-      <img src="assets/logos/noarp.png" alt="NOARP" class="about-logo about-logo-lg" />
-      <img src="assets/logos/coarp.png" alt="COARP" class="about-logo about-logo-lg" />
-    </div>
+      <!-- Logos (PCSC + SAER maiores) -->
+      <div class="logos-row" aria-label="Logos institucionais">
+        <img class="logo-small" src="assets/logos/pcsc.png" alt="Polícia Civil de Santa Catarina (PCSC)" />
+        <img class="logo-small" src="assets/logos/saer.png" alt="SAER" />
+      </div>
 
-    <div class="card">
+      <!-- Logo principal (NOARP) -->
+      <img class="logo-main" src="assets/logos/noarp.png" alt="NOARP" />
+    </section>
+
+    <!-- CONTEÚDO DO README (em HTML) -->
+    <section class="card">
+      <h2># Checklist Operacional RPAS</h2>
+      <p><strong>COARP · NOARP · SAER · PCSC</strong></p>
+    </section>
+
+    <section class="card">
       <h3>📌 Finalidade</h3>
       <p>
         Este aplicativo (PWA) é uma ferramenta <strong>institucional</strong> destinada à execução e ao registro do
         <strong>Checklist Operacional de Aeronaves Remotamente Pilotadas (RPAS)</strong> no âmbito da Polícia Civil de Santa Catarina.
       </p>
-      <p>Objetivos principais:</p>
+      <p><strong>Objetivos principais:</strong></p>
       <ul>
         <li>padronizar a execução do checklist operacional;</li>
         <li>registrar temporalmente as fases e o encerramento;</li>
         <li>fortalecer a cadeia de custódia digital do procedimento;</li>
         <li>gerar relatório em PDF para registro e controle administrativo.</li>
       </ul>
-    </div>
+    </section>
 
-    <div class="card">
+    <section class="card">
       <h3>✅ Acesso ao Aplicativo (PWA)</h3>
       <p>
         Acesse pelo navegador e, se desejado, instale na tela inicial (modo aplicativo):
       </p>
-      <p>
-        <strong>Acesso:</strong>
-        <a href="https://leaphar1979.github.io/checklist-rpas/" target="_blank" rel="noopener" class="header-link" style="font-size:14px;">
-          https://leaphar1979.github.io/checklist-rpas/
+      <p class="mono"><strong>Acesso:</strong> https://leaphar1979.github.io/checklist-rpas/</p>
+      <div style="margin-top:10px;">
+        <a class="btn btn-primary" href="https://leaphar1979.github.io/checklist-rpas/" target="_blank" rel="noopener">
+          🌐 Abrir link público
         </a>
-      </p>
-    </div>
+      </div>
+    </section>
 
-    <div class="card">
+    <section class="card">
       <h3>⚖️ Base Normativa</h3>
       <p>
-        O conteúdo do checklist segue <strong>integralmente</strong> a doutrina e as normativas vigentes,
-        <strong>sem supressão ou criação de itens</strong>, em especial:
+        O conteúdo do checklist segue <strong>integralmente</strong> a doutrina e as normativas vigentes, <strong>sem supressão ou criação de itens</strong>, em especial:
       </p>
       <ul>
         <li><strong>Resolução nº 05/GAB/DGPC/PCSC, de 03 de março de 2023</strong> (publicada no DOE 21975 de 08/03/2023);</li>
@@ -79,20 +237,18 @@
         <li>Diretrizes NOARP / SAER / PCSC;</li>
         <li>Normas ANAC, DECEA e ANATEL aplicáveis ao uso de RPAS.</li>
       </ul>
-      <p class="note">
-        ⚠️ Este aplicativo <strong>não substitui</strong> normas operacionais, <strong>não cria</strong> doutrina e <strong>não autoriza voo</strong>.
-      </p>
-    </div>
+      <p class="warn">⚠️ Este aplicativo não substitui normas operacionais, não cria doutrina e não autoriza voo.</p>
+    </section>
 
-    <div class="card">
+    <section class="card">
       <h3>🧭 Responsabilidade Operacional</h3>
       <p>
-        A decisão de decolagem, condução da missão e pouso é <strong>exclusiva do Piloto em Comando</strong>,
-        que permanece integralmente responsável pela operação da aeronave, nos termos da legislação e da doutrina vigente.
+        A decisão de decolagem, condução da missão e pouso é <strong>exclusiva do Piloto em Comando</strong>, que permanece integralmente responsável pela operação da aeronave,
+        nos termos da legislação e da doutrina vigente.
       </p>
-    </div>
+    </section>
 
-    <div class="card">
+    <section class="card">
       <h3>🗂️ Cadeia de Custódia Digital e Integridade</h3>
       <p>O aplicativo registra automaticamente:</p>
       <ul>
@@ -103,12 +259,10 @@
         <li>declaração final do operador;</li>
         <li>hash SHA-256 do registro (integridade).</li>
       </ul>
-      <p>
-        O relatório PDF é gerado para <strong>uso administrativo interno</strong>, conforme diretrizes institucionais.
-      </p>
-    </div>
+      <p>O relatório PDF é gerado para <strong>uso administrativo interno</strong>, conforme diretrizes institucionais.</p>
+    </section>
 
-    <div class="card">
+    <section class="card">
       <h3>🔢 Numeração do Checklist</h3>
       <p>A numeração oficial:</p>
       <ul>
@@ -116,22 +270,20 @@
         <li>pode ser exibida no PDF quando necessário;</li>
         <li>pode não ser exibida na interface por decisão de usabilidade, sem alterar conteúdo, ordem ou doutrina.</li>
       </ul>
-    </div>
+    </section>
 
-    <div class="card">
+    <section class="card">
       <h3>🔒 Uso Institucional e Restrições</h3>
-      <p>
-        Uso <strong>exclusivamente institucional</strong> (NOARP/SAER/PCSC).
-      </p>
-      <p>É <strong>vedado</strong>:</p>
+      <p><strong>Uso exclusivamente institucional</strong> (NOARP/SAER/PCSC).</p>
+      <p><strong>É vedado:</strong></p>
       <ul>
         <li>divulgar externamente;</li>
         <li>compartilhar arquivos/relatórios fora dos canais autorizados;</li>
         <li>reproduzir, modificar ou distribuir o aplicativo sem autorização formal da gestão competente.</li>
       </ul>
-    </div>
+    </section>
 
-    <div class="card">
+    <section class="card">
       <h3>🛠️ Tecnologias</h3>
       <ul>
         <li>HTML5, CSS3, JavaScript (Vanilla)</li>
@@ -139,23 +291,23 @@
         <li>localStorage (armazenamento local)</li>
         <li>PWA (Service Worker + Manifest)</li>
       </ul>
-      <p>Compatível com:</p>
+      <p><strong>Compatível com:</strong></p>
       <ul>
         <li>Android / iOS (Safari / Chrome)</li>
         <li>tablet</li>
         <li>computador</li>
       </ul>
-    </div>
+    </section>
 
-    <div class="card">
+    <section class="card">
       <h3>👤 Contato do Desenvolvedor</h3>
       <p>
         Desenvolvedor: <strong>Raphael Serafim</strong> — Agente de Polícia (PCSC)<br/>
         Contato (Telegram): <strong>@Leapharr</strong>
       </p>
-    </div>
+    </section>
 
-    <div class="card">
+    <section class="card">
       <h3>📄 Atualizações</h3>
       <p>O projeto poderá sofrer atualizações futuras, exclusivamente para:</p>
       <ul>
@@ -163,12 +315,10 @@
         <li>melhorias de usabilidade;</li>
         <li>correções técnicas.</li>
       </ul>
-      <p>
-        Qualquer alteração de conteúdo operacional dependerá de orientação formal da gestão competente.
-      </p>
-    </div>
+      <p>Qualquer alteração de conteúdo operacional dependerá de orientação formal da gestão competente.</p>
+    </section>
 
-  </section>
+  </div>
 </main>
 
 </body>
