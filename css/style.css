@@ -48,11 +48,17 @@ body {
   font-size: 13px;
 }
 
+.header-link:active,
+.header-link:hover {
+  text-decoration: underline;
+}
+
 /* ===== CONTEÚDO ===== */
 .app-container {
   padding-top: 72px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-bottom: 24px;
 }
 
 /* ===== TELAS ===== */
@@ -145,7 +151,6 @@ input, select, textarea {
 
 textarea {
   resize: vertical;
-  min-height: 90px;
 }
 
 /* ===== BOTÕES ===== */
@@ -160,27 +165,94 @@ button {
   cursor: pointer;
 }
 
-/* ===== TEMA DE BOTÕES (NOVO) ===== */
-.btn-primary {
-  background-color: #1a73e8;
+/* =====================================================
+   SOBRE / DOUTRINA (visual mais profissional)
+   ===================================================== */
+
+.about-header {
+  margin-bottom: 14px;
 }
 
-.btn-secondary {
-  background-color: #b3261e; /* vermelho institucional/alerta */
+.about-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
 }
 
-.btn-tertiary {
-  background-color: #3b3f4a; /* cinza */
+.about-subtitle {
+  font-size: 13px;
+  opacity: 0.85;
+  line-height: 1.35;
 }
 
-/* Para botões um embaixo do outro ficarem mais “organizados” */
-.button-row {
+.about-logos-row {
   display: flex;
-  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  margin: 14px 0 10px;
+}
+
+.about-logos-hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+  margin: 8px 0 18px;
   flex-wrap: wrap;
 }
 
-.button-row button {
-  flex: 1;
-  margin-top: 12px;
+.about-logo {
+  display: block;
+  width: auto;
+  object-fit: contain;
+}
+
+.about-logo-sm {
+  height: 56px; /* aumentei para ficar proporcional */
+}
+
+.about-logo-lg {
+  height: 74px; /* destaque, mas sem “engolir” os demais */
+  max-width: 360px;
+}
+
+.card {
+  background-color: #151821;
+  border: 1px solid #2a2f3a;
+  border-radius: 10px;
+  padding: 18px;
+  margin: 12px 0;
+}
+
+.card h3 {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: 0.95;
+  margin-bottom: 10px;
+}
+
+.card ul {
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+  margin: 8px 0 0;
+}
+
+.card li {
+  font-size: 14px;
+  line-height: 1.35;
+  opacity: 0.95;
+}
+
+.note {
+  border-left: 3px solid #fbbc04;
+  padding-left: 10px;
+  margin-top: 10px;
+  color: #fbbc04;
 }
