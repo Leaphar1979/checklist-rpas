@@ -1,4 +1,4 @@
-const CACHE_NAME = "checklist-rpas-v1.1.1";
+const CACHE_NAME = "checklist-rpas-v1.1.2";
 
 const ASSETS = [
   "./",
@@ -20,9 +20,7 @@ const ASSETS = [
 ];
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
-  );
+  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)));
   self.skipWaiting();
 });
 
@@ -37,14 +35,26 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   const req = event.request;
+
   if (req.method !== "GET") return;
+
+  const url = new URL(req.url);
+
+  // ✅ Só cacheia o que é do seu próprio domínio/Pages (evita cachear CDN e externos)
+  if (url.origin !== self.location.origin) {
+    return;
+  }
 
   event.respondWith(
     caches.match(req).then((cached) => {
       if (cached) return cached;
+
       return fetch(req).then((res) => {
-        const copy = res.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
+        // Só grava no cache se a resposta for OK
+        if (res && res.status === 200) {
+          const copy = res.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
+        }
         return res;
       });
     })
