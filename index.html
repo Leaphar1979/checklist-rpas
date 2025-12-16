@@ -25,11 +25,7 @@
     <span class="header-title">Checklist Operacional RPAS</span>
   </div>
   <div class="header-right">
-    <a
-      href="sobre.html"
-      class="header-link"
-      rel="noopener"
-    >📘 Sobre / Doutrina</a>
+    <a href="sobre.html" class="header-link" rel="noopener">📘 Sobre / Doutrina</a>
   </div>
 </header>
 
@@ -45,7 +41,7 @@
 
     <h1>Checklist Operacional RPAS</h1>
     <p class="subtitle">COARP · NOARP · SAER · PCSC</p>
-    <button id="startBtn">Iniciar Checklist</button>
+    <button id="startBtn" class="btn-primary">Iniciar Checklist</button>
   </section>
 
   <!-- IDENTIFICAÇÃO -->
@@ -63,7 +59,7 @@
         <option>Treinamento</option>
         <option>Outro</option>
       </select>
-      <button type="submit">Avançar</button>
+      <button type="submit" class="btn-primary">Avançar</button>
     </form>
   </section>
 
@@ -100,11 +96,10 @@
       <label><input type="checkbox"> Teste de comandos</label>
       <label><input type="checkbox"> Pouso e corte</label>
 
-      <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase1')">
-        Encerrar checklist
-      </button>
-
-      <button type="submit">Avançar</button>
+      <div class="button-row">
+        <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase1')">Encerrar checklist</button>
+        <button type="submit" class="btn-primary">Avançar</button>
+      </div>
     </form>
   </section>
 
@@ -127,11 +122,10 @@
       <label><input type="checkbox"> Aviso equipe</label>
       <label><input type="checkbox"> Motores</label>
 
-      <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase2')">
-        Encerrar checklist
-      </button>
-
-      <button type="submit">Avançar</button>
+      <div class="button-row">
+        <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase2')">Encerrar checklist</button>
+        <button type="submit" class="btn-primary">Avançar</button>
+      </div>
     </form>
   </section>
 
@@ -148,11 +142,10 @@
       <label><input type="checkbox"> Corte motores</label>
       <label><input type="checkbox"> Desligamento</label>
 
-      <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase3')">
-        Encerrar checklist
-      </button>
-
-      <button type="submit">Avançar</button>
+      <div class="button-row">
+        <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase3')">Encerrar checklist</button>
+        <button type="submit" class="btn-primary">Avançar</button>
+      </div>
     </form>
   </section>
 
@@ -167,11 +160,10 @@
       <label><input type="checkbox"> Integridade</label>
       <label><input type="checkbox"> Comunicação</label>
 
-      <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase4')">
-        Encerrar checklist
-      </button>
-
-      <button type="submit">Avançar</button>
+      <div class="button-row">
+        <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase4')">Encerrar checklist</button>
+        <button type="submit" class="btn-primary">Avançar</button>
+      </div>
     </form>
   </section>
 
@@ -185,11 +177,10 @@
       <label><input type="checkbox"> Intercorrências</label>
       <label><input type="checkbox"> Encerrar missão</label>
 
-      <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase5')">
-        Encerrar checklist
-      </button>
-
-      <button type="submit">Finalizar Checklist</button>
+      <div class="button-row">
+        <button type="button" class="btn-secondary" onclick="goToEarlyEnd('phase5')">Encerrar checklist</button>
+        <button type="submit" class="btn-primary">Finalizar Checklist</button>
+      </div>
     </form>
   </section>
 
@@ -208,7 +199,7 @@
         Confirmo a veracidade das informações
       </label>
 
-      <button type="submit">Assinar e Gerar PDF</button>
+      <button type="submit" class="btn-primary">Assinar e Gerar PDF</button>
     </form>
   </section>
 
@@ -225,7 +216,10 @@
         Confirmo o encerramento antecipado
       </label>
 
-      <button type="submit">Confirmar Encerramento</button>
+      <div class="button-row">
+        <button type="button" class="btn-tertiary" onclick="cancelEarlyEnd()">⬅ Voltar</button>
+        <button type="submit" class="btn-secondary">Confirmar Encerramento</button>
+      </div>
     </form>
   </section>
 
