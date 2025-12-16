@@ -5,44 +5,7 @@
   <title>Sobre / Doutrina — Checklist Operacional RPAS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <link rel="stylesheet" href="css/style.css" />
-
-  <!-- PWA (opcional manter aqui também) -->
   <meta name="theme-color" content="#000000" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  <meta name="apple-mobile-web-app-title" content="Checklist RPAS" />
-  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
-
-  <style>
-    /* estilos locais só para o topo do SOBRE ficar perfeito */
-    .about-wrap { max-width: 980px; margin: 0 auto; padding: 18px 14px 40px; }
-    .about-top { display: flex; justify-content: center; align-items: center; gap: 14px; margin: 10px 0 18px; flex-wrap: wrap; }
-    .about-top img { height: 46px; width: auto; display: block; }
-    .about-actions { display:flex; justify-content:flex-end; margin: 6px 0 14px; }
-    .btn-ghost {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: #fff;
-      padding: 10px 14px;
-      border-radius: 10px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .about-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 14px;
-      padding: 16px 16px;
-      margin: 12px 0;
-    }
-    .about-card h3 { margin: 0 0 10px; }
-    .about-card ul { margin: 8px 0 0 18px; }
-    .muted { opacity: .85; }
-    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
-  </style>
 </head>
 
 <body>
@@ -52,33 +15,33 @@
     <span class="header-title">Checklist Operacional RPAS</span>
   </div>
   <div class="header-right">
-    <a href="index.html" class="header-link" rel="noopener">⬅️ Voltar</a>
+    <a href="index.html" class="header-link" rel="noopener">⬅ Voltar</a>
   </div>
 </header>
 
 <main class="app-container">
-  <div class="about-wrap">
+  <section class="screen active">
 
-    <!-- TOPO CENTRALIZADO: PCSC + SAER + NOARP (CORRETO) -->
-    <div class="about-top" aria-label="Logos institucionais">
-      <img src="assets/logos/pcsc.png" alt="PCSC" />
-      <img src="assets/logos/saer.png" alt="SAER" />
-      <!-- ✅ AQUI É NOARP (não é coarp) -->
-      <img src="assets/logos/noarp.png" alt="NOARP" />
+    <h2 style="margin-top:0;">📘 Sobre / Doutrina</h2>
+
+    <!-- Logos -->
+    <div style="display:flex;justify-content:center;align-items:center;gap:18px;margin:14px 0 10px;">
+      <img src="assets/logos/pcsc.png" alt="PCSC" style="height:46px;width:auto;" />
+      <img src="assets/logos/saer.png" alt="SAER" style="height:46px;width:auto;" />
     </div>
 
-    <div class="about-actions">
-      <a class="btn-ghost" href="index.html">Voltar ao App</a>
-    </div>
+    <!-- NOARP (logo principal do Sobre) -->
+    <img
+      src="assets/logos/noarp.png"
+      alt="NOARP"
+      style="display:block;margin:10px auto 18px;max-width:340px;width:80%;height:auto;"
+    />
 
-    <h2>📘 Sobre / Doutrina</h2>
-
-    <div class="about-card">
+    <div class="card">
       <h3>📌 Finalidade</h3>
       <p>
         Este repositório contém um WebApp institucional destinado à execução e registro do
-        <strong>Checklist Operacional de Aeronaves Remotamente Pilotadas (RPAS)</strong>
-        no âmbito da Polícia Civil de Santa Catarina.
+        Checklist Operacional de Aeronaves Remotamente Pilotadas (RPAS) no âmbito da Polícia Civil de Santa Catarina.
       </p>
       <p>O aplicativo foi desenvolvido como ferramenta de apoio operacional, com foco em:</p>
       <ul>
@@ -89,11 +52,9 @@
       </ul>
     </div>
 
-    <div class="about-card">
+    <div class="card">
       <h3>⚖️ Base Normativa</h3>
-      <p class="muted">
-        O conteúdo do checklist segue integralmente, sem supressão ou criação de itens, a doutrina e normativas vigentes, em especial:
-      </p>
+      <p>O conteúdo do checklist segue integralmente, sem supressão ou criação de itens, a doutrina e normativas vigentes, em especial:</p>
       <ul>
         <li>Resolução nº 05/GAB/DGPC/PCSC, de 03 de março de 2023;</li>
         <li>Doutrina COARP – Curso de Operador de Aeronaves Remotamente Pilotadas;</li>
@@ -103,57 +64,34 @@
       <p><strong>⚠️ O aplicativo não substitui, altera ou cria normas operacionais.</strong></p>
     </div>
 
-    <div class="about-card">
+    <div class="card">
       <h3>🧭 Responsabilidade Operacional</h3>
-      <p><strong>Este aplicativo não autoriza voo.</strong></p>
       <p>
-        A decisão de decolagem, condução da missão e pouso é exclusiva do Piloto em Comando,
+        Este aplicativo não autoriza voo. A decisão de decolagem, condução da missão e pouso é exclusiva do Piloto em Comando,
         que permanece integralmente responsável pela operação da aeronave, nos termos da legislação e da doutrina vigente.
       </p>
     </div>
 
-    <div class="about-card">
+    <div class="card">
       <h3>🗂️ Cadeia de Custódia Digital</h3>
       <p>O aplicativo registra automaticamente:</p>
       <ul>
         <li>data e hora de início do checklist;</li>
         <li>identificação da missão;</li>
-        <li>data e hora de conclusão de cada fase (quando aplicável);</li>
-        <li>encerramento formal do procedimento (normal ou antecipado);</li>
-        <li>declaração final de cumprimento;</li>
-        <li>hash SHA-256 de integridade do registro.</li>
+        <li>data e hora de conclusão de cada fase;</li>
+        <li>encerramento formal do procedimento;</li>
+        <li>declaração final de cumprimento integral do checklist;</li>
+        <li>hash SHA-256 para integridade do registro.</li>
       </ul>
     </div>
 
-    <div class="about-card">
-      <h3>🛠️ Tecnologias Utilizadas</h3>
-      <ul>
-        <li>HTML5</li>
-        <li>CSS3</li>
-        <li>JavaScript (Vanilla)</li>
-        <li>jsPDF</li>
-        <li>Armazenamento local (localStorage)</li>
-        <li>PWA / Service Worker</li>
-      </ul>
+    <div class="card">
+      <h3>👨‍💻 Desenvolvedor</h3>
+      <p><strong>Raphael Serafim</strong></p>
     </div>
 
-    <div class="about-card">
-      <h3>👤 Desenvolvimento / Contato</h3>
-      <p><strong>Desenvolvedor:</strong> Raphael Serafim</p>
-      <p><strong>Contato (Telegram):</strong> @Leapharr</p>
-    </div>
-
-  </div>
+  </section>
 </main>
-
-<script>
-  // manter o SW também nesta página (opcional, mas recomendado)
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("./service-worker.js");
-    });
-  }
-</script>
 
 </body>
 </html>
